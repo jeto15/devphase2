@@ -1,3 +1,6 @@
-<php
-
-echo "hello";
+<?php
+/**
+ * Defualt
+ */
+header("Location: login");
+exit();
