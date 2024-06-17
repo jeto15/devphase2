@@ -63,15 +63,28 @@ if(isset($_SESSION['username']) && !empty($_SESSION['username'])) {
 
     <div class="checkbox mb-3">
       <label>
-        <input type="checkbox" value="remember-me"> Remember me
+        <input type="checkbox" value="showpassword" id="showpassword"> Show Password
       </label>
     </div>
     <button class="w-100 btn btn-lg btn-primary" style="background-color:#ec1f25;" type="submit">Sign in</button>
   </form>
   <?php if(isset($error)) { echo $error; } ?>
 </main>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js" ></script> 
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+   <script>
+ 
+    $(function(){
+      $('#showpassword').change(function() {
+          if(this.checked) {
+            $('#floatingPassword').attr('type', 'text');
+          } else {  
+            $('#floatingPassword').attr('type', 'password');
+          }
+      });
+    })
 
-
+   </script>
     
   </body>
 </html>
