@@ -1,0 +1,12 @@
+span.bday-name-addon select{
+    width: 30%;
+    margin-right: 10px;
+    display: inline-block; 
+}
+
+.modal-dialog {
+    max-width: 700px!important;
+    margin: 1.75rem auto;
+} 
+
+ 
