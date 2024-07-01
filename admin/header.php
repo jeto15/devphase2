@@ -67,6 +67,7 @@ if(isset($_SESSION['username']) && !empty($_SESSION['username'])) {
     }
 
     $currentPage = getLastPathSegment($_SERVER['REQUEST_URI']);
+ 
     ?>
 
     
@@ -114,11 +115,17 @@ if(isset($_SESSION['username']) && !empty($_SESSION['username'])) {
                 </a>
             </li>  
             <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link <?php echo $currentPage == "laboratories"? "active" : ""; ?> " aria-current="page" href="../laboratories">  
                 <span data-feather="shopping-cart"></span>
-                Laboratory  <span style=" color: #ec1f25; font-weight: 900;"> Coming Soon!</span>
-                </a>
-            </li>
+                  Laboratories  
+                </a> 
+            </li> 
+            <li class="nav-item">
+                <a class="nav-link <?php echo $currentPage == "medicine"? "active" : ""; ?> " aria-current="page" href="../medicine">  
+                <span data-feather="shopping-cart"></span>
+                  medicine  
+                </a> 
+            </li> 
             <li class="nav-item">
                 <a class="nav-link" href="#">
                 <span data-feather="users"></span>
