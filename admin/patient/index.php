@@ -10,26 +10,33 @@
                 <button type="button" class="btn btn-sm btn-outline-secondary " id="addNewPatientBtn"   data-bs-toggle="modal"  data-bs-target="#addNewPatients" data-bs-whatever="@mdo">Add New</button>
             </div>
             </div>
-        </div> 
-        <div class="table-responsive">
-            
-            <input type="text" placeholder="Search Patient" class="form-control" id="handle-search-patient">
-            <table class="table table-striped table-sm">
-            <thead>
-                <tr>
-                <th scope="col">Created Date</th>
-                <th scope="col">Patient #</th>
-                <th scope="col">Last Name</th>
-                <th scope="col">First Name</th>
-                <th scope="col">Middle Name</th>
-                <th scope="col">Contact #</th>
-                <th scope="col">Action</th>
-                </tr> 
-            </thead>
-            <tbody id='table-patient-list' >
-            </tbody>
-            </table>
         </div>
+
+        <div class="container-fluid bootstrap snippets bootdey">
+        <div class="container mt-5">
+            <div class="table-responsive">
+                
+                <input type="text" placeholder="Search Patient" class="form-control" id="handle-search-patient">
+                <table class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                    <th scope="col">Created Date</th>
+                    <th scope="col">Patient #</th>
+                    <th scope="col">Last Name</th>
+                    <th scope="col">First Name</th>
+                    <th scope="col">Middle Name</th>
+                    <th scope="col">Contact #</th>
+                    <th scope="col">Action</th>
+                    </tr> 
+                </thead>
+                <tbody id='table-patient-list' >
+                </tbody>
+                </table>
+            </div>
+        </div>
+        </div>
+        
+
 
         <div class="modal fade" id="addNewPatients" tabindex="-1" aria-labelledby="addNewPatientsLabel" aria-hidden="true">
         <div class="modal-dialog">
