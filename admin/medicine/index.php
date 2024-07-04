@@ -13,6 +13,19 @@
                 </div>  
             </div>
         </div>
+        <div class="toast-container position-absolute top-5 end-0 p-3">
+            <div id="alertMed" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="toast-header">
+                    <!-- <img src="..." class="rounded me-2" alt="..."> -->
+                    <strong class="me-auto">Save Change</strong>
+                    <small>Record has been updated</small>
+                    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+                <div class="toast-body">
+                    Hello, world! This is a toast message.
+                </div>
+            </div>
+        </div>
 
 
         <div class="container-fluid bootstrap snippets bootdey">
@@ -26,33 +39,16 @@
                         <th>Dosage Form</th>
                         <th>Strength</th>
                         <th>Manufacturer</th>
-                        <th>Expiry Date</th>
+                        <!-- <th>Expiry Date</th> -->
                         <th>Price</th> 
                         <th>Description</th>
+                        <th>Action</th>
                     </tr>
                     </thead>
                     <tbody id="medicineTable">
                     <!-- Example data, replace with server-side generated data -->
-                    <tr>
-                        <td>Paracetamol</td>
-                        <td>Brand A</td>
-                        <td>Tablet</td>
-                        <td>500 mg</td>
-                        <td>Manufacturer A</td>
-                        <td>2025-01-01</td>
-                        <td>10.00</td> 
-                        <td>Pain reliever and fever reducer</td>
-                    </tr>
-                    <tr>
-                        <td>Ibuprofen</td>
-                        <td>Brand B</td>
-                        <td>Tablet</td>
-                        <td>200 mg</td>
-                        <td>Manufacturer B</td>
-                        <td>2024-06-30</td>
-                        <td>15.00</td> 
-                        <td>Anti-inflammatory drug</td>
-                    </tr>
+
+
                     <!-- Add more rows as needed -->
                     </tbody>
                 </table>
@@ -98,19 +94,14 @@
                                     </div>
                                 </div>
                                 <div class="col-md-6">
-                                    <div class="mb-3">
+                                    <!-- <div class="mb-3">
                                         <label for="expiryDate" class="form-label">Expiry Date</label>
                                         <input type="date" class="form-control" id="expiryDate" name="expiryDate">
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
+                                    </div> -->
                                     <div class="mb-3">
                                         <label for="price" class="form-label">Price</label>
                                         <input type="number" step="0.01" class="form-control" id="price" name="price">
                                     </div>
-                                </div>
-                                <div class="col-md-6">
-                                     
                                 </div>
                                 <div class="col-md-12">
                                     <div class="mb-3">
