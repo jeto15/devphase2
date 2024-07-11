@@ -17,55 +17,60 @@
         </div>
 
         <div class="container-fluid bootstrap snippets bootdey">
-        <div class="row">
-        <div class="profile-nav col-md-3">
-            <div class="panel">
-                <div class="user-heading round">
-                    <a href="#">
-                        <img id="profile-avatar-image" src="https://bootdey.com/img/Content/avatar/avatar3.png" alt="">
-                    </a> 
-                    <h1 class="profile-avatar-name" ></h1>
-                    <p class="profile-avatar-patientnumber" ></p>
-                </div>
-            </div>
-
-
-        </div>
-        <div class="profile-info col"> 
-            <div class="panel">
-                <div class="panel-body bio-graph-info">
-                    <h1>Bio Graph</h1>
-                    <div class="row">
-                        <div class="bio-row">
-                            <p><span class="patient-label" >First Name </span> <span   id="fname-name"> </span>  </p>
-                        </div>
-                        <div class="bio-row">
-                            <p><span class="patient-label" >Last Name </span> <span id="lname-name"> </span> </p>
-                        </div>
-                        <div class="bio-row">
-                            <p><span class="patient-label" >Adress </span> <span id="address-text"> </span> </p>
-                        </div>
-                        <div class="bio-row">
-                            <p><span class="patient-label" >Birthday</span> <span id="bday-name"> </span></p>
-                        </div>
-                        <div class="bio-row">
-                            <p><span class="patient-label">Age </span> <span id="age-name"> </span></p>
-                        </div>
-                        <div class="bio-row">
-                            <p><span class="patient-label" >Gender </span> <span id="sex-name"> </span></p>
-                        </div>
-                        <div class="bio-row">
-                            <p><span class="patient-label" >Patient # </span> <span id="patient-num-name"> </span></p>
-                        </div>
+            <div class="row">
+            <div class="profile-nav col-md-3">
+                <div class="panel">
+                    <div class="user-heading round">
+                        <a href="#">
+                            <img id="profile-avatar-image" src="https://bootdey.com/img/Content/avatar/avatar3.png" alt="">
+                        </a> 
+                        <h1 class="profile-avatar-name" ></h1>
+                        <p class="profile-avatar-patientnumber" ></p>
                     </div>
-          
                 </div>
-            </div>
 
-        </div>
+
+            </div>
+            <div class="profile-info col"> 
+                <div class="panel">
+                    <div class="panel-body bio-graph-info">
+                        <h1>Bio Graph</h1>
+                        <div class="row">
+                            <div class="bio-row">
+                                <p><span class="patient-label" >First Name </span> <span   id="fname-name"> </span>  </p>
+                            </div>
+                            <div class="bio-row">
+                                <p><span class="patient-label" >Last Name </span> <span id="lname-name"> </span> </p>
+                            </div>
+                            <div class="bio-row">
+                                <p><span class="patient-label" >Adress </span> <span id="address-text"> </span> </p>
+                            </div>
+                            <div class="bio-row">
+                                <p><span class="patient-label" >Birthday</span> <span id="bday-name"> </span></p>
+                            </div>
+                            <div class="bio-row">
+                                <p><span class="patient-label">Age </span> <span id="age-name"> </span></p>
+                            </div>
+                            <div class="bio-row">
+                                <p><span class="patient-label" >Gender </span> <span id="sex-name"> </span></p>
+                            </div>
+                            <div class="bio-row">
+                                <p><span class="patient-label" >Patient # </span> <span id="patient-num-name"> </span></p>
+                            </div>
+                        </div>
+            
+                    </div>
+                </div>
+
+            </div>
+            <div class="alert alert-success" role="alert">
+                <h4 class="alert-heading">Request Description:</h4>
+                <p id="p-description-request" ></p>
+            </div>
         </div>
 
         <div class="row profile-input-description" >
+            
             <?php if( $_SESSION['usernmake-request-prescription-laboratoriesame'] == 1 ){ ?>
             <?php if( $_SESSION['make-request-prescription'] == 0 ){ ?>
             <div  class="col-md-12" style="border-right: 1px dotted;">

@@ -48,7 +48,7 @@ $(function(){
 
     var SESSIONTAB = '';
     
-
+    
     
 
   
@@ -58,6 +58,7 @@ $(function(){
     var SelectedTypeLabType = 'Medicine';
     disablePaidAndUndpaidStatus = $('#hd_restric_statuspaid_action').val();
     
+    getDescriptioRequest($,recordId,hdPrescribeId);
 
     var getTempSC = localStorage.getItem('tmpSave'+recordId+'sc'+hdPrescribeId);
     var getTempAP = localStorage.getItem('tmpSave'+recordId+'ap'+hdPrescribeId);
@@ -125,6 +126,7 @@ $(function(){
     getPatientRecordById($,recordId);
     getAllLaboratories($,'');
     getDisplayLabSelected($,recordId,hdPrescribeId);
+
     
     $('.Lab-container-manage-other').hide();
 
@@ -659,6 +661,28 @@ function changeAsPaid($, patient_id,prescribe_id,selectedId,isother, isstatuspai
    });    
 }
 
+function getDescriptioRequest($,patient_id,prescribe_id){
+            
+    let action      = 'GETDESCRIPTIONREQUEST'; 
+    let ajaxParamData = { 
+        action,
+        patient_id,
+        prescribe_id
+    };
+ 
+    $.ajax({
+        type: "POST",
+        url: '../_controller/makerequest_controller.php',
+        data: ajaxParamData,
+        success: function(response)
+        {
+           var jsonData = JSON.parse(response); 
+           var res  =jsonData.result[0]; 
+           $('#p-description-request').html(res.Description); 
+ 
+       }
+   });    
+}
 
 function loadingStart( thisElement ){
     thisElement.html(
