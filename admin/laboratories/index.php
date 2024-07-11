@@ -13,6 +13,19 @@
                 </div>  
             </div>
         </div>
+        <div class="toast-container position-absolute top-5 end-0 p-3">
+            <div id="alertMed" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="toast-header">
+                    <!-- <img src="..." class="rounded me-2" alt="..."> -->
+                    <strong class="me-auto">Save Change</strong>
+                    <small>Record has been updated</small>
+                    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+                <div class="toast-body">
+                    Hello, world! This is a toast message.
+                </div>
+            </div>
+        </div>
 
         <div class="container-fluid bootstrap snippets bootdey">
             <div class="container mt-5">
@@ -27,22 +40,8 @@
                         <th scope="col">Action</th>
                     </tr>
                     </thead>
-                    <tbody id="dataTable">
-                    <tr>
-                        <td>Example Name 1</td>
-                        <td>2024-07-04</td>
-                        <td>$100</td>
-                        <td>Example Description 1</td>
-                        <td><button class="btn btn-primary btn-sm">Edit</button></td>
-                    </tr>
-                    <tr>
-                        <td>Example Name 2</td>
-                        <td>2024-07-03</td>
-                        <td>$200</td>
-                        <td>Example Description 2</td>
-                        <td><button class="btn btn-primary btn-sm">Edit</button></td>
-                    </tr>
-                    <!-- Add more rows as needed -->
+                    <tbody id="labTable">
+                    
                     </tbody>
                 </table>
             </div>
@@ -52,27 +51,29 @@
         <div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="addModalLabel">Add New Row</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form id="addForm">
-                    <div class="mb-3">
-                        <label for="addName" class="form-label">Name</label>
-                        <input type="text" class="form-control" id="addName" required>
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="addModalLabel">Add New Laboratory</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <div class="mb-3">
-                        <label for="addListPrice" class="form-label">List Price</label>
-                        <input type="text" class="form-control" id="addListPrice" required>
+                    <div class="modal-body"> 
+                        <div class="mb-3">
+                            <label for="addName" class="form-label">Name</label>
+                            <input type="text" class="form-control" id="addName" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="addListPrice" class="form-label">List Price</label>
+                            <input type="text" class="form-control" id="addListPrice" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="addDescription" class="form-label">Description</label>
+                            <textarea class="form-control" id="addDescription" rows="3" required></textarea>
+                        </div>
+                       
                     </div>
-                    <div class="mb-3">
-                        <label for="addDescription" class="form-label">Description</label>
-                        <textarea class="form-control" id="addDescription" rows="3" required></textarea>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                         <button type="submit" class="btn btn-primary" id="btn-save-change" >Save</button>
                     </div>
-                    <button type="submit" class="btn btn-primary">Add Row</button>
-                    </form>
-                </div>
                 </div>
             </div>
         </div>
