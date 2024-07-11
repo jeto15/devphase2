@@ -53,6 +53,15 @@ class MakeRequestModel{
         return $resultArrry; 
     }
 
+    function get_patient_request_table($db, $patient_id, $request_Id ){
+        $resultArrry = array(); 
+        $result = $db->query("SELECT * FROM patient_request_table Where patient_Id='".$patient_id."' AND Id='".$request_Id."'");
+        while($row = $db->fetchAssoc($result)) {
+            array_push($resultArrry, $row);
+        } 
+        return $resultArrry; 
+    }
+ 
  
 
 }

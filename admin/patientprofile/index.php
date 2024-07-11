@@ -8,7 +8,7 @@
            
             <div class="btn-toolbar mb-2 mb-md-0">
             <div class="btn-group me-2">
-                <a class="btn btn-sm btn-outline-secondary" id="make-requet-draft" >Make a Request</a>
+                <a class="btn btn-sm btn-outline-secondary" href="../makepatientrequest/?pid=<?php echo $_GET['id'];?>"    >Make a Request</a>
                 <!-- <button type="button" class="btn btn-sm btn-outline-secondary"  data-bs-toggle="modal" data-bs-target="#addNewPatients" data-bs-whatever="@mdo">Add New</button>
              -->
                 <!-- <button type="button" class="btn btn-sm btn-outline-secondary">Export</button> -->

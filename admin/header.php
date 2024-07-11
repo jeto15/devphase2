@@ -123,13 +123,13 @@ if(isset($_SESSION['username']) && !empty($_SESSION['username'])) {
             <li class="nav-item">
                 <a class="nav-link <?php echo $currentPage == "medicine"? "active" : ""; ?> " aria-current="page" href="../medicine">  
                 <span data-feather="shopping-cart"></span>
-                  medicine  
+                  Medicine  
                 </a> 
             </li> 
             <li class="nav-item">
-                <a class="nav-link" href="#">
+            <a class="nav-link <?php echo $currentPage == "makepatientrequest"? "active" : ""; ?> " aria-current="page" href="../makepatientrequest">
                 <span data-feather="users"></span>
-                Make Patient Request  <span style=" color: #ec1f25; font-weight: 900;"> Coming Soon!</span>
+                Make Patient Request  
                 </a>
             </li>
             <li class="nav-item">

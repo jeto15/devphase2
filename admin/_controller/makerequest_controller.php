@@ -440,6 +440,14 @@ if (isset($_POST['action'])) {
        
         echo json_encode(array('result' =>"save")); 
     }
+
+    if( $action == 'GETDESCRIPTIONREQUEST' ){
+        $patient_id  = $_POST['patient_id'];
+        $request_id  = $_POST['prescribe_id'];
+
+        $result =   $makeRequestModelClass->get_patient_request_table($db,  $patient_id, $request_id );
+        echo json_encode(array('result' => $result));
+    }
 }
 
 

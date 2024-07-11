@@ -44,13 +44,15 @@ if (isset($_POST['action'])) {
 
     if( $action == 'CREATEDRAFTREQUEST' ){
         $patientId        =  $_POST['recordId'];
+        $description      =  $_POST['request_description'];
 
         $patient_request_Id = $makeRequestModelClass->save_new_prescription($db,'patient_request_table' , array(
-            "patient_Id" => $patientId,
+            "patient_Id" => $patientId, 
+            "Description" => $description,
             "created_date" => date('Y-m-d H:i:s'),
             "created_by_Id" => $USERID 
         ));   
-
+ 
         $result = array(
             "patientId" =>  $patientId,
             "patientRequestId" =>  $patient_request_Id 
