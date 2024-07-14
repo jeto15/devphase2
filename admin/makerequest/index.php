@@ -1,4 +1,5 @@
 <?php include '../header.php'; ?>
+<?php $isStaff =  isset($_GET['stafrequestmode'])? $_GET['stafrequestmode']:''; ?>
    <!-- summernote -->
    <link rel="stylesheet" href="../resource/summernote/summernote-lite.min.css">
    
@@ -10,8 +11,10 @@
            
             <div class="btn-toolbar mb-2 mb-md-0">
                 <div class="btn-group me-2"> 
-                    <button type="button" class="btn btn-sm btn-primary"   style="margin-right: 2px;" id="handle-open-lab" data-bs-toggle="modal"  data-bs-target="#addLaboratories"  data-descript-tab="dl" > Manage Laboratories </button>
+                    <button type="button" class="btn btn-sm btn-primary"   style="margin-right: 2px;" id="handle-open-custom" data-bs-toggle="modal"  data-bs-target="#addLaboratories"  data-descript-tab="dl" > Manage All Items </button>
+                    <?php if( $isStaff == '' ){ ?>
                     <button type="button" class="btn btn-sm btn-primary"   style="margin-right: 2px;" id="handle-save-prescribe" disabled>Save Request</button>
+                    <?php } ?>
                 </div>  
             </div>
         </div>
@@ -34,7 +37,7 @@
             <div class="profile-info col"> 
                 <div class="panel">
                     <div class="panel-body bio-graph-info">
-                        <h1>Bio Graph</h1>
+                        <h1>Bio Graph </h1>
                         <div class="row">
                             <div class="bio-row">
                                 <p><span class="patient-label" >First Name </span> <span   id="fname-name"> </span>  </p>
@@ -70,9 +73,14 @@
         </div>
 
         <div class="row profile-input-description" >
-            
+            <div class="btn-group-manageitems" >
+                <button type="button" class="btn btn-sm btn-primary"   style="margin-right: 2px;" id="handle-open-lab"  data-bs-toggle="modal" data-bs-target="#productLabModal"    > Add Laboratories </button>
+                <button type="button" class="btn btn-sm btn-primary"   style="margin-right: 2px;" id="handle-open-med" data-bs-toggle="modal"  data-bs-target="#addLaboratories"  data-descript-tab="dl" > Add Medicine </button>
+                <button type="button" class="btn btn-sm btn-primary"   style="margin-right: 2px;" id="handle-open-custom" data-bs-toggle="modal"  data-bs-target="#addLaboratories"  data-descript-tab="dl" > Add Custom Request </button>
+            </div>
+                         
             <?php if( $_SESSION['usernmake-request-prescription-laboratoriesame'] == 1 ){ ?>
-            <?php if( $_SESSION['make-request-prescription'] == 0 ){ ?>
+            <?php if( $_SESSION['make-request-prescription'] == 0 || $isStaff == '1' ){ ?>
             <div  class="col-md-12" style="border-right: 1px dotted;">
             <?php }else { ?>
             <div  class="col-md-3" style="border-right: 1px dotted;">
@@ -154,7 +162,7 @@
                 </div>
             </div>
             <?php } ?>
-            <?php if( $_SESSION['make-request-prescription'] == 1 ){ ?>
+            <?php if( $_SESSION['make-request-prescription'] == 1 && $isStaff == '' ){ ?>
             <div  class="col-md-9">
                 <div>
                     <div class="row mb-4">
@@ -308,6 +316,9 @@
             </div> 
         </div>
         </div>
+
+
+        <?php include '_manage_laboratories.php'; ?>
         
     </main>
  
@@ -317,8 +328,8 @@
 
 <script src="https://code.jquery.com/jquery-3.7.1.min.js" ></script>
 <script src="makerequest.js"></script>
+<script src="_manage_laboratories.js"></script>
 <script src="../resource/summernote/summernote-lite.min.js"></script>
-<script>
  
-</script>
+ 
 <?php include '../footer.php'; ?> 

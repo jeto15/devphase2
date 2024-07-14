@@ -212,7 +212,7 @@ $(function(){
         var isOther =  $(this).attr('data-isother');  
         var isstatuspaid =   $(this).attr('data-paid-status');  
 
-        //console.log(recordId,hdPrescribeId,selectLabItemId,isOther);
+        
         loadingStart($(this));
         changeAsPaid($,recordId,hdPrescribeId,selectLabItemId,isOther,isstatuspaid,$(this)); 
     }); 
@@ -240,7 +240,7 @@ function getPatientRecordById($,id){
            var res  =jsonData.result;
            var resAvatar  =jsonData.avatarpic;
           
-           console.log(jsonData); 
+           
            if( resAvatar != null ){
                 $('#profile-avatar-image').attr('src','../uploads/pid'+resAvatar.patient_id+'/'+resAvatar.name); 
            } 
@@ -409,7 +409,7 @@ function getAllLaboratories($,keySearch){
 
 function displayLabSelected( $ , SelectedItems, SelectedisOther ){
 
-    console.log('SelectedItems', SelectedItems);
+    
 
     var isPaidActionDisable = '';
     if(disablePaidAndUndpaidStatus == '0'){
@@ -420,7 +420,7 @@ function displayLabSelected( $ , SelectedItems, SelectedisOther ){
     var htmlTableLabFrontLab = '';
     var htmlTableLabFrontMed = '';
     var htmlTableLabFrontOther = '';
-    console.log(SelectedItems);
+    
     for (const row_index in SelectedItems) {
         let row = SelectedItems[row_index]; 
 
@@ -516,16 +516,15 @@ function getDisplayLabSelected( $, patient_id,prescribe_id ){
         {
             var jsonData = JSON.parse(response);
            
-            var res  =jsonData.result; 
+            var res  =jsonData.result;  
             var collectSelectedLabs = [];
             for (const row_index in res) {
-                let row = res[row_index];  
-
+                let row = res[row_index];   
                 if( row.isOther == "1" ){
                     collectedOtherPres.push(row);
                 } else {
                     LABORATORIESITEMSCOLLECTED[row.laboratory_Id] = LABORATORIESITEMS[row.laboratory_Id];
-                    LABORATORIESITEMS[row.laboratory_Id]['Status']= row.Status;
+                    LABORATORIESITEMS[row.laboratory_Id]['Status']= row.Status ?? '';
                     LABORATORIESITEMS[row.laboratory_Id]['labId']= row.Id;
                     collectSelectedLabs.push(LABORATORIESITEMS[row.laboratory_Id]);
                 }   
@@ -643,7 +642,7 @@ function changeAsPaid($, patient_id,prescribe_id,selectedId,isother, isstatuspai
         isstatuspaid
     };
 
-    console.log(ajaxParamData);
+    
     $.ajax({
         type: "POST",
         url: '../_controller/makerequest_controller.php',
