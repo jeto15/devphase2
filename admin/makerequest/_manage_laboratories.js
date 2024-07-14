@@ -1,5 +1,5 @@
 let globalLabItems = {};
-let globalLabSelectedItem = [];
+let globalLabSelectedItem = []; 
 
  $(function(){
     const pesoFormatter = new Intl.NumberFormat('en-PH', {
@@ -7,29 +7,8 @@ let globalLabSelectedItem = [];
         currency: 'PHP'
     });
 
-    // const products = [
-    //     'Product 1',
-    //     'Product 2',
-    //     'Product 3',
-    //     'Product 4',
-    //     'Product 5'
-    // ];
-
-    // const productList = $('#productList');
-    // const selectedItems = $('#selectedItems');
-
-    // function renderProducts(filter = '') {
-    //     productList.empty();
-    //     const filteredProducts = products.filter(product => product.toLowerCase().includes(filter.toLowerCase()));
-    //     filteredProducts.forEach(product => {
-    //         const listItem = $('<li>').addClass('list-group-item').text(product).click(function() {
-    //             if (!selectedItems.find(`li:contains(${product})`).length) {
-    //                 selectedItems.append($('<li>').addClass('list-group-item').text(product));
-    //             }
-    //         });
-    //         productList.append(listItem);
-    //     });
-    // }
+    let recordId = $('#hd_recordid').val();
+    let hdPrescribeId = $('#hd_prescribe_id').val();
 
     $('#search').on('input', function() {
         const filter = $(this).val();
@@ -57,7 +36,23 @@ let globalLabSelectedItem = [];
         }
         displaySelectedLab($); 
     });
-    
+     
+    $('#Save-Selected-lab-items').click(function(){
+
+        if( globalLabSelectedItem.length != 0 ){
+
+            saveSelectLabItems(
+                $,
+                globalLabSelectedItem,
+                hdPrescribeId,
+                recordId
+            );  
+
+        } else {
+            alert('Sorry no record to save')
+        }
+
+    });
     
 
 }); 
@@ -121,4 +116,34 @@ function removeProductLab(id) {
     if (index !== -1) {
         globalLabSelectedItem.splice(index, 1); 
     }  
+}
+
+function saveSelectLabItems($,items,prescribe_id,patient_id){
+
+    let selectedItem = JSON.stringify(items);
+
+    let action      = 'SAVESELECTEDLABIEMS';
+
+    let ajaxParamData = {
+        action,
+        selectedItem,
+        prescribe_id,
+        patient_id
+    }; 
+    $('#productTable').html(''); 
+    $.ajax({ 
+        type: "POST",
+        url: '../_controller/makerequest_controller.php',
+        data: ajaxParamData,
+        success: function(response)
+        {
+           var jsonData = JSON.parse(response);
+           
+           var res  =jsonData.result;  
+
+           console.log('SAVESELECTEDLABIEMS',res);
+ 
+       }
+   }); 
+
 }

@@ -2,7 +2,7 @@
 session_start();
 require '../.config/db.php';
 include '../_model/makerequest_model.php'; 
-
+//    echo "<pre>".   ."</pre>";
 $makeRequestModelClass =  new MakeRequestModel();
 
 
@@ -360,9 +360,7 @@ if (isset($_POST['action'])) {
         ));       
        
         echo json_encode(array('result' =>"save")); 
-    }
-
-    
+    }   
 
     if(  $action  == 'REMOVEDSELECTEDLAB' ){
 
@@ -389,7 +387,6 @@ if (isset($_POST['action'])) {
         echo json_encode(array('result' =>"save")); 
     }
     
-
     if(  $action  == 'LABANDMEDANDOTHERASPAID' ){
 
         $selectedId  = $_POST['selectedId'];
@@ -397,10 +394,7 @@ if (isset($_POST['action'])) {
         $prescribed_id  = $_POST['prescribe_id'];
         $isother  = $_POST['isothererquest'];
         $isStatusPaid = $_POST['isstatuspaid'];
-
-        
-        
-        //if(  $isother  == "1" ){
+ 
             
             $StatusPayment = 'Paid';
             if( $isStatusPaid == 'Paid' ){
@@ -418,25 +412,6 @@ if (isset($_POST['action'])) {
                 "Status" =>  $StatusPayment     
             )); 
  
-
-
-     /*   } else { 
-            
-            
-            $makeRequestModelClass->save_change_patient_prescription(
-                $db, 
-                'prq_laboratory_table',
-                array(
-                    "patient_request_Id" => $prescribed_id,
-                    "patient_Id" =>  $patient_id,
-                    "laboratory_Id" => $selectedId 
-                ),
-                array( 
-                "Status" =>"Paid"        
-            ));
-
-        }*/ 
- 
        
         echo json_encode(array('result' =>"save")); 
     }
@@ -448,6 +423,59 @@ if (isset($_POST['action'])) {
         $result =   $makeRequestModelClass->get_patient_request_table($db,  $patient_id, $request_id );
         echo json_encode(array('result' => $result));
     }
+
+    if( $action == 'SAVESELECTEDLABIEMS' ){  
+        $patient_id  = $_POST['patient_id'];
+        $prescribed_id  = $_POST['prescribe_id'];
+        $selectedLabItemsJson = json_decode($_POST['selectedItem'],true);
+ 
+        foreach( $selectedLabItemsJson  as $items){ 
+            $itemRecord = array(
+                "patient_Id" => $patient_id,
+                "patient_request_Id" => $prescribed_id,
+                "laboratory_Id" => $items['Id'] ,  
+                "created_date" =>   date('Y-m-d H:i:s'),
+                "UnitPrice" =>  floatval( $items['listprice'] ),
+                "OtherType" =>  "Laboratory",
+                "created_by_Id" => $USERID
+            ); 
+            $makeRequestModelClass->save_new_prescription($db,'prq_laboratory_table' ,  $itemRecord);  
+        }
+
+        echo json_encode(array('result' =>"save")); 
+    }
+
+
+    if( $action == 'GETALLMEDICINES'){
+        $keyword = $_POST['keySearch'];
+        $result =   $makeRequestModelClass->getAllMed($db, $keyword);
+        echo json_encode(array('result' => $result));
+    }
+
+    if(  $action == 'SAVESELECTEDMEDIEMS' ){
+
+        $patient_id  = $_POST['patient_id'];
+        $prescribed_id  = $_POST['prescribe_id'];
+        $selectedLabItemsJson = json_decode($_POST['selectedItem'],true);
+ 
+        foreach( $selectedLabItemsJson  as $items){ 
+            $itemRecord = array(
+                "patient_Id" => $patient_id,
+                "patient_request_Id" => $prescribed_id,
+                "medicine_Id" => $items['Id'] ,  
+                "created_date" =>   date('Y-m-d H:i:s'),
+                "UnitPrice" =>  floatval( $items['UnitPrice'] ),
+                "Qty" =>    $items['Qty'],
+                "OtherType" =>  "Medicine",
+                "created_by_Id" => $USERID
+            ); 
+            $makeRequestModelClass->save_new_prescription($db,'prq_laboratory_table' ,  $itemRecord);  
+        }
+        
+        echo json_encode(array('result' =>"save")); 
+
+    }
 }
 
 
+ 

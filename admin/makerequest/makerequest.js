@@ -2,11 +2,17 @@ var LABORATORIESITEMS = {};
 var LABORATORIESITEMSCOLLECTED = {}; 
 var ISLABPRESCRIBEUPDATED = false;
 var disablePaidAndUndpaidStatus = '0';
+var globaPesoFormatter;
 $(function(){
 
     /*
     * Init
     */
+
+    globaPesoFormatter = new Intl.NumberFormat('en-PH', {
+        style: 'currency',
+        currency: 'PHP'
+    });
 
     var TABARRAY = {
         'sc': {
@@ -58,7 +64,7 @@ $(function(){
     var SelectedTypeLabType = 'Medicine';
     disablePaidAndUndpaidStatus = $('#hd_restric_statuspaid_action').val();
     
-    getDescriptioRequest($,recordId,hdPrescribeId);
+    getDescriptioRequest($,recordId,hdPrescribeId,);
 
     var getTempSC = localStorage.getItem('tmpSave'+recordId+'sc'+hdPrescribeId);
     var getTempAP = localStorage.getItem('tmpSave'+recordId+'ap'+hdPrescribeId);
@@ -124,7 +130,7 @@ $(function(){
     }
   
     getPatientRecordById($,recordId);
-    getAllLaboratories($,'');
+   // getAllLaboratories($,'');
     getDisplayLabSelected($,recordId,hdPrescribeId);
 
     
@@ -159,63 +165,60 @@ $(function(){
  
     $( "#handle-save-prescribe" ).on( "click", function() { 
        loadingStart($(this))
-       savePrescriptions($,recordId.trim(),  hdPrescribeId, isUpdate);
-        
+       savePrescriptions($,recordId.trim(),  hdPrescribeId, isUpdate);     
     } );
  
-    $(document).on('click','.handle-click-Add-lab',function(){
-        loadingStart($(this));
-        var selectLabItemId = $(this).attr('data-labid'); 
+    // $(document).on('click','.handle-click-Add-lab',function(){
+    //     loadingStart($(this));
+    //     var selectLabItemId = $(this).attr('data-labid'); 
 
-        if( typeof LABORATORIESITEMSCOLLECTED[selectLabItemId] === 'undefined' ){
-            saveLabItems($,recordId,hdPrescribeId,selectLabItemId,$(this)); 
-        } else {
-            alert("Ops! Its already in the list, Please review the Laboratories List");
-            loadingEnd($(this),'Add');
-        }
+    //     if( typeof LABORATORIESITEMSCOLLECTED[selectLabItemId] === 'undefined' ){
+    //         saveLabItems($,recordId,hdPrescribeId,selectLabItemId,$(this)); 
+    //     } else {
+    //         alert("Ops! Its already in the list, Please review the Laboratories List");
+    //         loadingEnd($(this),'Add');
+    //     }
   
-    });
+    // });
 
-    $(document).on('click','.handle-click-remove-selected-lab',function(){
-        var selectLabItemId = $(this).attr('data-labid');  
-        var isOther =  $(this).attr('data-isother');   
-        loadingStart($(this));
-        removeLabItems($,recordId,hdPrescribeId,selectLabItemId,isOther, $(this)); 
-    }); 
+    // $(document).on('click','.handle-click-remove-selected-lab',function(){
+    //     var selectLabItemId = $(this).attr('data-labid');  
+    //     var isOther =  $(this).attr('data-isother');   
+    //     loadingStart($(this));
+    //     removeLabItems($,recordId,hdPrescribeId,selectLabItemId,isOther, $(this)); 
+    // }); 
 
-    $(document).on('keyup','#Handle-Search-Lab',function(){
-        let keyWord = $(this).val(); 
-        getAllLaboratories($,keyWord); 
-    });
+    // $(document).on('keyup','#Handle-Search-Lab',function(){
+    //     let keyWord = $(this).val(); 
+    //     getAllLaboratories($,keyWord); 
+    // });
 
-    $(document).on('click','#handle-add-other-prescription', function(){
-        let prescribedKeyWorkd = $("#input-other-Lab").val(); 
-        loadingStart($(this));
-        saveOtherPrescription($,recordId,hdPrescribeId,prescribedKeyWorkd,SelectedTypeLabType, $(this));
-    }); 
+    // $(document).on('click','#handle-add-other-prescription', function(){
+    //     let prescribedKeyWorkd = $("#input-other-Lab").val(); 
+    //     loadingStart($(this));
+    //     saveOtherPrescription($,recordId,hdPrescribeId,prescribedKeyWorkd,SelectedTypeLabType, $(this));
+    // }); 
  
-    $(document).on('click','.nav-lab-add',function(){
-        $( '.lab-container' ).hide();
-        $( '.'+$(this).attr('data-tab-container') ).show();
-        $( '.nav-lab-add' ).removeClass('active');
-        $(this).addClass('active');
-    }); 
+    // $(document).on('click','.nav-lab-add',function(){
+    //     $( '.lab-container' ).hide();
+    //     $( '.'+$(this).attr('data-tab-container') ).show();
+    //     $( '.nav-lab-add' ).removeClass('active');
+    //     $(this).addClass('active');
+    // }); 
 
 
-    $('.radio-as-other-type').on('change', function(e) {
+    // $('.radio-as-other-type').on('change', function(e) {
 
-        SelectedTypeLabType = e.target.value; 
-    });
+    //     SelectedTypeLabType = e.target.value; 
+    // });
 
-    $(document).on('click','.handle-click-as-paid-selected-lab',function(){
-        var selectLabItemId = $(this).attr('data-labid');  
-        var isOther =  $(this).attr('data-isother');  
-        var isstatuspaid =   $(this).attr('data-paid-status');  
-
-        
-        loadingStart($(this));
-        changeAsPaid($,recordId,hdPrescribeId,selectLabItemId,isOther,isstatuspaid,$(this)); 
-    }); 
+    // $(document).on('click','.handle-click-as-paid-selected-lab',function(){
+    //     var selectLabItemId = $(this).attr('data-labid');  
+    //     var isOther =  $(this).attr('data-isother');  
+    //     var isstatuspaid =   $(this).attr('data-paid-status');  
+    //     loadingStart($(this));
+    //     changeAsPaid($,recordId,hdPrescribeId,selectLabItemId,isOther,isstatuspaid,$(this)); 
+    // }); 
  
 }); 
  
@@ -371,132 +374,46 @@ function getAllPrescriptions($,patient_id,prescribe_id,tabArry){
    });    
 }
 
-function getAllLaboratories($,keySearch){
-    let action      = 'GETALLLABORATORIES';
+// function getAllLaboratories($,keySearch){
+//     let action      = 'GETALLLABORATORIES';
 
-    let ajaxParamData = {
-        action,
-        keySearch 
-    }; 
+//     let ajaxParamData = {
+//         action,
+//         keySearch 
+//     }; 
 
-    $.ajax({ 
-        type: "POST",
-        url: '../_controller/makerequest_controller.php',
-        data: ajaxParamData,
-        success: function(response)
-        {
-           var jsonData = JSON.parse(response);
+//     $.ajax({ 
+//         type: "POST",
+//         url: '../_controller/makerequest_controller.php',
+//         data: ajaxParamData,
+//         success: function(response)
+//         {
+//            var jsonData = JSON.parse(response);
            
-           var res  =jsonData.result;
+//            var res  =jsonData.result;
 
-           let htmlTableLab = '';
+//            let htmlTableLab = '';
 
-           for (const row_index in res) {
-                let row = res[row_index]; 
-                LABORATORIESITEMS[row.Id] = row;
-                htmlTableLab +='<tr>';
-                 htmlTableLab +='<td>'+row.Name+'</td>'; 
-                htmlTableLab +='<td style="text-align: right;"> <button   class="btn btn-sm btn-outline-secondary handle-click-Add-lab" data-labid="'+row.Id+'"> Add </button> </td>'; 
-                htmlTableLab +='</tr>';
-           }
+//            for (const row_index in res) {
+//                 let row = res[row_index]; 
+//                 LABORATORIESITEMS[row.Id] = row;
+//                 htmlTableLab +='<tr>';
+//                  htmlTableLab +='<td>'+row.Name+'</td>'; 
+//                 htmlTableLab +='<td style="text-align: right;"> <button   class="btn btn-sm btn-outline-secondary handle-click-Add-lab" data-labid="'+row.Id+'"> Add </button> </td>'; 
+//                 htmlTableLab +='</tr>';
+//            }
   
-           $('#tableList_of_laboratory').html(htmlTableLab);
+//            $('#tableList_of_laboratory').html(htmlTableLab);
  
-       }
-   });    
+//        }
+//    });    
 
-}
+// }
 
-function displayLabSelected( $ , SelectedItems, SelectedisOther ){
-
-    
-
-    var isPaidActionDisable = '';
-    if(disablePaidAndUndpaidStatus == '0'){
-        isPaidActionDisable = 'disabled';
-    }
-
-    var htmlTableLab = '';
-    var htmlTableLabFrontLab = '';
-    var htmlTableLabFrontMed = '';
-    var htmlTableLabFrontOther = '';
-    
-    for (const row_index in SelectedItems) {
-        let row = SelectedItems[row_index]; 
-
-        var disableRemoveAction = '';
-        var buttonStatusLabel = 'Unpaid';
-
-        if( row.Status == 'Paid'){
-            buttonStatusLabel = 'Paid';
-            disableRemoveAction = 'disabled';
-        } 
-
-        htmlTableLab +='<tr>';
-        htmlTableLab +='<td> '+row.Name+'</td>'; 
-        htmlTableLab +='<td>  Laboratory</td>';  
-        htmlTableLab +='<td> <button   class="btn btn-sm btn-outline-secondary handle-click-remove-selected-lab" data-isother="0" data-labid="'+row.Id+'"  '+disableRemoveAction+'> Remove </button> </td>'; 
-        htmlTableLab +='</tr>';
-   
-
-        htmlTableLabFrontLab +='<tr>';
-        htmlTableLabFrontLab +='<td> '+row.Name+'</td>'; 
-        htmlTableLabFrontLab +='<td>  Laboratory</td>'; 
-        htmlTableLabFrontLab +='<td>   <button   class="btn btn-sm btn-outline-secondary handle-click-as-paid-selected-lab" data-isother="0" data-paid-status="'+buttonStatusLabel+'" data-labid="'+row.labId+'" '+isPaidActionDisable+'> '+buttonStatusLabel+' </button> </td>';  
-        htmlTableLabFrontLab +='</tr>';
-   }
-   
-   for (const row_index in SelectedisOther) {
-
-        var disableRemoveAction = '';
-        let row = SelectedisOther[row_index]; 
-        var buttonStatusLabel = 'Unpaid';
-
-        if( row.Status == 'Paid'){
-            buttonStatusLabel = 'Paid';
-            disableRemoveAction = 'disabled';
-        }
+function getDisplayLabSelected( $, patient_id,prescribe_id){
 
 
-        htmlTableLab +='<tr>';
-        htmlTableLab +='<td> '+row.is_other_request+'</td>'; 
-        htmlTableLab +='<td>  '+row.OtherType+'</td>';  
-        htmlTableLab +='<td> <button   class="btn btn-sm btn-outline-secondary handle-click-remove-selected-lab" data-isother="1" data-labid="'+row.Id+'" '+disableRemoveAction+'> Remove </button> </td>'; 
-        htmlTableLab +='</tr>';
-
-      
-        if( row.OtherType =='Medicine'){
-            htmlTableLabFrontMed +='<tr>';
-            htmlTableLabFrontMed +='<td> '+row.is_other_request+'</td>'; 
-            htmlTableLabFrontMed +='<td>  '+row.OtherType+' </td>';  
-            htmlTableLabFrontMed +='<td>   <button   class="btn btn-sm btn-outline-secondary handle-click-as-paid-selected-lab" data-paid-status="'+buttonStatusLabel+'" data-isother="1" data-labid="'+row.Id+'" '+isPaidActionDisable+'> '+buttonStatusLabel+' </button> </td>';  
-            htmlTableLabFrontMed +='</tr>';    
-        } 
-        else if( row.OtherType =='Other'){
- 
-            htmlTableLabFrontOther +='<tr>';
-            htmlTableLabFrontOther +='<td> '+row.is_other_request+'</td>'; 
-            htmlTableLabFrontOther +='<td>  '+row.OtherType+' </td>';  
-            htmlTableLabFrontOther +='<td>   <button   class="btn btn-sm btn-outline-secondary handle-click-as-paid-selected-lab" data-paid-status="'+buttonStatusLabel+'" data-isother="1" data-labid="'+row.Id+'" '+isPaidActionDisable+'>  '+buttonStatusLabel+'  </button> </td>';  
-            htmlTableLabFrontOther +='</tr>';
-            
-        }
-
-   }
-
-   
-
-
-
-
-   $('#table-selected-lab-list').html(htmlTableLab);
-   $('#table-selected-lab-list-front-lab').html(htmlTableLabFrontLab);
-   $('#table-selected-lab-list-front-Med').html(htmlTableLabFrontMed);
-   $('#table-selected-lab-list-front-Other').html(htmlTableLabFrontOther);
-
-}
-
-function getDisplayLabSelected( $, patient_id,prescribe_id ){
+    console.log(globaPesoFormatter);
 
     var keyStorage = 'tmpSave'+patient_id+'dl'+prescribe_id;
     var collectedOtherPres = [];
@@ -517,148 +434,259 @@ function getDisplayLabSelected( $, patient_id,prescribe_id ){
             var jsonData = JSON.parse(response);
            
             var res  =jsonData.result;  
-            var collectSelectedLabs = [];
-            for (const row_index in res) {
-                let row = res[row_index];   
-                if( row.isOther == "1" ){
-                    collectedOtherPres.push(row);
-                } else {
-                    LABORATORIESITEMSCOLLECTED[row.laboratory_Id] = LABORATORIESITEMS[row.laboratory_Id];
-                    LABORATORIESITEMS[row.laboratory_Id]['Status']= row.Status ?? '';
-                    LABORATORIESITEMS[row.laboratory_Id]['labId']= row.Id;
-                    collectSelectedLabs.push(LABORATORIESITEMS[row.laboratory_Id]);
-                }   
+            console.log(res);
+            // var collectSelectedLabs = [];
+            // for (const row_index in res) {
+            //     let row = res[row_index];   
+            //     if( row.isOther == "1" ){
+            //         collectedOtherPres.push(row);
+            //     } else {
+            //         LABORATORIESITEMSCOLLECTED[row.laboratory_Id] = LABORATORIESITEMS[row.laboratory_Id];
+            //         LABORATORIESITEMS[row.laboratory_Id]['Status']= row.Status ?? '';
+            //         LABORATORIESITEMS[row.laboratory_Id]['labId']= row.Id;
+            //         collectSelectedLabs.push(LABORATORIESITEMS[row.laboratory_Id]);
+            //     }   
                 
                
-            }
+            // }
 
-            displayLabSelected($, collectSelectedLabs,collectedOtherPres); 
+            displayLabSelected($, res); 
  
        }
    });    
 
 }
 
-function saveLabItems($, patient_id,prescribe_id,selectedId,thisElement){
-        
-    let action      = 'SAVESELECTEDLAB';
- 
-
-    let ajaxParamData = {
-        action,
-        patient_id,
-        prescribe_id,
-        selectedId
-    };
-
-    $.ajax({
-        type: "POST",
-        url: '../_controller/makerequest_controller.php',
-        data: ajaxParamData,
-        success: function(response)
-        {
-           var jsonData = JSON.parse(response);
-           
-           var res  =jsonData.result;
-
-           getDisplayLabSelected($,patient_id,prescribe_id);
-
-           loadingEnd(thisElement,'Add');
-
-       } 
-   });    
-}
-
-function saveOtherPrescription($, patient_id,prescribe_id,prescribedKey, SelectedTypeLabType, thisElement){
-    let action      = 'SAVESELECTEDLABOTHER';
- 
-
-    let ajaxParamData = {
-        action,
-        patient_id,
-        prescribe_id,  
-        prescribedKey,
-        SelectedTypeLabType
-    };
-
-    $.ajax({
-        type: "POST", 
-        url: '../_controller/makerequest_controller.php',
-        data: ajaxParamData,
-        success: function(response)
-        {
-           var jsonData = JSON.parse(response);
-           
-           var res  =jsonData.result;
-
-           getDisplayLabSelected($,patient_id,prescribe_id);
-           loadingEnd(thisElement,'Add Other');
-
-       }
-   });   
-}
-
-function removeLabItems($, patient_id,prescribe_id,selectedId,isother,thisElement){
-        
-    let action      = 'REMOVEDSELECTEDLAB';
-    var isothererquest = isother;
-
-    let ajaxParamData = {
-        action, 
-        patient_id,
-        prescribe_id,
-        selectedId,
-        isothererquest  
-    };
-
-    $.ajax({
-        type: "POST",
-        url: '../_controller/makerequest_controller.php',
-        data: ajaxParamData,
-        success: function(response)
-        {
-           var jsonData = JSON.parse(response);
-           
-           var res  =jsonData.result;
-
-           getDisplayLabSelected($,patient_id,prescribe_id);
-           loadingEnd(thisElement,'Remove');
-
-       }
-   });    
-}
-
-function changeAsPaid($, patient_id,prescribe_id,selectedId,isother, isstatuspaid, thisElement){
-        
-    let action      = 'LABANDMEDANDOTHERASPAID';
-    var isothererquest = isother;
-
-    let ajaxParamData = {
-        action, 
-        patient_id,
-        prescribe_id,
-        selectedId,
-        isothererquest,
-        isstatuspaid
-    };
+function displayLabSelected( $ , SelectedItems ){
 
     
-    $.ajax({
-        type: "POST",
-        url: '../_controller/makerequest_controller.php',
-        data: ajaxParamData,
-        success: function(response)
-        {
-           var jsonData = JSON.parse(response);
-           
-           var res  =jsonData.result;
 
-           getDisplayLabSelected($,patient_id,prescribe_id);
-           loadingEnd(thisElement,'...');
+    var isPaidActionDisable = '';
+    if(disablePaidAndUndpaidStatus == '0'){
+        isPaidActionDisable = 'disabled';
+    }
 
-       }
-   });    
+    var htmlTableLab = '';
+    var htmlTableLabFrontLab = '';
+    var htmlTableLabFrontMed = '';
+    var htmlTableLabFrontOther = '';
+
+
+    
+    for (const row_index in SelectedItems) {
+       
+        let row = SelectedItems[row_index]; 
+        console.log(row);
+        var disableRemoveAction = '';
+        var buttonStatusLabel = 'Unpaid';
+
+        if( row.Status == 'Paid'){
+            buttonStatusLabel = 'Paid';
+            disableRemoveAction = 'disabled';
+        } 
+
+        // htmlTableLab +='<tr>';
+        // htmlTableLab +='<td> '+row.Name+'</td>'; 
+        // htmlTableLab +='<td>  Laboratory</td>';  
+        // htmlTableLab +='<td> <button   class="btn btn-sm btn-outline-secondary handle-click-remove-selected-lab" data-isother="0" data-labid="'+row.Id+'"  '+disableRemoveAction+'> Remove </button> </td>'; 
+        // htmlTableLab +='</tr>';
+   
+        if( row.OtherType == 'Laboratory'  ){
+            var removeBtnHtml = '<button   class="btn btn-sm btn-outline-secondary handle-click-remove-selected-lab" data-isother="0" data-labid="'+row.Id+'"  '+disableRemoveAction+'> Remove </button>';
+            var updastatusHtml = '<button   class="btn btn-sm btn-outline-secondary handle-click-as-paid-selected-lab" data-isother="0" data-paid-status="'+buttonStatusLabel+'" data-labid="'+row.labId+'" '+isPaidActionDisable+'> '+buttonStatusLabel+' </button> ';
+            htmlTableLabFrontLab +='<tr>';
+            htmlTableLabFrontLab +='<td> '+row.Name+'</td>'; 
+            htmlTableLabFrontLab +='<td> '+globaPesoFormatter.format(row.UnitPrice)+'</td>'; 
+            htmlTableLabFrontLab +='<td> '+removeBtnHtml+' '+updastatusHtml+' </td>';  
+            htmlTableLabFrontLab +='</tr>';
+        } 
+        
+        if( row.OtherType == 'Medicine' ){
+            var removeBtnHtml = '<button   class="btn btn-sm btn-outline-secondary handle-click-remove-selected-lab" data-isother="0" data-labid="'+row.Id+'"  '+disableRemoveAction+'> Remove </button>';
+            var updastatusHtml = '<button   class="btn btn-sm btn-outline-secondary handle-click-as-paid-selected-lab" data-isother="0" data-paid-status="'+buttonStatusLabel+'" data-labid="'+row.labId+'" '+isPaidActionDisable+'> '+buttonStatusLabel+' </button> ';
+            htmlTableLabFrontMed +='<tr>';
+            htmlTableLabFrontMed +='<td> '+row.Name+'</td>'; 
+            htmlTableLabFrontMed +='<td> '+row.Qty+'</td>';
+            htmlTableLabFrontMed +='<td> '+globaPesoFormatter.format(row.UnitPrice)+'</td>';
+            htmlTableLabFrontMed +='<td> '+globaPesoFormatter.format( row.UnitPrice * row.Qty )+'</td>'; 
+            htmlTableLabFrontMed +='<td> '+removeBtnHtml+' '+updastatusHtml+' </td>';  
+            htmlTableLabFrontMed +='</tr>';
+        }
+
+   }
+   
+//    for (const row_index in SelectedisOther) {
+
+//         var disableRemoveAction = '';
+//         let row = SelectedisOther[row_index]; 
+//         var buttonStatusLabel = 'Unpaid';
+
+//         if( row.Status == 'Paid'){
+//             buttonStatusLabel = 'Paid';
+//             disableRemoveAction = 'disabled';
+//         }
+
+
+//         htmlTableLab +='<tr>';
+//         htmlTableLab +='<td> '+row.is_other_request+'</td>'; 
+//         htmlTableLab +='<td>  '+row.OtherType+'</td>';  
+//         htmlTableLab +='<td> <button   class="btn btn-sm btn-outline-secondary handle-click-remove-selected-lab" data-isother="1" data-labid="'+row.Id+'" '+disableRemoveAction+'> Remove </button> </td>'; 
+//         htmlTableLab +='</tr>';
+
+      
+//         if( row.OtherType =='Medicine'){
+//             htmlTableLabFrontMed +='<tr>';
+//             htmlTableLabFrontMed +='<td> '+row.is_other_request+'</td>'; 
+//             htmlTableLabFrontMed +='<td>  '+row.OtherType+' </td>';  
+//             htmlTableLabFrontMed +='<td>   <button   class="btn btn-sm btn-outline-secondary handle-click-as-paid-selected-lab" data-paid-status="'+buttonStatusLabel+'" data-isother="1" data-labid="'+row.Id+'" '+isPaidActionDisable+'> '+buttonStatusLabel+' </button> </td>';  
+//             htmlTableLabFrontMed +='</tr>';    
+//         } 
+//         else if( row.OtherType =='Other'){
+ 
+//             htmlTableLabFrontOther +='<tr>';
+//             htmlTableLabFrontOther +='<td> '+row.is_other_request+'</td>'; 
+//             htmlTableLabFrontOther +='<td>  '+row.OtherType+' </td>';  
+//             htmlTableLabFrontOther +='<td>   <button   class="btn btn-sm btn-outline-secondary handle-click-as-paid-selected-lab" data-paid-status="'+buttonStatusLabel+'" data-isother="1" data-labid="'+row.Id+'" '+isPaidActionDisable+'>  '+buttonStatusLabel+'  </button> </td>';  
+//             htmlTableLabFrontOther +='</tr>';
+            
+//         }
+
+//    }
+
+   
+
+
+
+
+   //$('#table-selected-lab-list').html(htmlTableLab);
+   $('#table-selected-lab-list-front-lab').html(htmlTableLabFrontLab);
+   $('#table-selected-lab-list-front-Med').html(htmlTableLabFrontMed);
+   $('#table-selected-lab-list-front-Other').html(htmlTableLabFrontOther);
+
 }
+
+
+
+// function saveLabItems($, patient_id,prescribe_id,selectedId,thisElement){
+        
+//     let action      = 'SAVESELECTEDLAB';
+ 
+
+//     let ajaxParamData = {
+//         action,
+//         patient_id,
+//         prescribe_id,
+//         selectedId
+//     };
+
+//     $.ajax({
+//         type: "POST",
+//         url: '../_controller/makerequest_controller.php',
+//         data: ajaxParamData,
+//         success: function(response)
+//         {
+//            var jsonData = JSON.parse(response);
+           
+//            var res  =jsonData.result;
+
+//            getDisplayLabSelected($,patient_id,prescribe_id);
+
+//            loadingEnd(thisElement,'Add');
+
+//        } 
+//    });    
+// }
+
+// function saveOtherPrescription($, patient_id,prescribe_id,prescribedKey, SelectedTypeLabType, thisElement){
+//     let action      = 'SAVESELECTEDLABOTHER';
+ 
+
+//     let ajaxParamData = {
+//         action,
+//         patient_id,
+//         prescribe_id,  
+//         prescribedKey,
+//         SelectedTypeLabType
+//     };
+
+//     $.ajax({
+//         type: "POST", 
+//         url: '../_controller/makerequest_controller.php',
+//         data: ajaxParamData,
+//         success: function(response)
+//         {
+//            var jsonData = JSON.parse(response);
+           
+//            var res  =jsonData.result;
+
+//            getDisplayLabSelected($,patient_id,prescribe_id);
+//            loadingEnd(thisElement,'Add Other');
+
+//        }
+//    });   
+// }
+
+// function removeLabItems($, patient_id,prescribe_id,selectedId,isother,thisElement){
+        
+//     let action      = 'REMOVEDSELECTEDLAB';
+//     var isothererquest = isother;
+
+//     let ajaxParamData = {
+//         action, 
+//         patient_id,
+//         prescribe_id,
+//         selectedId,
+//         isothererquest  
+//     };
+
+//     $.ajax({
+//         type: "POST",
+//         url: '../_controller/makerequest_controller.php',
+//         data: ajaxParamData,
+//         success: function(response)
+//         {
+//            var jsonData = JSON.parse(response);
+           
+//            var res  =jsonData.result;
+
+//            getDisplayLabSelected($,patient_id,prescribe_id);
+//            loadingEnd(thisElement,'Remove');
+
+//        }
+//    });    
+// }
+
+// function changeAsPaid($, patient_id,prescribe_id,selectedId,isother, isstatuspaid, thisElement){
+        
+//     let action      = 'LABANDMEDANDOTHERASPAID';
+//     var isothererquest = isother;
+
+//     let ajaxParamData = {
+//         action, 
+//         patient_id,
+//         prescribe_id,
+//         selectedId,
+//         isothererquest,
+//         isstatuspaid
+//     };
+
+    
+//     $.ajax({
+//         type: "POST",
+//         url: '../_controller/makerequest_controller.php',
+//         data: ajaxParamData,
+//         success: function(response)
+//         {
+//            var jsonData = JSON.parse(response);
+           
+//            var res  =jsonData.result;
+
+//            getDisplayLabSelected($,patient_id,prescribe_id);
+//            loadingEnd(thisElement,'...');
+
+//        }
+//    });    
+// }
 
 function getDescriptioRequest($,patient_id,prescribe_id){
             

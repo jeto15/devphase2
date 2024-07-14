@@ -4,6 +4,7 @@ $(function(){
     //init
     
     let selectedRecordId  = $('#hd_recordid').val();
+s
     getPatientRecordById($,selectedRecordId); 
  
     $('#search').on('keyup', function() { 
