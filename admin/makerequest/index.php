@@ -75,9 +75,9 @@
         <div class="row profile-input-description" >
             <div class="btn-group-manageitems" >
                 <button type="button" class="btn btn-sm btn-primary"   style="margin-right: 2px;" id="handle-open-lab"  data-bs-toggle="modal" data-bs-target="#productLabModal"    > Add Laboratories </button>
-                <button type="button" class="btn btn-sm btn-primary"   style="margin-right: 2px;" id="handle-open-med" data-bs-toggle="modal"  data-bs-target="#addLaboratories"  data-descript-tab="dl" > Add Medicine </button>
-                <button type="button" class="btn btn-sm btn-primary"   style="margin-right: 2px;" id="handle-open-custom" data-bs-toggle="modal"  data-bs-target="#addLaboratories"  data-descript-tab="dl" > Add Custom Request </button>
-            </div>
+                <button type="button" class="btn btn-sm btn-primary"   style="margin-right: 2px;" id="handle-open-med" data-bs-toggle="modal"  data-bs-target="#productMedModal"  > Add Medicine </button>
+                <button type="button" class="btn btn-sm btn-primary"   style="margin-right: 2px;" id="handle-open-custom" data-bs-toggle="modal"  data-bs-target="#addLaboratories"  > Add Custom Request </button>
+            </div> 
                          
             <?php if( $_SESSION['usernmake-request-prescription-laboratoriesame'] == 1 ){ ?>
             <?php if( $_SESSION['make-request-prescription'] == 0 || $isStaff == '1' ){ ?>
@@ -100,8 +100,8 @@
                         <thead>
                             <tr>
                             <th scope="col">Description</th>
-                            <th scope="col">Type</th> 
-                            <th scope="col">Status</th> 
+                            <th scope="col">Unit Price</th>   
+                            <th scope="col">Action</th> 
                             </tr> 
                         </thead> 
                         <tbody id='table-selected-lab-list-front-lab' >
@@ -125,8 +125,10 @@
                         <thead>
                             <tr>
                             <th scope="col">Description</th>
-                            <th scope="col">Type</th>                        
-                            <th scope="col">Status</th> 
+                            <th scope="col">Qty</th>      
+                            <th scope="col">Unit Price</th>          
+                            <th scope="col">Total Price</th>                            
+                            <th scope="col">Action</th> 
                             </tr> 
                         </thead> 
                         <tbody id='table-selected-lab-list-front-Med' >
@@ -319,7 +321,7 @@
 
 
         <?php include '_manage_laboratories.php'; ?>
-        
+        <?php include '_manage_medicine.php'; ?>
     </main>
  
     <input type="hidden" id="hd_recordid"  value="<?php echo  isset($_GET['id'])? $_GET['id']:''; ?>" />
@@ -329,6 +331,7 @@
 <script src="https://code.jquery.com/jquery-3.7.1.min.js" ></script>
 <script src="makerequest.js"></script>
 <script src="_manage_laboratories.js"></script>
+<script src="_manage_medicine.js"></script>
 <script src="../resource/summernote/summernote-lite.min.js"></script>
  
  

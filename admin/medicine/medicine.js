@@ -138,3 +138,12 @@ function DisplayMedicines($,keyword){
 
 
 }
+
+$(document).on('click','.btn-cancel-selected-lab-product', function(){
+    let selectedId =  $(this).attr('data-labid');
+    
+    if(productLabExists(selectedId) ){
+        removeProductLab(selectedId);  
+    }
+    displaySelectedLab($); 
+});
