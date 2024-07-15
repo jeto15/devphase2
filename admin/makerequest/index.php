@@ -99,9 +99,9 @@
                         <table class="table table-striped table-sm">
                         <thead>
                             <tr>
-                            <th scope="col">Description</th>
+                            <th scope="col" style="width: 62%;">Description</th>
                             <th scope="col">Unit Price</th>   
-                            <th scope="col">Action</th> 
+                            <th scope="col" style="width: 18%;">Action</th> 
                             </tr> 
                         </thead> 
                         <tbody id='table-selected-lab-list-front-lab' >
@@ -124,11 +124,11 @@
                         <table class="table table-striped table-sm">
                         <thead>
                             <tr>
-                            <th scope="col">Description</th>
+                            <th scope="col">    Description</th>
                             <th scope="col">Qty</th>      
                             <th scope="col">Unit Price</th>          
                             <th scope="col">Total Price</th>                            
-                            <th scope="col">Action</th> 
+                            <th scope="col" style="width: 18%;">Action</th> 
                             </tr> 
                         </thead> 
                         <tbody id='table-selected-lab-list-front-Med' >
