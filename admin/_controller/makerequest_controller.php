@@ -475,6 +475,32 @@ if (isset($_POST['action'])) {
         echo json_encode(array('result' =>"save")); 
 
     }
+
+    if( $action == 'GETSINGLEABORATORY')
+    { 
+        $keyword = $_POST['recordId'];
+        $result =   $makeRequestModelClass->get_record_requestitem_by_id($db, $keyword);
+        echo json_encode(array('result' => $result));
+    }
+
+    if( $action == 'UPDATECARTLABITEM' ){
+
+        $recordId = $_POST['recordId'];
+        $NewUnitPrice = $_POST['NewUnitPrice'];
+
+        $makeRequestModelClass->save_change_patient_prescription(
+            $db, 
+            'prq_laboratory_table',
+            array(
+                "Id" => $recordId 
+            ),
+            array( 
+            "UnitPrice" =>  $NewUnitPrice   
+        )); 
+
+        echo json_encode(array('result' =>"save")); 
+
+    }   
 }
 
 

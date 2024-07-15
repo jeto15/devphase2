@@ -1,3 +1,5 @@
+'use strict'
+
 var LABORATORIESITEMS = {};
 var LABORATORIESITEMSCOLLECTED = {}; 
 var ISLABPRESCRIBEUPDATED = false;
@@ -64,7 +66,7 @@ $(function(){
     var SelectedTypeLabType = 'Medicine';
     disablePaidAndUndpaidStatus = $('#hd_restric_statuspaid_action').val();
     
-    getDescriptioRequest($,recordId,hdPrescribeId,);
+    getDescriptioRequest($,recordId,hdPrescribeId);
 
     var getTempSC = localStorage.getItem('tmpSave'+recordId+'sc'+hdPrescribeId);
     var getTempAP = localStorage.getItem('tmpSave'+recordId+'ap'+hdPrescribeId);
@@ -476,7 +478,9 @@ function displayLabSelected( $ , SelectedItems ){
     for (const row_index in SelectedItems) {
        
         let row = SelectedItems[row_index]; 
-        console.log(row);
+        
+        console.log('row',row);
+
         var disableRemoveAction = '';
         var buttonStatusLabel = 'Unpaid';
 
@@ -492,28 +496,66 @@ function displayLabSelected( $ , SelectedItems ){
         // htmlTableLab +='</tr>';
    
         if( row.OtherType == 'Laboratory'  ){
+            var updateItemBtnHtml = '<button   class="btn btn-sm btn-outline-secondary handle-click-update-item-modal-selected-lab"  data-labid="'+row.laboratory_Id+'" data-cartitemid="'+row.Id+'"  '+disableRemoveAction+'> Update Items </button>';
             var removeBtnHtml = '<button   class="btn btn-sm btn-outline-secondary handle-click-remove-selected-lab" data-isother="0" data-labid="'+row.Id+'"  '+disableRemoveAction+'> Remove </button>';
             var updastatusHtml = '<button   class="btn btn-sm btn-outline-secondary handle-click-as-paid-selected-lab" data-isother="0" data-paid-status="'+buttonStatusLabel+'" data-labid="'+row.labId+'" '+isPaidActionDisable+'> '+buttonStatusLabel+' </button> ';
             htmlTableLabFrontLab +='<tr>';
-            htmlTableLabFrontLab +='<td> '+row.Name+'</td>'; 
+            htmlTableLabFrontLab +='<td><span data-feather="thermometer"></span> '+row.Name+'</td>'; 
             htmlTableLabFrontLab +='<td> '+globaPesoFormatter.format(row.UnitPrice)+'</td>'; 
-            htmlTableLabFrontLab +='<td> '+removeBtnHtml+' '+updastatusHtml+' </td>';  
+            htmlTableLabFrontLab +='<td class="float-end" > <div class="btn-group" role="group" > '+updateItemBtnHtml+''+ updastatusHtml +' '+removeBtnHtml+' </div> </td>';  
             htmlTableLabFrontLab +='</tr>';
         } 
         
         if( row.OtherType == 'Medicine' ){
-            var removeBtnHtml = '<button   class="btn btn-sm btn-outline-secondary handle-click-remove-selected-lab" data-isother="0" data-labid="'+row.Id+'"  '+disableRemoveAction+'> Remove </button>';
+            var updateItemBtnHtml = '<button   class="btn btn-sm btn-outline-secondary handle-click-remove-selected-lab"  data-labid="'+row.Id+'"  '+disableRemoveAction+'> Update Items </button>';
+            var removeBtnHtml = '<button   class="btn btn-sm btn-outline-secondary handle-click-remove-selected-lab"   data-labid="'+row.Id+'"  '+disableRemoveAction+'> Remove </button>';
             var updastatusHtml = '<button   class="btn btn-sm btn-outline-secondary handle-click-as-paid-selected-lab" data-isother="0" data-paid-status="'+buttonStatusLabel+'" data-labid="'+row.labId+'" '+isPaidActionDisable+'> '+buttonStatusLabel+' </button> ';
-            htmlTableLabFrontMed +='<tr>';
-            htmlTableLabFrontMed +='<td> '+row.Name+'</td>'; 
+            
+            let medName = row.medname+' '+row.Brand+' '+row.DosageForm; 
+
+            htmlTableLabFrontMed +='<tr>'; 
+            htmlTableLabFrontMed +='<td><span data-feather="thermometer"></span>  '+medName+'</td>'; 
             htmlTableLabFrontMed +='<td> '+row.Qty+'</td>';
             htmlTableLabFrontMed +='<td> '+globaPesoFormatter.format(row.UnitPrice)+'</td>';
             htmlTableLabFrontMed +='<td> '+globaPesoFormatter.format( row.UnitPrice * row.Qty )+'</td>'; 
-            htmlTableLabFrontMed +='<td> '+removeBtnHtml+' '+updastatusHtml+' </td>';  
+            htmlTableLabFrontMed +='<td class="float-end"  ><div class="btn-group" role="group" >  '+updateItemBtnHtml+''+ updastatusHtml +' '+removeBtnHtml+' </div> </td>';  
             htmlTableLabFrontMed +='</tr>';
         }
 
    }
+
+
+   let labSubotal = 0;
+   let MedSubotal = 0;
+   for (const row_index in SelectedItems) {
+        let row = SelectedItems[row_index]; 
+
+        if( row.OtherType == 'Laboratory'  ){
+            let unitPrice = parseFloat(row.UnitPrice);
+            labSubotal  += unitPrice;
+        }
+
+        if( row.OtherType == 'Medicine' ){
+            let unitPrice = parseFloat(row.UnitPrice * row.Qty);
+            MedSubotal  += unitPrice;
+        }
+   }
+
+   
+    htmlTableLabFrontLab +='<tr>';
+    htmlTableLabFrontLab +='<td> <h5>Subtotal:</h5> </td>'; 
+    htmlTableLabFrontLab +='<td> <h5>'+globaPesoFormatter.format(labSubotal)+'</h5></td>'; 
+    htmlTableLabFrontLab +='<td>  </td>';  
+    htmlTableLabFrontLab +='</tr>';
+
+    htmlTableLabFrontMed +='<tr>'; 
+    htmlTableLabFrontMed +='<td>  <h5>Subtotal:</h5> </td>'; 
+    htmlTableLabFrontMed +='<td> </td>';
+    htmlTableLabFrontMed +='<td> </td>';
+    htmlTableLabFrontMed +='<td> <h5>'+globaPesoFormatter.format( MedSubotal )+'</h5></td>'; 
+    htmlTableLabFrontMed +='<td>  </td>';  
+    htmlTableLabFrontMed +='</tr>';
+    
    
 //    for (const row_index in SelectedisOther) {
 
@@ -735,6 +777,5 @@ function loadingEnd( thisElement, origButtonName ){
 
 
  
-
 
 

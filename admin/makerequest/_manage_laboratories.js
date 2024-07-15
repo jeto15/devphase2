@@ -2,6 +2,9 @@ let globalLabItems = {};
 let globalLabSelectedItem = []; 
 
  $(function(){
+
+    let CartID = '';
+
     const pesoFormatter = new Intl.NumberFormat('en-PH', {
         style: 'currency',
         currency: 'PHP'
@@ -45,12 +48,36 @@ let globalLabSelectedItem = [];
                 $,
                 globalLabSelectedItem,
                 hdPrescribeId,
-                recordId
+                recordId,
+                hdPrescribeId
             );  
 
         } else {
             alert('Sorry no record to save')
         }
+
+    });
+
+    $(document).on('click','.handle-click-update-item-modal-selected-lab',function(){
+
+        $('#updateItemModal').modal('show');
+        var labId  = $(this).attr('data-labid');
+        var cartId = $(this).attr('data-cartitemid');
+        CartID = cartId;
+        getSingleLabRecord($,cartId);
+
+    });
+
+    $('#btn-save-lab-cart-change').click(function(){
+
+        let updateUnitPrice =  $('#itemLabListPrice').val();
+        updateCartLabItem($,
+            CartID,
+            updateUnitPrice,
+            recordId,
+            hdPrescribeId
+        );
+
 
     });
     
@@ -142,6 +169,62 @@ function saveSelectLabItems($,items,prescribe_id,patient_id){
            var res  =jsonData.result;  
 
            console.log('SAVESELECTEDLABIEMS',res);
+ 
+       }
+   }); 
+
+}
+
+function getSingleLabRecord($,recordId){
+ 
+    let action      = 'GETSINGLEABORATORY';
+
+    let ajaxParamData = {
+        action,
+        recordId 
+    }; 
+    $('#productTable').html(''); 
+    $.ajax({ 
+        type: "POST",
+        url: '../_controller/makerequest_controller.php',
+        data: ajaxParamData,
+        success: function(response)
+        {
+           var jsonData = JSON.parse(response);
+           
+           var res  =jsonData.result;
+           
+           console.log(res);
+           $('#itemLabListPrice').val(res[0].UnitPrice);
+           $('#itemLabDescription').html(res[0].Name);
+ 
+ 
+       }
+   }); 
+
+}
+
+function updateCartLabItem($,recordId,NewUnitPrice,patientId,RequestId){
+
+    let action      = 'UPDATECARTLABITEM';
+
+    let ajaxParamData = {
+        action,
+        recordId,
+        NewUnitPrice
+    }; 
+    $('#productTable').html(''); 
+    $.ajax({ 
+        type: "POST",
+        url: '../_controller/makerequest_controller.php',
+        data: ajaxParamData,
+        success: function(response)
+        {
+           var jsonData = JSON.parse(response);
+           
+           var res  =jsonData.result;
+            
+           getDisplayLabSelected($,patientId,RequestId);
  
        }
    }); 
