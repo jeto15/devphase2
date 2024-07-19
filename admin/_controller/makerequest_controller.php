@@ -366,24 +366,14 @@ if (isset($_POST['action'])) {
 
         $selectedId  = $_POST['selectedId'];
         $patient_id  = $_POST['patient_id'];
-        $prescribed_id  = $_POST['prescribe_id'];
-        $isother  = $_POST['isothererquest'];
+        $prescribed_id  = $_POST['prescribe_id']; 
 
  
-        
-        if(  $isother  == "1" ){
+ 
             $makeRequestModelClass->clear_selected_Labs($db,array(
                 "Id" =>  $selectedId
             ));
-        } else { 
-            $makeRequestModelClass->clear_selected_Labs($db,array(
-                "patient_request_Id" =>   $prescribed_id,
-                "patient_Id" =>  $patient_id,
-                "laboratory_Id" => $selectedId 
-            ));
-        }
- 
-       
+      
         echo json_encode(array('result' =>"save")); 
     }
     
@@ -391,8 +381,7 @@ if (isset($_POST['action'])) {
 
         $selectedId  = $_POST['selectedId'];
         $patient_id  = $_POST['patient_id'];
-        $prescribed_id  = $_POST['prescribe_id'];
-        $isother  = $_POST['isothererquest'];
+        $prescribed_id  = $_POST['prescribe_id']; 
         $isStatusPaid = $_POST['isstatuspaid'];
  
             
@@ -493,9 +482,9 @@ if (isset($_POST['action'])) {
             'prq_laboratory_table',
             array(
                 "Id" => $recordId 
-            ),
+            ), 
             array( 
-            "UnitPrice" =>  $NewUnitPrice   
+            "AdjustUnitePrice" =>  $NewUnitPrice   
         )); 
 
         echo json_encode(array('result' =>"save")); 

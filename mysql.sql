@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 16, 2024 at 01:10 AM
+-- Generation Time: Jul 19, 2024 at 03:56 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -135,7 +135,7 @@ CREATE TABLE `prq_description_table` (
 
 CREATE TABLE `prq_laboratory_table` (
   `Id` int(11) NOT NULL,
-  `Status` text NOT NULL DEFAULT 'Unpaid',
+  `Status` varchar(255) NOT NULL DEFAULT '''Unpaid''',
   `medicine_Id` int(11) DEFAULT NULL,
   `laboratory_Id` int(11) DEFAULT NULL,
   `isOther` tinyint(1) DEFAULT NULL,
@@ -143,7 +143,9 @@ CREATE TABLE `prq_laboratory_table` (
   `OtherType` varchar(255) DEFAULT NULL,
   `Description` text DEFAULT NULL,
   `patient_request_Id` int(11) NOT NULL,
+  `AdjustQty` int(11) DEFAULT NULL,
   `Qty` int(11) DEFAULT NULL,
+  `AdjustUnitePrice` double DEFAULT NULL,
   `UnitPrice` double DEFAULT NULL,
   `patient_Id` int(11) NOT NULL,
   `created_date` datetime DEFAULT NULL,

@@ -53,4 +53,45 @@
         </div>
     </div>
 </div>
+ 
+<!-- Add Modal -->
+<div class="modal fade" id="updateItemMedModal" tabindex="-1" aria-labelledby="updateItemMedModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="updateItemMedModalLabel">[Medicine] UPDATE ITEM</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body"> 
+                <div class="mb-3">
+                    <label for="itemMedDescription" class="form-label">Description:</label>
+                    <p id="itemMedDescription" ></p>
+                </div>
+                <div class="mb-3">
+                    <label for="itemMedListPrice" class="form-label">List Price</label>
+                    <p id="itemMedListPrice" ></p> 
+                </div>
 
+                <div class="mb-3">
+                    <label for="itemMedQty" class="form-label">Quantity</label>
+                    <p id="itemMedQty" ></p> 
+                </div>
+
+                <div class="mb-3">
+                    <label for="itemMedAdjustQty" class="form-label">Adjust Price</label>
+                    <input type="text" class="form-control" id="itemMedAdjustQty" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="itemMedAdjustQty" class="form-label">Adjust Quantity</label>
+                    <input type="text" class="form-control" id="itemMedAdjustQty" required>
+                </div>
+ 
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary" id="btn-save-lab-cart-change" >Save</button>
+            </div>
+        </div>
+    </div>
+</div>
