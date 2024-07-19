@@ -44,7 +44,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="updateItemModalLabel">Add New Laboratory</h5>
+                <h5 class="modal-title" id="updateItemModalLabel">[Laboratory] UPDATE ITEM</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body"> 
@@ -54,7 +54,12 @@
                 </div>
                 <div class="mb-3">
                     <label for="addListPrice" class="form-label">List Price</label>
-                    <input type="text" class="form-control" id="itemLabListPrice" required>
+                    <p id="itemLabListPrice" ></p> 
+                </div>
+
+                <div class="mb-3">
+                    <label for="addListPrice" class="form-label">Adjust Price</label>
+                    <input type="text" class="form-control" id="itemLabAdjustPrice" required>
                 </div>
  
             </div>

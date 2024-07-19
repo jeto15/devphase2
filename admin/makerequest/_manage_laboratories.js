@@ -57,20 +57,20 @@ let globalLabSelectedItem = [];
         }
 
     });
-
+ 
     $(document).on('click','.handle-click-update-item-modal-selected-lab',function(){
 
         $('#updateItemModal').modal('show');
         var labId  = $(this).attr('data-labid');
         var cartId = $(this).attr('data-cartitemid');
         CartID = cartId;
-        getSingleLabRecord($,cartId);
+        getSingleLabRecord($,cartId, pesoFormatter);
 
     });
 
     $('#btn-save-lab-cart-change').click(function(){
 
-        let updateUnitPrice =  $('#itemLabListPrice').val();
+        let updateUnitPrice =  $('#itemLabAdjustPrice').val();
         updateCartLabItem($,
             CartID,
             updateUnitPrice,
@@ -175,7 +175,7 @@ function saveSelectLabItems($,items,prescribe_id,patient_id){
 
 }
 
-function getSingleLabRecord($,recordId){
+function getSingleLabRecord($,recordId, pesoFormatter){
  
     let action      = 'GETSINGLEABORATORY';
 
@@ -195,9 +195,11 @@ function getSingleLabRecord($,recordId){
            var res  =jsonData.result;
            
            console.log(res);
-           $('#itemLabListPrice').val(res[0].UnitPrice);
+           $('#itemLabListPrice').html(pesoFormatter.format(  res[0].UnitPrice ));
            $('#itemLabDescription').html(res[0].Name);
- 
+
+           
+  
  
        }
    }); 
@@ -223,8 +225,9 @@ function updateCartLabItem($,recordId,NewUnitPrice,patientId,RequestId){
            var jsonData = JSON.parse(response);
            
            var res  =jsonData.result;
-            
+           $('#updateItemModal').modal('hide');
            getDisplayLabSelected($,patientId,RequestId);
+         
  
        }
    }); 

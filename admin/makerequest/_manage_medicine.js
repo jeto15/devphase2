@@ -49,6 +49,18 @@ $(function(){
             recordId
         );
     });
+
+
+    
+    $(document).on('click','.handle-click-update-item-modal-selected-med',function(){
+
+        $('#updateItemMedModal').modal('show');
+        var labId  = $(this).attr('data-medid');
+        var cartId = $(this).attr('data-cartitemid');  
+        CartID = cartId;
+        getSingleMedRecord($,cartId, pesoFormatter);
+
+    });
 });
   
 
@@ -144,6 +156,40 @@ function saveSelectedMedicine($,items,prescribe_id,patient_id){
            var res  =jsonData.result;  
 
            console.log('SAVESELECTEDLABIEMS',res);
+ 
+       }
+   }); 
+
+}
+
+
+function getSingleMedRecord($,recordId, pesoFormatter){
+ 
+    let action      = 'GETSINGLEABORATORY';
+
+    let ajaxParamData = {
+        action,
+        recordId 
+    }; 
+    $('#productTable').html(''); 
+    $.ajax({ 
+        type: "POST",
+        url: '../_controller/makerequest_controller.php',
+        data: ajaxParamData,
+        success: function(response)
+        {
+           var jsonData = JSON.parse(response);
+           
+           var res  =jsonData.result;
+           let medName = res[0].medname+' '+res[0].Brand+' '+res[0].DosageForm; 
+           console.log(res,medName);
+ 
+            $('#itemMedDescription').html(medName);
+            $('#itemMedListPrice').html(pesoFormatter.format(  res[0].UnitPrice ));
+            $('#itemMedQty').html( res[0].Qty );
+           
+            $('#AdjustUnitePrice').html( res[0].AdjustUnitePrice );
+            $('#itemMedQty').html( res[0].AdjustQty );
  
        }
    }); 

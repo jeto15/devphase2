@@ -183,12 +183,11 @@ $(function(){
   
     // });
 
-    // $(document).on('click','.handle-click-remove-selected-lab',function(){
-    //     var selectLabItemId = $(this).attr('data-labid');  
-    //     var isOther =  $(this).attr('data-isother');   
-    //     loadingStart($(this));
-    //     removeLabItems($,recordId,hdPrescribeId,selectLabItemId,isOther, $(this)); 
-    // }); 
+    $(document).on('click','.handle-click-remove-selected-lab',function(){
+        var selectLabItemId = $(this).attr('data-labid');   
+        loadingStart($(this));
+        removeLabItems($,recordId,hdPrescribeId,selectLabItemId, $(this)); 
+    }); 
 
     // $(document).on('keyup','#Handle-Search-Lab',function(){
     //     let keyWord = $(this).val(); 
@@ -214,13 +213,17 @@ $(function(){
     //     SelectedTypeLabType = e.target.value; 
     // });
 
-    // $(document).on('click','.handle-click-as-paid-selected-lab',function(){
-    //     var selectLabItemId = $(this).attr('data-labid');  
-    //     var isOther =  $(this).attr('data-isother');  
-    //     var isstatuspaid =   $(this).attr('data-paid-status');  
-    //     loadingStart($(this));
-    //     changeAsPaid($,recordId,hdPrescribeId,selectLabItemId,isOther,isstatuspaid,$(this)); 
-    // }); 
+    $(document).on('click','.handle-click-as-paid-selected-lab',function(){
+        var selectLabItemId = $(this).attr('data-labid');   
+        var isstatuspaid =   $(this).attr('data-paid-status');  
+        loadingStart($(this));
+        changeAsPaid($,recordId,hdPrescribeId,selectLabItemId,isstatuspaid,$(this)); 
+    });  
+
+   
+
+
+    
  
 }); 
  
@@ -480,11 +483,15 @@ function displayLabSelected( $ , SelectedItems ){
         let row = SelectedItems[row_index]; 
         
         console.log('row',row);
+        
+        var paidColor ='var(--bs-table-bg)';
+
 
         var disableRemoveAction = '';
         var buttonStatusLabel = 'Unpaid';
 
         if( row.Status == 'Paid'){
+            paidColor ='#FF9800';
             buttonStatusLabel = 'Paid';
             disableRemoveAction = 'disabled';
         } 
@@ -497,28 +504,38 @@ function displayLabSelected( $ , SelectedItems ){
    
         if( row.OtherType == 'Laboratory'  ){
             var updateItemBtnHtml = '<button   class="btn btn-sm btn-outline-secondary handle-click-update-item-modal-selected-lab"  data-labid="'+row.laboratory_Id+'" data-cartitemid="'+row.Id+'"  '+disableRemoveAction+'> Update Items </button>';
-            var removeBtnHtml = '<button   class="btn btn-sm btn-outline-secondary handle-click-remove-selected-lab" data-isother="0" data-labid="'+row.Id+'"  '+disableRemoveAction+'> Remove </button>';
-            var updastatusHtml = '<button   class="btn btn-sm btn-outline-secondary handle-click-as-paid-selected-lab" data-isother="0" data-paid-status="'+buttonStatusLabel+'" data-labid="'+row.labId+'" '+isPaidActionDisable+'> '+buttonStatusLabel+' </button> ';
-            htmlTableLabFrontLab +='<tr>';
+            var removeBtnHtml = '<button   class="btn btn-sm btn-outline-secondary handle-click-remove-selected-lab"   data-labid="'+row.Id+'"  '+disableRemoveAction+'> Remove </button>';
+            var updastatusHtml = '<button   class="btn btn-sm btn-outline-secondary handle-click-as-paid-selected-lab"   data-paid-status="'+buttonStatusLabel+'" data-labid="'+row.Id+'" '+isPaidActionDisable+'> '+buttonStatusLabel+' </button> ';
+            htmlTableLabFrontLab +='<tr style=" background-color: '+paidColor+'" >';
             htmlTableLabFrontLab +='<td><span data-feather="thermometer"></span> '+row.Name+'</td>'; 
-            htmlTableLabFrontLab +='<td> '+globaPesoFormatter.format(row.UnitPrice)+'</td>'; 
-            htmlTableLabFrontLab +='<td class="float-end" > <div class="btn-group" role="group" > '+updateItemBtnHtml+''+ updastatusHtml +' '+removeBtnHtml+' </div> </td>';  
+           
+
+            if(  row.AdjustUnitePrice > 0 ){
+                htmlTableLabFrontLab +='<td> <del>'+globaPesoFormatter.format(row.UnitPrice)+'</del></td>'; 
+            } else {
+                htmlTableLabFrontLab +='<td> '+globaPesoFormatter.format(row.UnitPrice)+'</td>'; 
+            }
+
+            htmlTableLabFrontLab +='<td> '+globaPesoFormatter.format(row.AdjustUnitePrice)+'</td>'; 
+            htmlTableLabFrontLab +='<td > <div class="btn-group float-end " role="group" > '+updateItemBtnHtml+''+ updastatusHtml +' '+removeBtnHtml+' </div> </td>';  
             htmlTableLabFrontLab +='</tr>';
         } 
         
         if( row.OtherType == 'Medicine' ){
-            var updateItemBtnHtml = '<button   class="btn btn-sm btn-outline-secondary handle-click-remove-selected-lab"  data-labid="'+row.Id+'"  '+disableRemoveAction+'> Update Items </button>';
+            var updateItemBtnHtml = '<button   class="btn btn-sm btn-outline-secondary handle-click-update-item-modal-selected-med"  data-medid="'+row.medicine_Id+'" data-cartitemid="'+row.Id+'"  '+disableRemoveAction+'> Update Items </button>';
             var removeBtnHtml = '<button   class="btn btn-sm btn-outline-secondary handle-click-remove-selected-lab"   data-labid="'+row.Id+'"  '+disableRemoveAction+'> Remove </button>';
-            var updastatusHtml = '<button   class="btn btn-sm btn-outline-secondary handle-click-as-paid-selected-lab" data-isother="0" data-paid-status="'+buttonStatusLabel+'" data-labid="'+row.labId+'" '+isPaidActionDisable+'> '+buttonStatusLabel+' </button> ';
+            var updastatusHtml = '<button   class="btn btn-sm btn-outline-secondary handle-click-as-paid-selected-lab" data-isother="0" data-paid-status="'+buttonStatusLabel+'" data-labid="'+row.Id+'" '+isPaidActionDisable+'> '+buttonStatusLabel+' </button> ';
             
             let medName = row.medname+' '+row.Brand+' '+row.DosageForm; 
 
             htmlTableLabFrontMed +='<tr>'; 
             htmlTableLabFrontMed +='<td><span data-feather="thermometer"></span>  '+medName+'</td>'; 
             htmlTableLabFrontMed +='<td> '+row.Qty+'</td>';
+            htmlTableLabFrontMed +='<td> '+ ( row.AdjustQty  >0 ? row.AdjustQty: 0 ) +'</td>';
             htmlTableLabFrontMed +='<td> '+globaPesoFormatter.format(row.UnitPrice)+'</td>';
+            htmlTableLabFrontMed +='<td> '+globaPesoFormatter.format(row.AdjustUnitePrice)+'</td>';
             htmlTableLabFrontMed +='<td> '+globaPesoFormatter.format( row.UnitPrice * row.Qty )+'</td>'; 
-            htmlTableLabFrontMed +='<td class="float-end"  ><div class="btn-group" role="group" >  '+updateItemBtnHtml+''+ updastatusHtml +' '+removeBtnHtml+' </div> </td>';  
+            htmlTableLabFrontMed +='<td   ><div  class="btn-group float-end "role="group" >  '+updateItemBtnHtml+''+ updastatusHtml +' '+removeBtnHtml+' </div> </td>';  
             htmlTableLabFrontMed +='</tr>';
         }
 
@@ -529,31 +546,38 @@ function displayLabSelected( $ , SelectedItems ){
    let MedSubotal = 0;
    for (const row_index in SelectedItems) {
         let row = SelectedItems[row_index]; 
+     
+        if( row.Status == 'Paid'){
+            if( row.OtherType == 'Laboratory'  ){
+            
+                let unitPrice =0;
+                if(   row.AdjustUnitePrice > 0 ){
+                     unitPrice = parseFloat( row.AdjustUnitePrice );
+                } else {
+                     unitPrice = parseFloat(row.UnitPrice);
+                }
 
-        if( row.OtherType == 'Laboratory'  ){
-            let unitPrice = parseFloat(row.UnitPrice);
-            labSubotal  += unitPrice;
+              
+                labSubotal  += unitPrice;
+            }
+    
+            if( row.OtherType == 'Medicine' ){
+                let unitPrice = parseFloat(row.UnitPrice * row.Qty);
+                MedSubotal  += unitPrice;
+            }
         }
 
-        if( row.OtherType == 'Medicine' ){
-            let unitPrice = parseFloat(row.UnitPrice * row.Qty);
-            MedSubotal  += unitPrice;
-        }
    }
 
    
     htmlTableLabFrontLab +='<tr>';
-    htmlTableLabFrontLab +='<td> <h5>Subtotal:</h5> </td>'; 
-    htmlTableLabFrontLab +='<td> <h5>'+globaPesoFormatter.format(labSubotal)+'</h5></td>'; 
-    htmlTableLabFrontLab +='<td>  </td>';  
+    htmlTableLabFrontLab +='<td> <h5>Subtotal: '+globaPesoFormatter.format(labSubotal)+'</h5> </td>'; 
+ 
     htmlTableLabFrontLab +='</tr>';
 
     htmlTableLabFrontMed +='<tr>'; 
-    htmlTableLabFrontMed +='<td>  <h5>Subtotal:</h5> </td>'; 
-    htmlTableLabFrontMed +='<td> </td>';
-    htmlTableLabFrontMed +='<td> </td>';
-    htmlTableLabFrontMed +='<td> <h5>'+globaPesoFormatter.format( MedSubotal )+'</h5></td>'; 
-    htmlTableLabFrontMed +='<td>  </td>';  
+    htmlTableLabFrontMed +='<td >  <h5>Subtotal:'+globaPesoFormatter.format( MedSubotal )+'</h5> </td>'; 
+     
     htmlTableLabFrontMed +='</tr>';
     
    
@@ -668,67 +692,64 @@ function displayLabSelected( $ , SelectedItems ){
 //    });   
 // }
 
-// function removeLabItems($, patient_id,prescribe_id,selectedId,isother,thisElement){
+function removeLabItems($, patient_id,prescribe_id,selectedId,thisElement){
         
-//     let action      = 'REMOVEDSELECTEDLAB';
-//     var isothererquest = isother;
+    let action      = 'REMOVEDSELECTEDLAB';
+ 
 
-//     let ajaxParamData = {
-//         action, 
-//         patient_id,
-//         prescribe_id,
-//         selectedId,
-//         isothererquest  
-//     };
+    let ajaxParamData = {
+        action, 
+        patient_id,
+        prescribe_id,
+        selectedId 
+    };
 
-//     $.ajax({
-//         type: "POST",
-//         url: '../_controller/makerequest_controller.php',
-//         data: ajaxParamData,
-//         success: function(response)
-//         {
-//            var jsonData = JSON.parse(response);
+    $.ajax({
+        type: "POST",
+        url: '../_controller/makerequest_controller.php',
+        data: ajaxParamData,
+        success: function(response)
+        {
+           var jsonData = JSON.parse(response);
            
-//            var res  =jsonData.result;
+           var res  =jsonData.result;
 
-//            getDisplayLabSelected($,patient_id,prescribe_id);
-//            loadingEnd(thisElement,'Remove');
+           getDisplayLabSelected($,patient_id,prescribe_id);
+           loadingEnd(thisElement,'Remove');
 
-//        }
-//    });    
-// }
+       }
+   });    
+}
 
-// function changeAsPaid($, patient_id,prescribe_id,selectedId,isother, isstatuspaid, thisElement){
+function changeAsPaid($, patient_id,prescribe_id,selectedId, isstatuspaid, thisElement){
         
-//     let action      = 'LABANDMEDANDOTHERASPAID';
-//     var isothererquest = isother;
-
-//     let ajaxParamData = {
-//         action, 
-//         patient_id,
-//         prescribe_id,
-//         selectedId,
-//         isothererquest,
-//         isstatuspaid
-//     };
+    let action      = 'LABANDMEDANDOTHERASPAID';
+ 
+    let ajaxParamData = {
+        action, 
+        patient_id,
+        prescribe_id,
+        selectedId, 
+        isstatuspaid
+    };
 
     
-//     $.ajax({
-//         type: "POST",
-//         url: '../_controller/makerequest_controller.php',
-//         data: ajaxParamData,
-//         success: function(response)
-//         {
-//            var jsonData = JSON.parse(response);
+    $.ajax({
+        type: "POST",
+        url: '../_controller/makerequest_controller.php',
+        data: ajaxParamData,
+        success: function(response)
+        {
+           var jsonData = JSON.parse(response);
            
-//            var res  =jsonData.result;
+           var res  =jsonData.result;
 
-//            getDisplayLabSelected($,patient_id,prescribe_id);
-//            loadingEnd(thisElement,'...');
+           getDisplayLabSelected($,patient_id,prescribe_id);
+           loadingEnd(thisElement,'...');
 
-//        }
-//    });    
-// }
+       }
+   });    
+}
 
 function getDescriptioRequest($,patient_id,prescribe_id){
             
