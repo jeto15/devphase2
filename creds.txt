@@ -1,3 +1,64 @@
 ftp://153.92.8.2 
 u-u285821606 
 p-5mIMueodwr$^aN95
+
+Qoute for Phase 2 
+
+1. Laboratory Record Keeping 
+2. Medicine Record  Keeping 
+3. Make Request Enhancem with Billing 
+   - Print - Billing Receipt 
+4. Reporting ( Enhancments ) 
+    - Number of Laboratories Paid  
+    - Revenue Report
+       (Weekly, Monthly)
+    - Request Report 
+ sf org logout --target-org contact-pbje@force.com.SEPDev
+
+Laboratory
+  Search Functionality
+  Update funcationliy isseu wont update the price
+  Update Edit buton the Icon Pincel
+
+Medicine
+  Search Funationality
+
+
+Reports
+   Request Request Paid
+   Laboratory Invetory Report 
+
+   
+Dashboard Updates 
+  Request Tables 
+    In Progress
+    Billing
+    Paid
+
+Make Request Page 
+    Replace all Buttons with Icons 
+    Laobratoriy Cart
+       Adjust Price  - done
+       Display Adjusted Price  - done 
+       Total Make Total on he Paid   Items - done
+       Remove functionality - done
+
+    Medicine Cart 
+        Addjust Qty 
+        Adjut Price 
+        Display the Adjust fields - Done
+        Total Make Total on he Paid and Unpaid Items
+        Remove functionality
+
+    Custom Request 
+        Add 
+        Update 
+        Remove
+    
+    Add discount
+
+    Total all 
+      Billing Print 
+    
+
+    

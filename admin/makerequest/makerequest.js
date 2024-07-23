@@ -438,8 +438,7 @@ function getDisplayLabSelected( $, patient_id,prescribe_id){
         {
             var jsonData = JSON.parse(response);
            
-            var res  =jsonData.result;  
-            console.log(res);
+            var res  =jsonData.result;   
             // var collectSelectedLabs = [];
             // for (const row_index in res) {
             //     let row = res[row_index];   
@@ -475,15 +474,11 @@ function displayLabSelected( $ , SelectedItems ){
     var htmlTableLabFrontLab = '';
     var htmlTableLabFrontMed = '';
     var htmlTableLabFrontOther = '';
-
-
-    
+ 
     for (const row_index in SelectedItems) {
        
         let row = SelectedItems[row_index]; 
-        
-        console.log('row',row);
-        
+         
         var paidColor ='var(--bs-table-bg)';
 
 
@@ -510,11 +505,11 @@ function displayLabSelected( $ , SelectedItems ){
             htmlTableLabFrontLab +='<td><span data-feather="thermometer"></span> '+row.Name+'</td>'; 
            
 
-            if(  row.AdjustUnitePrice > 0 ){
-                htmlTableLabFrontLab +='<td> <del>'+globaPesoFormatter.format(row.UnitPrice)+'</del></td>'; 
-            } else {
-                htmlTableLabFrontLab +='<td> '+globaPesoFormatter.format(row.UnitPrice)+'</td>'; 
-            }
+                if(  row.AdjustUnitePrice > 0 ){
+                    htmlTableLabFrontLab +='<td> <del>'+globaPesoFormatter.format(row.UnitPrice)+'</del></td>'; 
+                } else {
+                    htmlTableLabFrontLab +='<td> '+globaPesoFormatter.format(row.UnitPrice)+'</td>'; 
+                }
 
             htmlTableLabFrontLab +='<td> '+globaPesoFormatter.format(row.AdjustUnitePrice)+'</td>'; 
             htmlTableLabFrontLab +='<td > <div class="btn-group float-end " role="group" > '+updateItemBtnHtml+''+ updastatusHtml +' '+removeBtnHtml+' </div> </td>';  
@@ -528,15 +523,48 @@ function displayLabSelected( $ , SelectedItems ){
             
             let medName = row.medname+' '+row.Brand+' '+row.DosageForm; 
 
-            htmlTableLabFrontMed +='<tr>'; 
+            htmlTableLabFrontMed +='<tr style=" background-color: '+paidColor+'" >'; 
             htmlTableLabFrontMed +='<td><span data-feather="thermometer"></span>  '+medName+'</td>'; 
-            htmlTableLabFrontMed +='<td> '+row.Qty+'</td>';
+        
+            var pricehandle = 0;
+            var qityhandle = 0;
+            if(  row.AdjustQty > 0 ){
+                htmlTableLabFrontMed +='<td> <del>'+ row.Qty+'</del></td>';
+                qityhandle = row.AdjustQty;
+            } else {
+                htmlTableLabFrontMed +='<td> '+ row.Qty +'</td>';
+                qityhandle  = row.Qty;
+            }
+
             htmlTableLabFrontMed +='<td> '+ ( row.AdjustQty  >0 ? row.AdjustQty: 0 ) +'</td>';
-            htmlTableLabFrontMed +='<td> '+globaPesoFormatter.format(row.UnitPrice)+'</td>';
+            console.log(row.AdjustUnitePrice > 0);
+            if(  row.AdjustUnitePrice > 0 ){
+                console.log('solod');
+                htmlTableLabFrontMed +='<td> <del>'+globaPesoFormatter.format(row.UnitPrice)+'</del></td>'; 
+                pricehandle =  row.AdjustUnitePrice;
+            } else {
+                console.log('solod');
+                htmlTableLabFrontMed +='<td> '+globaPesoFormatter.format(row.UnitPrice)+'</td>'; 
+                pricehandle =  row.UnitPrice;
+            }
+ 
             htmlTableLabFrontMed +='<td> '+globaPesoFormatter.format(row.AdjustUnitePrice)+'</td>';
-            htmlTableLabFrontMed +='<td> '+globaPesoFormatter.format( row.UnitPrice * row.Qty )+'</td>'; 
+            htmlTableLabFrontMed +='<td> '+globaPesoFormatter.format( pricehandle * qityhandle )+'</td>'; 
             htmlTableLabFrontMed +='<td   ><div  class="btn-group float-end "role="group" >  '+updateItemBtnHtml+''+ updastatusHtml +' '+removeBtnHtml+' </div> </td>';  
             htmlTableLabFrontMed +='</tr>';
+        }
+
+        if( row.OtherType == 'Custom' ){
+
+            var removeBtnHtml = '<button   class="btn btn-sm btn-outline-secondary handle-click-remove-selected-lab"   data-labid="'+row.Id+'"  '+disableRemoveAction+'> Remove </button>';
+            var updastatusHtml = '<button   class="btn btn-sm btn-outline-secondary handle-click-as-paid-selected-lab"   data-paid-status="'+buttonStatusLabel+'" data-labid="'+row.Id+'" '+isPaidActionDisable+'> '+buttonStatusLabel+' </button> ';
+           
+
+            htmlTableLabFrontOther +='<tr style=" background-color: '+paidColor+'" >';
+            htmlTableLabFrontOther +='<td> '+row.Description+'</td>';  
+            htmlTableLabFrontOther +='<td> '+globaPesoFormatter.format( row.UnitPrice )+'</td>';  
+            htmlTableLabFrontOther +='<td > <div class="btn-group float-end " role="group" >  '+ updastatusHtml +' '+removeBtnHtml+' </div> </td>';  
+            htmlTableLabFrontOther +='</tr>';
         }
 
    }
@@ -544,6 +572,7 @@ function displayLabSelected( $ , SelectedItems ){
 
    let labSubotal = 0;
    let MedSubotal = 0;
+   let CustomSubotal = 0;
    for (const row_index in SelectedItems) {
         let row = SelectedItems[row_index]; 
      
@@ -562,8 +591,27 @@ function displayLabSelected( $ , SelectedItems ){
             }
     
             if( row.OtherType == 'Medicine' ){
-                let unitPrice = parseFloat(row.UnitPrice * row.Qty);
+
+                var pricehandle = 0;
+                var qityhandle = 0;
+                if( row.AdjustQty > 0 ){
+                    qityhandle = row.AdjustQty;
+                } else {
+                    qityhandle  = row.Qty;
+                }
+         
+                if( row.AdjustUnitePrice > 0 ){ 
+                    pricehandle =  row.AdjustUnitePrice;
+                } else {
+                    pricehandle =  row.UnitPrice;
+                }
+
+                let unitPrice = parseFloat(pricehandle * qityhandle);
                 MedSubotal  += unitPrice;
+            }
+
+            if( row.OtherType == 'Custom' ){
+                CustomSubotal  += parseFloat(row.UnitPrice);
             }
         }
 
@@ -572,13 +620,15 @@ function displayLabSelected( $ , SelectedItems ){
    
     htmlTableLabFrontLab +='<tr>';
     htmlTableLabFrontLab +='<td> <h5>Subtotal: '+globaPesoFormatter.format(labSubotal)+'</h5> </td>'; 
- 
     htmlTableLabFrontLab +='</tr>';
 
     htmlTableLabFrontMed +='<tr>'; 
     htmlTableLabFrontMed +='<td >  <h5>Subtotal:'+globaPesoFormatter.format( MedSubotal )+'</h5> </td>'; 
-     
     htmlTableLabFrontMed +='</tr>';
+
+    htmlTableLabFrontOther +='<tr>'; 
+    htmlTableLabFrontOther +='<td >  <h5>Subtotal:'+globaPesoFormatter.format( CustomSubotal )+'</h5> </td>'; 
+    htmlTableLabFrontOther +='</tr>';
     
    
 //    for (const row_index in SelectedisOther) {

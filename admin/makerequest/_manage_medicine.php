@@ -79,7 +79,7 @@
 
                 <div class="mb-3">
                     <label for="itemMedAdjustQty" class="form-label">Adjust Price</label>
-                    <input type="text" class="form-control" id="itemMedAdjustQty" required>
+                    <input type="text" class="form-control" id="itemMedAdjustPrice" required>
                 </div>
 
                 <div class="mb-3">
@@ -90,7 +90,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary" id="btn-save-lab-cart-change" >Save</button>
+                    <button type="submit" class="btn btn-primary" id="btn-save-med-cart-change" >Save</button>
             </div>
         </div>
     </div>

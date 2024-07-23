@@ -476,20 +476,59 @@ if (isset($_POST['action'])) {
 
         $recordId = $_POST['recordId'];
         $NewUnitPrice = $_POST['NewUnitPrice'];
+        $NewQty   = $_POST['NewQty'];
 
+        $fieldsToUpdate = array();
+
+        if(  $_POST['typeOf'] == 'LabItem' ){
+            $fieldsToUpdate = array( 
+                "AdjustUnitePrice" =>  $NewUnitPrice   
+            );
+        }
+
+        if( $_POST['typeOf'] == 'MedItem' ){
+            $fieldsToUpdate = array( 
+                "AdjustUnitePrice" =>  $NewUnitPrice,
+                "AdjustQty" =>  $NewQty   
+            );
+        }
+        
         $makeRequestModelClass->save_change_patient_prescription(
             $db, 
             'prq_laboratory_table',
             array(
                 "Id" => $recordId 
             ), 
-            array( 
-            "AdjustUnitePrice" =>  $NewUnitPrice   
-        )); 
+            $fieldsToUpdate 
+        ); 
 
         echo json_encode(array('result' =>"save")); 
 
     }   
+
+    if( $action == 'SAVEADDEDCUSTITEMS' ) {
+        
+        $patient_id  = $_POST['patient_id'];
+        $prescribed_id  = $_POST['prescribe_id'];
+        $customAmount  = $_POST['customAmount'];
+        $DescriptionRequest  = $_POST['DescriptionRequest'];
+ 
+
+        $itemRecord = array(
+            "patient_Id" => $patient_id,
+            "patient_request_Id" => $prescribed_id, 
+            "created_date" =>   date('Y-m-d H:i:s'),
+            "Description" => $DescriptionRequest,
+            "UnitPrice" =>  floatval( $customAmount ),
+            "OtherType" =>  "Custom",
+            "created_by_Id" => $USERID
+        ); 
+        $makeRequestModelClass->save_new_prescription($db,'prq_laboratory_table' ,  $itemRecord);  
+
+        echo json_encode(array('result' =>"save"));  
+
+    }
+
 }
 
 

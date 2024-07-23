@@ -58,7 +58,7 @@
                 </div>
 
                 <div class="mb-3">
-                    <label for="addListPrice" class="form-label">Adjust Price</label>
+                    <label for="itemLabAdjustPrice" class="form-label">Adjust Price</label>
                     <input type="text" class="form-control" id="itemLabAdjustPrice" required>
                 </div>
  

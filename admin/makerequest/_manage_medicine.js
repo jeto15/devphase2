@@ -61,6 +61,23 @@ $(function(){
         getSingleMedRecord($,cartId, pesoFormatter);
 
     });
+
+    $('#btn-save-med-cart-change').click(function(){
+        
+        
+
+        let updateUnitPrice =  $('#itemMedAdjustPrice').val();
+        let updateUnitQty =  $('#itemMedAdjustQty').val();
+        updateCartMedItem($,
+            CartID,
+            updateUnitPrice,
+            updateUnitQty,
+            recordId,
+            hdPrescribeId
+        );
+
+    });
+
 });
   
 
@@ -155,8 +172,9 @@ function saveSelectedMedicine($,items,prescribe_id,patient_id){
            
            var res  =jsonData.result;  
 
-           console.log('SAVESELECTEDLABIEMS',res);
- 
+           //console.log('SAVESELECTEDLABIEMS',res);
+           location.reload();
+
        }
    }); 
 
@@ -187,9 +205,51 @@ function getSingleMedRecord($,recordId, pesoFormatter){
             $('#itemMedDescription').html(medName);
             $('#itemMedListPrice').html(pesoFormatter.format(  res[0].UnitPrice ));
             $('#itemMedQty').html( res[0].Qty );
+            
+            if( res[0].AdjustUnitePrice != 0 ){
+                $('#itemMedAdjustPrice').val( res[0].AdjustUnitePrice );
+            } else {
+                $('#itemMedAdjustPrice').val( '' );
+            }
+          
+            if( res[0].AdjustQty != 0 ){
+                $('#itemMedAdjustQty').val( res[0].AdjustQty );
+            } else {
+                $('#itemMedAdjustQty').val( '' );
+            }
+       }
+   });  
+
+} 
+
+
+
+function updateCartMedItem($,recordId,NewUnitPrice,NewQty,patientId,RequestId){
+
+    let action      = 'UPDATECARTLABITEM';
+    let typeOf      ='MedItem';
+
+    let ajaxParamData = {
+        action,
+        recordId,
+        NewUnitPrice,
+        NewQty,
+        typeOf
+    }; 
+    $('#productTable').html(''); 
+    $.ajax({ 
+        type: "POST",
+        url: '../_controller/makerequest_controller.php',
+        data: ajaxParamData,
+        success: function(response)
+        {
+           var jsonData = JSON.parse(response);
            
-            $('#AdjustUnitePrice').html( res[0].AdjustUnitePrice );
-            $('#itemMedQty').html( res[0].AdjustQty );
+           var res  =jsonData.result;
+           $('#updateItemMedModal').modal('hide');
+          // getDisplayLabSelected($,patientId,RequestId);
+          location.reload();
+
  
        }
    }); 
