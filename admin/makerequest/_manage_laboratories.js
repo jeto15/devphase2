@@ -169,7 +169,8 @@ function saveSelectLabItems($,items,prescribe_id,patient_id){
            var res  =jsonData.result;  
 
            console.log('SAVESELECTEDLABIEMS',res);
- 
+           location.reload();
+
        }
    }); 
 
@@ -196,10 +197,16 @@ function getSingleLabRecord($,recordId, pesoFormatter){
            
            console.log(res);
            $('#itemLabListPrice').html(pesoFormatter.format(  res[0].UnitPrice ));
+           if( res[0].AdjustUnitePrice != 0 ){
+                $('#itemLabAdjustPrice').val(res[0].AdjustUnitePrice);
+           } else{
+            $('#itemLabAdjustPrice').val('');
+           }
+          
            $('#itemLabDescription').html(res[0].Name);
-
            
-  
+ 
+           AdjustUnitePrice
  
        }
    }); 
@@ -209,11 +216,13 @@ function getSingleLabRecord($,recordId, pesoFormatter){
 function updateCartLabItem($,recordId,NewUnitPrice,patientId,RequestId){
 
     let action      = 'UPDATECARTLABITEM';
+    let typeOf      ='LabItem';
 
     let ajaxParamData = {
         action,
         recordId,
-        NewUnitPrice
+        NewUnitPrice,
+        typeOf
     }; 
     $('#productTable').html(''); 
     $.ajax({ 
@@ -226,9 +235,10 @@ function updateCartLabItem($,recordId,NewUnitPrice,patientId,RequestId){
            
            var res  =jsonData.result;
            $('#updateItemModal').modal('hide');
-           getDisplayLabSelected($,patientId,RequestId);
+           location.reload();
+
+          // getDisplayLabSelected($,patientId,RequestId);
          
- 
        }
    }); 
 

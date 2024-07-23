@@ -124,6 +124,7 @@ class MakeRequestModel{
                 ,prq_laboratory_table.OtherType
                 ,prq_laboratory_table.AdjustUnitePrice
                 ,prq_laboratory_table.AdjustQty
+                ,prq_laboratory_table.Description
             FROM
                 prq_laboratory_table
                 LEFT JOIN laboratory 

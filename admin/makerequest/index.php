@@ -11,8 +11,7 @@
            
             <div class="btn-toolbar mb-2 mb-md-0">
                 <div class="btn-group me-2"> 
-                    <button type="button" class="btn btn-sm btn-primary"   style="margin-right: 2px;" id="handle-open-custom" data-bs-toggle="modal"  data-bs-target="#addLaboratories"  data-descript-tab="dl" > Manage All Items </button>
-                    <?php if( $isStaff == '' ){ ?>
+                     <?php if( $isStaff == '' ){ ?>
                     <button type="button" class="btn btn-sm btn-primary"   style="margin-right: 2px;" id="handle-save-prescribe" disabled>Save Request</button>
                     <?php } ?>
                 </div>  
@@ -76,7 +75,7 @@
             <div class="btn-group-manageitems" >
                 <button type="button" class="btn btn-sm btn-primary"   style="margin-right: 2px;" id="handle-open-lab"  data-bs-toggle="modal" data-bs-target="#productLabModal"    > Add Laboratories </button>
                 <button type="button" class="btn btn-sm btn-primary"   style="margin-right: 2px;" id="handle-open-med" data-bs-toggle="modal"  data-bs-target="#productMedModal"  > Add Medicine </button>
-                <button type="button" class="btn btn-sm btn-primary"   style="margin-right: 2px;" id="handle-open-custom" data-bs-toggle="modal"  data-bs-target="#addLaboratories"  > Add Custom Request </button>
+                <button type="button" class="btn btn-sm btn-primary"   style="margin-right: 2px;" id="handle-open-custom" data-bs-toggle="modal"  data-bs-target="#productCustModal"  > Add Custom Request </button>
             </div> 
                          
             <?php if( $_SESSION['usernmake-request-prescription-laboratoriesame'] == 1 ){ ?>
@@ -155,8 +154,8 @@
                         <thead>
                             <tr>
                             <th scope="col">Description</th>
-                            <th scope="col">Type</th> 
-                            <th scope="col">Status</th> 
+                            <th scope="col">Amount Fee</th>  
+                            <th scope="col" style="width: 18%;">Action</th> 
                             </tr> 
                         </thead> 
                         <tbody id='table-selected-lab-list-front-Other' >
@@ -237,94 +236,12 @@
         </div>
         </div>
 
-        <div class="modal fade" id="addLaboratories" tabindex="-1" aria-labelledby="addLaboratoriesLabel" aria-hidden="true">
-        <div class="modal-dialog modal-fullscreen">
-            <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="addLaboratoriesLabel">Laboratories</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-               <div class="row" >
-                    <div class="col-md-4 border-end" >
-                        <ul class="nav nav-tabs mb-3">
-                            <li class="nav-item">
-                                <a class="nav-link active nav-lab-add" data-tab-container="Lab-container-manage-labs"  aria-current="page" >Add Laboratories</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link nav-lab-add" data-tab-container="Lab-container-manage-other"  > Add Other </a>
-                            </li>
-                        </ul>
-
-                        <div class="Lab-container-manage-labs lab-container" >
-                            <div class="input-group mb-3">
-                                <input type="text" class="form-control" id="Handle-Search-Lab" placeholder="Search Laboratories" aria-label="Search Laboratories" aria-describedby="button-addon2">
-                            </div>
-                            <table class="table">
-                                <thead> 
-                                    <tr> 
-                                    <th scope="col">
-                        
-                                    </th>
-                                    <th scope="col"></th> 
-                                    </tr> 
-                                </thead> 
-                                <tbody id="tableList_of_laboratory">
-
-                                </tbody>
-                            </table>
-                        </div>
-                        <div class="Lab-container-manage-other lab-container" style="text-align: center;" >
-                            <div class="input-group mb-3">
-                                <input type="text" class="form-control" id="input-other-Lab" placeholder="Please Enter Medicine Name or Other..." aria-label="Search Laboratories" aria-describedby="button-addon2">
-                                <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
-                                    <input type="radio" class="btn-check radio-as-other-type" value="Medicine" name="btnradio" id="btnradio1" autocomplete="off" checked>
-                                    <label class="btn btn-outline-primary" for="btnradio1">As Medicine</label>
-
-                                    <input type="radio" class="btn-check radio-as-other-type" value="Other"  name="btnradio" id="btnradio2" autocomplete="off">
-                                    <label class="btn btn-outline-primary" for="btnradio2">Other</label>
-                                </div>
-                            </div>
-                            <button class="btn btn-outline-secondary" type="button" id="handle-add-other-prescription">Add Other</button>
-                        </div>
-                    </div>
-                    <div class="col-md-8">
-                        <div class="selcted-lab-header text-center" >
-                            <h5> Laboratories/Other List Added </h5>
-                        </div>
-                        <div class="selcted-lab-body-list" >
-                            <table class="table">
-                                <thead>
-                                    <tr> 
-                                        <th scope="col">
-                                            Diagnostic/Laboratories
-                                        </th> 
-                                        <th scope="col">
-                                            Type
-                                        </th>  
-                                        <th scope="col">
-                                            Action
-                                        </th> 
-                                    </tr>
-                                </thead>
-                                <tbody id="table-selected-lab-list">
-
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-               </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button> 
-            </div>
-            </div> 
-        </div>
-        </div>
+ 
 
 
         <?php include '_manage_laboratories.php'; ?>
         <?php include '_manage_medicine.php'; ?>
+        <?php include '_manage_customrequest.php'; ?>
     </main>
  
     <input type="hidden" id="hd_recordid"  value="<?php echo  isset($_GET['id'])? $_GET['id']:''; ?>" />
@@ -335,6 +252,7 @@
 <script src="makerequest.js"></script>
 <script src="_manage_laboratories.js"></script>
 <script src="_manage_medicine.js"></script>
+<script src="_manage_customrequest.js"></script>
 <script src="../resource/summernote/summernote-lite.min.js"></script>
  
  
