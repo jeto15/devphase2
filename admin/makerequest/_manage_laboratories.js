@@ -206,7 +206,7 @@ function getSingleLabRecord($,recordId, pesoFormatter){
            $('#itemLabDescription').html(res[0].Name);
            
  
-           AdjustUnitePrice
+            
  
        }
    }); 
@@ -220,7 +220,7 @@ function updateCartLabItem($,recordId,NewUnitPrice,patientId,RequestId){
 
     let ajaxParamData = {
         action,
-        recordId,
+        recordId, 
         NewUnitPrice,
         typeOf
     }; 
@@ -236,7 +236,7 @@ function updateCartLabItem($,recordId,NewUnitPrice,patientId,RequestId){
            var res  =jsonData.result;
            $('#updateItemModal').modal('hide');
            location.reload();
-
+ 
           // getDisplayLabSelected($,patientId,RequestId);
          
        }

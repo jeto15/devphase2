@@ -476,7 +476,7 @@ if (isset($_POST['action'])) {
 
         $recordId = $_POST['recordId'];
         $NewUnitPrice = $_POST['NewUnitPrice'];
-        $NewQty   = $_POST['NewQty'];
+
 
         $fieldsToUpdate = array();
 
@@ -487,6 +487,7 @@ if (isset($_POST['action'])) {
         }
 
         if( $_POST['typeOf'] == 'MedItem' ){
+            $NewQty   = $_POST['NewQty']; 
             $fieldsToUpdate = array( 
                 "AdjustUnitePrice" =>  $NewUnitPrice,
                 "AdjustQty" =>  $NewQty   

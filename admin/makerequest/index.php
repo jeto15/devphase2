@@ -82,7 +82,7 @@
             <?php if( $_SESSION['make-request-prescription'] == 0 || $isStaff == '1' ){ ?>
             <div  class="col-md-12" style="border-right: 1px dotted;">
             <?php }else { ?>
-            <div  class="col-md-3" style="border-right: 1px dotted;">
+            <div  class="col-md-6" style="border-right: 1px dotted;">
             <?php } ?>
                 <div class="panel" >
                     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
@@ -95,7 +95,7 @@
                         </div>
                     </div>
                     <div class="table-responsive">
-                        <table class="table table-striped table-sm">
+                        <table class="table   table-sm">
                         <thead>
                             <tr>
                             <th scope="col" style="width: 62%;">Description</th>
@@ -121,7 +121,7 @@
                         </div>
                     </div>
                     <div class="table-responsive">
-                        <table class="table table-striped table-sm">
+                        <table class="table  table-sm">
                         <thead>
                             <tr>
                             <th scope="col">    Description</th>
@@ -150,7 +150,7 @@
                         </div>
                     </div>
                     <div class="table-responsive">
-                        <table class="table table-striped table-sm">
+                        <table class="table  table-sm">
                         <thead>
                             <tr>
                             <th scope="col">Description</th>
@@ -164,10 +164,40 @@
                         </table>
                     </div>
                 </div>
-            </div>
+                <div class="panel" >
+                    <div class="" >
+                    <div class="row justify-content-center">
+                        <div class="col-md-8">
+                            <div class="card shadow-sm border-0 rounded-lg">
+                                <div class="card-header  text-center">
+                                    <h4 class="mb-0">Total Amount</h4>
+                                </div>
+                                <div class="card-body p-4">
+                                    <h5 class="card-title text-center">Order Summary</h5>
+                                    <div class="d-flex justify-content-between align-items-center py-2">
+                                        <span>Senior Discount:</span>
+                                        <span>0.00</span>
+                                    </div>
+                                    <div class="d-flex justify-content-between align-items-center py-2">
+                                        <span>DPWD Discount:</span>
+                                        <span> 0.00</span>
+                                    </div> 
+                                    <hr>
+                                    <div class="d-flex justify-content-between align-items-center py-2">
+                                        <span class="font-weight-bold">Total:</span>
+                                        <span class="font-weight-bold" id="total-amount-to-pay">$115.00</span>
+                                    </div>
+                                </div>
+                                <div class="card-footer bg-light text-center">
+                                    <button class="btn btn-primary">Print Now</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             <?php } ?>
             <?php if( $_SESSION['make-request-prescription'] == 1 && $isStaff == '' ){ ?>
-            <div  class="col-md-9">
+            <div  class="col-md-6">
                 <div>
                     <div class="row mb-4">
                         <div class="col-md-12">
