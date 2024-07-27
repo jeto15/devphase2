@@ -4,7 +4,7 @@ $(function(){
     //init
     
     let selectedRecordId  = $('#hd_recordid').val();
-s
+
     getPatientRecordById($,selectedRecordId); 
  
     $('#search').on('keyup', function() { 
@@ -74,7 +74,7 @@ function makeDraftRequest(recordId,request_description){
            var jsonData = JSON.parse(response);
            
            var res  =jsonData.result;
-           var locationstr = location.origin +location.pathname.replace("makepatientrequest", "makerequest")+'?id='+res.patientId+'&presid='+res.patientRequestId+'';
+           var locationstr = location.origin +location.pathname.replace("makepatientrequest", "makerequest")+'?id='+res.patientId+'&presid='+res.patientRequestId+'&stafrequestmode=1';
            window.location.replace(locationstr);
  
        }
