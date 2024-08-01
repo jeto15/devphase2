@@ -39,6 +39,11 @@ $(function(){
         $('#price').val(recMed.Price);
         $('#description').val(recMed.Description);
     });
+
+    $('#searchInput').keyup(function(evt){
+        var keyword = $(this).val();  
+        DisplayMedicines($,keyword);
+    }); 
   
 });   
  

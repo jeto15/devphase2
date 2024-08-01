@@ -4,10 +4,10 @@ class LaboratoryModel{
 
     function getAllLabs($db, $keyword){
         $resultArrry = array();
-        $queryString = "SELECT * FROM laboratory ORDER BY `Name` DESC";
-        // if( $keyword != '' ){
-        //     $queryString = "SELECT * FROM patients WHERE first_name LIKE '%".$keyword."%' OR middle_name LIKE '%".$keyword."%'  OR last_name LIKE '%".$keyword."%' OR contact_number LIKE '%".$keyword."%' OR patient_number LIKE '%".$keyword."%'     ";    
-        // } 
+        $queryString = "SELECT * FROM laboratory ORDER BY `Name` DESC limit 100";
+        if( $keyword != '' ){
+            $queryString = "SELECT * FROM laboratory WHERE Name LIKE '%".$keyword."%' limit  100";    
+        } 
          
         //var_dump($queryString); 
 

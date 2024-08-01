@@ -25,7 +25,7 @@ if(isset($_SESSION['username']) && !empty($_SESSION['username'])) {
     <meta name="author" content="Jet Compayan">
     <meta name="generator" content="">
     <link rel="icon" type="image/x-icon" href="../../logo.jpg"> 
-
+ 
     <title>Candaya Health and Diagnostic Clinic</title>
     <style>
         .bd-placeholder-img {

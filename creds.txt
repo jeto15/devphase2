@@ -15,6 +15,8 @@ Qoute for Phase 2
     - Request Report 
  sf org logout --target-org contact-pbje@force.com.SEPDev
 
+
+
 Laboratory
   Search Functionality
   Update funcationliy isseu wont update the price
@@ -50,15 +52,17 @@ Make Request Page
         Total Make Total on he Paid and Unpaid Items
         Remove functionality
 
-    Custom Request 
-        Add 
-        Update 
-        Remove
+    Custom Request - done
+        Add - done 
+        Update - done 
+        Remove - done
     
-    Add discount
+    Add discount- Done
 
     Total all 
-      Billing Print 
+      Billing Print -Done
     
 
-    
+August 1 2024 issue found 
+1. dapat kong naa cancel discount
+2. Add Submit - done

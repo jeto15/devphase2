@@ -34,6 +34,11 @@ let LABRECORDMAPSBYID = {};
         $('#addModal').modal('show'); 
     });
 
+    $('#searchInput').keyup(function(evt){
+        var keyword = $(this).val(); 
+        DisplayMedicines($,keyword); 
+    }); 
+    
  });
 
  

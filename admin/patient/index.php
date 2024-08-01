@@ -11,29 +11,42 @@
             </div>
             </div>
         </div>
-
-        <div class="container-fluid bootstrap snippets bootdey">
-        <div class="container mt-5">
-            <div class="table-responsive">
-                
-                <input type="text" placeholder="Search Patient" class="form-control" id="handle-search-patient">
-                <table class="table table-bordered table-striped">
-                <thead>
-                    <tr>
-                    <th scope="col">Created Date</th>
-                    <th scope="col">Patient #</th>
-                    <th scope="col">Last Name</th>
-                    <th scope="col">First Name</th>
-                    <th scope="col">Middle Name</th>
-                    <th scope="col">Contact #</th>
-                    <th scope="col">Action</th>
-                    </tr> 
-                </thead>
-                <tbody id='table-patient-list' >
-                </tbody>
-                </table>
+        <div class="toast-container position-absolute top-5 end-0 p-3">
+            <div id="alertMed" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="toast-header">
+                    <!-- <img src="..." class="rounded me-2" alt="..."> -->
+                    <strong class="me-auto">Save Change</strong>
+                    <small>Record has been updated</small>
+                    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+                <div class="toast-body">
+                    Hello, world! This is a toast message.
+                </div>
             </div>
         </div>
+        
+        <div class="container-fluid bootstrap snippets bootdey">
+            <div class="container mt-5">
+                <div class="table-responsive">
+                    
+                    <input type="text" placeholder="Search Patient" class="form-control" id="handle-search-patient">
+                    <table class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                        <th scope="col">Created Date</th>
+                        <th scope="col">Patient #</th>
+                        <th scope="col">Last Name</th>
+                        <th scope="col">First Name</th>
+                        <th scope="col">Middle Name</th>
+                        <th scope="col">Contact #</th>
+                        <th scope="col">Action</th>
+                        </tr> 
+                    </thead>
+                    <tbody id='table-patient-list' >
+                    </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
         
 
