@@ -37,31 +37,7 @@
                         </div>
                     </div>
                 </div>
-
-                <div class="row" style="    margin-top: 3%;">
-                    <div class="col">
-                        <div class="card"  >
-                            <div class="card-body">
-                                <h5 class="card-title">Patients Request</h5>
-                                <table class="table">
-                                <thead>
-                                    <tr>
-                                    <th scope="col">Patient #</th>
-                                    <th scope="col">First Name</th>
-                                    <th scope="col">Last Name</th>
-                                    <th scope="col">Middle Name</th>
-                                    <th scope="col">Created</th>
-                                    <th scope="col">Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="table-request-list">
-
-                                </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+ 
 
             </div>
             <div class="col-md-6">

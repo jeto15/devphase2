@@ -5,7 +5,7 @@ class HomeModel{
     function get_all_request_laboratories($db){
         $resultArrry = array();
  
-        $queryString = "SELECT COUNT(`laboratory_Id`) as count_result , `laboratory_Id`  FROM `prq_laboratory_table` WHERE `Status` = 'Paid' AND `OtherType` IS NULL GROUP BY `laboratory_Id`;";
+        $queryString = "SELECT COUNT(`laboratory_Id`) as count_result , `laboratory_Id`  FROM `prq_laboratory_table` WHERE `Status` = 'Paid' AND `OtherType` = 'Laboratory' GROUP BY `laboratory_Id`;";
   
 
         $result = $db->query($queryString);
@@ -73,11 +73,12 @@ class HomeModel{
                 , patients.patient_number
                 , patient_request_table.Id as request_id
                 , patient_request_table.created_date
+                , patient_request_table.Status
                 , patient_request_table.created_by_Id
                 , patients.Id
             FROM
-                u285821606_candayahdc_sb.patient_request_table
-                LEFT JOIN u285821606_candayahdc_sb.patients 
+                patient_request_table
+                LEFT JOIN patients 
                     ON (patient_request_table.patient_Id = patients.Id)
             WHERE  patients.Id IS NOT NULL AND  DATE(patient_request_table.created_date) = CURDATE() ORDER BY  patient_request_table.created_date DESC ;
         ";

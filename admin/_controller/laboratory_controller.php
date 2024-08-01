@@ -6,7 +6,7 @@ include '../_model/laboratory_model.php';
 $LabModelClass =  new LaboratoryModel();
 
 
-if (isset($_POST['action'])) {
+if (isset($_POST['action'])) { 
 
     $action = $_POST['action'];
  

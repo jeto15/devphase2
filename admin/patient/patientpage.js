@@ -83,6 +83,8 @@ $(function(){
             {
                var jsonData = JSON.parse(response); 
                $('#addNewPatients').modal('hide');
+               $('.toast-body').html(patientNum +' '+fname+' '+mname+' '+lname+' Saved!'); 
+               $('#alertMed').toast('show');  
                getAllPatients($,'');
                isEdit = false;
                recordId = '';
@@ -186,7 +188,7 @@ function getAllPatients($,keyword){
               htmlRow+=' <td>'+ row.middle_name +'</td>';
               htmlRow+=' <td>'+ row.contact_number+' </td>';
               htmlRow+=' <td>'; 
-              htmlRow+='     <a href="#" class="handle-edit-record btn btn-sm btn-outline-secondary" data-id="'+ row.Id +'"  data-bs-toggle="modal" data-bs-target="#addNewPatients"  > Edit </a>';
+              htmlRow+='     <a href="#" class="handle-edit-record btn btn-sm btn-outline-secondary" data-id="'+ row.Id +'"  data-bs-toggle="modal" data-bs-target="#addNewPatients"  > <i class="fa-solid fa-pen"></i>  Edit </a>';
               htmlRow+='     <a href="../patientprofile?id='+row.Id+'" class="btn btn-sm btn-outline-secondary"> View</a>';
               htmlRow+=' </td>'; 
               htmlRow+=' </tr>';

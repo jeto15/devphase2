@@ -95,7 +95,7 @@
                         </div>
                     </div>
                     <div class="table-responsive">
-                        <table class="table   table-sm">
+                        <table class="table table-sm">
                         <thead>
                             <tr>
                             <th scope="col" style="width: 62%;">Description</th>
@@ -105,10 +105,49 @@
                             </tr> 
                         </thead> 
                         <tbody id='table-selected-lab-list-front-lab' >
-                       
                         </tbody>
                         </table>
                     </div>
+                    <table class="table" style="width: 35%;"> 
+                            <tr>
+                                <td style="width: 130px;">
+                                    <label class="form-label">SR. Discount </label>
+                                </td>
+                                <td>
+                                    <input class="form-check-input" data-relatedinput="discountSr" type="checkbox" value="" id="flexCheckSr">
+                                </td>
+                                <td>
+                                    <div class=" input-group  mb-1">
+                                        <input type="text" class="form-control discountSr" style="margin-left: 4px;" id="discountSr" placeholder="0.00">
+                                        <button class="btn btn-outline-secondary discountSr" type="button" id="btn-discountSr">Apply</button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="width: 130px;">
+                                    <label class="form-label">PWD Discountt </label>
+                                </td>
+                                <td>
+                                    <input class="form-check-input" data-relatedinput="discountPWD" type="checkbox" value="" id="flexCheckPWD">
+                                </td>
+                                <td>
+                                    <div class=" input-group  mb-1">
+                                        <input type="text" class="form-control discountPWD" style="margin-left: 4px;" id="discountPWD" placeholder="0.00">
+                                        <button class="btn btn-outline-secondary discountPWD" type="button" id="btn-discountPWD">Apply</button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="width: 130px;">
+                                    <label class="form-label">Total Amount: </label>
+                                </td>
+                                <td>
+                                </td>
+                                <td>
+                                    <p id="total-lab-amount-deducted" > 0.00 </p>
+                                </td>
+                            </tr>
+                        </table>
                 </div>
                 <div class="panel" >
                     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
@@ -122,21 +161,22 @@
                     </div>
                     <div class="table-responsive">
                         <table class="table  table-sm">
-                        <thead>
-                            <tr>
-                            <th scope="col">    Description</th>
-                            <th scope="col">Qty</th>   
-                            <th scope="col">Adjusted Qty</th>   
-                            <th scope="col">Unit Price</th>      
-                            <th scope="col">Adjusted Price</th>    
-                            <th scope="col">Total Price</th>                            
-                            <th scope="col" style="width: 18%;">Action</th> 
-                            </tr> 
-                        </thead> 
-                        <tbody id='table-selected-lab-list-front-Med' >
-                       
-                        </tbody>
+                            <thead>
+                                <tr>
+                                <th scope="col">    Description</th>
+                                <th scope="col">Qty</th>   
+                                <th scope="col">Adjusted Qty</th>   
+                                <th scope="col">Unit Price</th>      
+                                <th scope="col">Adjusted Price</th>    
+                                <th scope="col">Total Price</th>                            
+                                <th scope="col" style="width: 18%;">Action</th> 
+                                </tr> 
+                            </thead> 
+                            <tbody id='table-selected-lab-list-front-Med' >
+                        
+                            </tbody>
                         </table>
+            
                     </div>
                 </div>
                 <div class="panel" >
@@ -164,37 +204,15 @@
                         </table>
                     </div>
                 </div>
-                <div class="panel" >
-                    <div class="" >
-                    <div class="row justify-content-center">
-                        <div class="col-md-8">
-                            <div class="card shadow-sm border-0 rounded-lg">
-                                <div class="card-header  text-center">
-                                    <h4 class="mb-0">Total Amount</h4>
-                                </div>
-                                <div class="card-body p-4">
-                                    <h5 class="card-title text-center">Order Summary</h5>
-                                    <div class="d-flex justify-content-between align-items-center py-2">
-                                        <span>Senior Discount:</span>
-                                        <span>0.00</span>
-                                    </div>
-                                    <div class="d-flex justify-content-between align-items-center py-2">
-                                        <span>DPWD Discount:</span>
-                                        <span> 0.00</span>
-                                    </div> 
-                                    <hr>
-                                    <div class="d-flex justify-content-between align-items-center py-2">
-                                        <span class="font-weight-bold">Total:</span>
-                                        <span class="font-weight-bold" id="total-amount-to-pay">$115.00</span>
-                                    </div>
-                                </div>
-                                <div class="card-footer bg-light text-center">
-                                    <button class="btn btn-primary">Print Now</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <div class="btn-group-manageitems" >
+                    <p> Status Action Here: </p>
+                    <button type="button" class="btn btn-sm btn-primary"   style="margin-right: 2px;" id="handle-submitforbilling" > Submit for Billing </button>
+                    <button type="button" class="btn btn-sm btn-success"   style="margin-right: 2px;" id="handle-submitforcomplete"  data-bs-toggle="modal" data-bs-target="#productLabModal"    > Complete </button>
+                    <button type="button" class="btn btn-sm btn-danger"   style="margin-right: 2px;" id="handle-submitforcancel"  data-bs-toggle="modal" data-bs-target="#productLabModal"    > Cancel </button>
+                     <a  href="../print-receipt/?id=<?php echo $_GET['id'];?>&presid=<?php echo  isset($_GET['presid'])? $_GET['presid']:''; ?>" class="btn btn-sm btn-success"   style="margin-right: 2px;" id="handle-print-receipt"   > Print Receipt </a>
+          
+                </div> 
+            </div>
             <?php } ?>
             <?php if( $_SESSION['make-request-prescription'] == 1 && $isStaff == '' ){ ?>
             <div  class="col-md-6">
@@ -264,10 +282,6 @@
             </div>
             <?php } ?>
         </div>
-        </div>
-
- 
-
 
         <?php include '_manage_laboratories.php'; ?>
         <?php include '_manage_medicine.php'; ?>

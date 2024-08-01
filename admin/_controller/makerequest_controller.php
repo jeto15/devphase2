@@ -530,6 +530,38 @@ if (isset($_POST['action'])) {
 
     }
 
+    if( $action == 'APPLYDISCOUNT' ) {
+ 
+        $prescribed_id  = $_POST['prescribe_id'];
+        $type  = $_POST['type'];
+        $discountAmount  = $_POST['amount'];
+
+        $updateData = array();
+
+        if(  $type == 'sr' ) {
+            $updateData=  array(
+                "sr-discount" =>$discountAmount, 
+            );
+        } else {
+            $updateData=  array(
+                "pwd-discount" =>$discountAmount, 
+            );
+        }
+
+        $makeRequestModelClass->save_change_patient_prescription(
+            $db, 
+            'patient_request_table',
+            array(
+                "Id" => $prescribed_id 
+            ), 
+            $updateData
+        ); 
+
+        echo json_encode(array('result' =>"save"));  
+
+
+    }
+ 
 }
 
 
