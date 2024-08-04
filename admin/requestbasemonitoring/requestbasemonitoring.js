@@ -16,36 +16,48 @@ function getPatientRequestLatestList($){
         success: function(response)
         {
             var res = JSON.parse(response); 
-  
+            
+           
 
-            let htmlRow = '';
+            let htmlRowDraft = '';
+            let htmlRowToBilling = '';
+            let htmlRowBillingComplete = '';
+            let htmlRowCancel = '';
             for (const row_index in res.result) {
+            
                 let row = res.result[row_index];
-                let classbdgeColor ='bg-danger';
-                if(row.Status =='Draft' ){
-                    classbdgeColor ='bg-info text-dark';
-                } 
-                else if(row.Status =='To Billing' ){
-                    classbdgeColor ='bg-primary';
-                }   
-                else if(row.Status =='Billing Competed' ){
-                    classbdgeColor ='bg-success';
-                } 
-
+             
+               var htmlRow ='';
                htmlRow+=' <tr>';
+               htmlRow+=' <td>'+ formatDateTime( new Date(row.created_date) )+' </td>';
                htmlRow+=' <td>'+ row.patient_number +'</td>';
                htmlRow+=' <td>'+ row.last_name +' '+row.first_name+' '+row.middle_name+'</td>';
-               htmlRow+=' <td>'+ formatDateTime( new Date(row.created_date) )+' </td>';
-               htmlRow+=' <td><h5> <span class="badge '+classbdgeColor+'">'+row.Status+'</span> </h5> </td>';
-               
                htmlRow+=' <td>'; 
-               htmlRow +='     <a href="../makerequest?id='+row.Id+'&presid='+row.request_id+'&stafrequestmode=1" class="btn btn-sm btn-outline-secondary"> View </a>';
+               htmlRow +='     <a href="../makerequest?id='+row.patienID+'&presid='+row.prId+'" class="btn btn-sm btn-outline-secondary"> View </a>';
                htmlRow+=' </td>';  
                htmlRow+=' </tr>';
-       
+
+                if(row.Status =='Draft' ){
+                    htmlRowDraft += htmlRow;
+                } 
+                else if(row.Status =='To Billing' ){
+                  
+                    htmlRowToBilling += htmlRow;
+                }   
+                else if(row.Status =='Billing Competed' ){
+                  
+                    htmlRowBillingComplete += htmlRow;
+                } else {
+                    htmlRowCancel += htmlRow;
+                }
+        
             } 
 
-            $('#table-request-list').html(htmlRow);
+            $('#table-request-list-draft').html(htmlRowDraft);
+            $('#table-request-list-tobill').html(htmlRowToBilling);
+            $('#table-request-list-billcom').html(htmlRowBillingComplete);
+            $('#table-request-list-cancel').html(htmlRowCancel);
+            
         }
     }); 
 
@@ -54,7 +66,7 @@ function getPatientRequestLatestList($){
 
 
 function formatDateTime(date) {
-    const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Decs'];
     const monthIndex = date.getMonth();
     const month = months[monthIndex];
     const day = date.getDate();
@@ -62,7 +74,7 @@ function formatDateTime(date) {
     let hour = date.getHours();
     const minute = date.getMinutes();
     const period = hour >= 12 ? 'PM' : 'AM';
-
+ 
     // Convert hour from 24-hour format to 12-hour format
     hour = hour % 12;
     hour = hour ? hour : 12; // 0 should be treated as 12

@@ -7,15 +7,15 @@
     <link href="makerequest.css" rel="stylesheet"> 
     <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
         <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-            <h1 class="h2"> <a href="../patient" class="btn btn-sm btn-outline-secondary" > <span data-feather="arrow-left"></span> </a> Make Request  </h1>
+            <h1 class="h2"> Make Request  </h1>
            
-            <div class="btn-toolbar mb-2 mb-md-0">
+            <!-- <div class="btn-toolbar mb-2 mb-md-0">
                 <div class="btn-group me-2"> 
                      <?php if( $isStaff == '' ){ ?>
                     <button type="button" class="btn btn-sm btn-primary"   style="margin-right: 2px;" id="handle-save-prescribe" disabled>Save Request</button>
                     <?php } ?>
                 </div>  
-            </div>
+            </div> -->
         </div>
 
         <div class="container-fluid bootstrap snippets bootdey">
@@ -63,28 +63,29 @@
             
                     </div>
                 </div>
-
+ 
             </div>
-            <div class="alert alert-success" role="alert">
-                <h4 class="alert-heading">Request Description:</h4>
+            <div id="alert-card" class="alert alert-success" role="alert">
+                <h6 class="alert-heading">Request Description:</h6>
                 <p id="p-description-request" ></p>
+                <p id="doctors-details" >Assigned Doctor: <span style="font-weight: 600;" id="doctors-name" ></span></p>
             </div>
         </div>
 
         <div class="row profile-input-description" >
-            <div class="btn-group-manageitems" >
+            <div class="btn-group-manageitems hide-when-is-complete" >
                 <button type="button" class="btn btn-sm btn-primary"   style="margin-right: 2px;" id="handle-open-lab"  data-bs-toggle="modal" data-bs-target="#productLabModal"    > Add Laboratories </button>
                 <button type="button" class="btn btn-sm btn-primary"   style="margin-right: 2px;" id="handle-open-med" data-bs-toggle="modal"  data-bs-target="#productMedModal"  > Add Medicine </button>
                 <button type="button" class="btn btn-sm btn-primary"   style="margin-right: 2px;" id="handle-open-custom" data-bs-toggle="modal"  data-bs-target="#productCustModal"  > Add Custom Request </button>
             </div> 
                          
             <?php if( $_SESSION['usernmake-request-prescription-laboratoriesame'] == 1 ){ ?>
-            <?php if( $_SESSION['make-request-prescription'] == 0 || $isStaff == '1' ){ ?>
+            <?php if( $_SESSION['make-request-prescription'] == 0){ ?>
             <div  class="col-md-12" style="border-right: 1px dotted;">
             <?php }else { ?>
             <div  class="col-md-6" style="border-right: 1px dotted;">
             <?php } ?>
-                <div class="panel" >
+                <div class="panel panel-cart-container" >
                     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                         <h6>Diagnostic/Laboratories</h6>
                         <div class="btn-toolbar mb-2 mb-md-0">
@@ -108,7 +109,7 @@
                         </tbody>
                         </table>
                     </div>
-                    <table class="table" style="width: 35%;"> 
+                    <table class="table discount-container" style="width: 35%;"> 
                             <tr>
                                 <td style="width: 130px;">
                                     <label class="form-label">SR. Discount </label>
@@ -148,8 +149,8 @@
                                 </td>
                             </tr>
                         </table>
-                </div>
-                <div class="panel" >
+                </div> 
+                <div class="panel panel-cart-container" >
                     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                         <h6>Prescribed Medicine</h6>
                         <div class="btn-toolbar mb-2 mb-md-0">
@@ -179,7 +180,7 @@
             
                     </div>
                 </div>
-                <div class="panel" >
+                <div class="panel panel-cart-container" >
                     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                         <h6>Other Request</h6>
                         <div class="btn-toolbar mb-2 mb-md-0">
@@ -204,11 +205,15 @@
                         </table>
                     </div>
                 </div>
-                <div class="btn-group-manageitems" >
+                <div class="grand-total-container" >
+                    <h5>Grand Total</h5>
+                    <h1 id="total-amount-to-pay"></h1>
+                </div>
+                <div class="btn-group-manageitems" style="text-align: center;" >
                     <p> Status Action Here: </p>
                     <button type="button" class="btn btn-sm btn-primary"   style="margin-right: 2px;" id="handle-submitforbilling" > Submit for Billing </button>
-                    <button type="button" class="btn btn-sm btn-success"   style="margin-right: 2px;" id="handle-submitforcomplete"  data-bs-toggle="modal" data-bs-target="#productLabModal"    > Complete </button>
-                    <button type="button" class="btn btn-sm btn-danger"   style="margin-right: 2px;" id="handle-submitforcancel"  data-bs-toggle="modal" data-bs-target="#productLabModal"    > Cancel </button>
+                    <button type="button" class="btn btn-sm btn-success"   style="margin-right: 2px;" id="handle-submitforcomplete"     > Complete </button>
+                    <button type="button" class="btn btn-sm btn-danger"   style="margin-right: 2px;" id="handle-submitforcancel"     > Cancel </button>
                      <a  href="../print-receipt/?id=<?php echo $_GET['id'];?>&presid=<?php echo  isset($_GET['presid'])? $_GET['presid']:''; ?>" class="btn btn-sm btn-success"   style="margin-right: 2px;" id="handle-print-receipt"   > Print Receipt </a>
           
                 </div> 

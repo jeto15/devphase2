@@ -29,17 +29,29 @@
         </div>
 
         <div class="container-fluid bootstrap snippets bootdey">
-            <div class="container mt-5">
-                <div class="mb-3">            
-                    <label for="search" class="form-label">Search Patient</label>
-                    <input type="text" class="form-control" id="search" placeholder="Start typing...">
-                    <div id="suggestions" class="list-group"></div>
+            <div class="row">
+                <div class="col-md-4" ></div>
+                <div class="col-md-4" >
+                    <div class="container-request">
+                        <div class="mb-3">            
+                            <label for="search" class="form-label">Search Patient</label>
+                            <input type="text" autocomplete=off class="form-control" id="search" placeholder="Start typing...">
+                            <div id="suggestions" class="list-group"></div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="request_description" class="form-label">Request Description:</label>
+                            <textarea class="form-control" id="request_description" rows="3"></textarea>
+                        </div>
+                     
+                        <div class="mb-3">            
+                            <label for="search-doctor" class="form-label">Assigned to Doctor:</label>
+                            <input type="text" autocomplete=off class="form-control" id="search-doctor" placeholder="">
+                            <div id="suggestions-doctor" class="list-group"></div>
+                        </div>
+                        <button type="submit" class="btn btn-primary"  id="btn-submit-request" >Submit</button>
+                    </div>
                 </div>
-                    <div class="mb-3">
-                    <label for="request_description" class="form-label">Request Description:</label>
-                    <textarea class="form-control" id="request_description" rows="3"></textarea>
-                </div>
-                <button type="submit" class="btn btn-primary"  id="btn-submit-request" >Submit</button>
+                <div class="col-md-4" ></div>
             </div>
         </div> 
 

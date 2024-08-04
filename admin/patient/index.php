@@ -25,11 +25,11 @@
             </div>
         </div>
         
-        <div class="container-fluid bootstrap snippets bootdey">
+        <div class="container-fluid bootstrap snippets bootdey"> 
             <div class="container mt-5">
                 <div class="table-responsive">
                     
-                    <input type="text" placeholder="Search Patient" class="form-control" id="handle-search-patient">
+                    <input type="text" autocomplete=off placeholder="Search Patient" class="form-control" id="handle-search-patient">
                     <table class="table table-bordered table-striped">
                     <thead>
                         <tr>
@@ -62,37 +62,37 @@
                 <form>
                 <div class="mb-3">
                     <label for="patient-num-name" class="col-form-label">Patient #:</label>
-                    <input type="text" class="form-control" id="patient-num-name"><br>
+                    <input type="text" autocomplete=off class="form-control" id="patient-num-name"><br>
                     <div class="alert-exist-patient" > </div>
                 </div>
                 <div class="row" >
                     <div class="col-md-4">
                         <div class="mb-3">
                             <label for="fname-name" class="col-form-label">First Name:</label>
-                            <input type="text" class="form-control" id="fname-name">
+                            <input type="text" autocomplete=off class="form-control" id="fname-name">
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="mb-3">
                             <label for="lname-name" class="col-form-label">Last Name:</label>
-                            <input type="text" class="form-control" id="lname-name">
+                            <input type="text" autocomplete=off class="form-control" id="lname-name">
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="mb-3">
                             <label for="mname-name" class="col-form-label">Middle Name:</label>
-                            <input type="text" class="form-control" id="mname-name">
+                            <input type="text" autocomplete=off class="form-control" id="mname-name">
                         </div>
                     </div>
                 </div>
 
                 <div class="mb-3">
                     <label for="age-name" class="col-form-label">Age:</label>
-                    <input type="text" class="form-control" id="age-name">
+                    <input type="text" autocomplete=off class="form-control" id="age-name">
                 </div>
                 <div class="mb-3">
                     <label for="sex-name" class="col-form-label">Sex:</label>
-                    <!-- <input type="text" class="form-control" id="sex-name"> -->
+                    <!-- <input type="text" autocomplete=off class="form-control" id="sex-name"> -->
                     <!-- Default radio -->
                     <div class="form-check">
                     <input class="form-check-input get-gender-radiobtn gender-Male" value="Male" type="radio" name="gender-radiobtn" id="gender-radiobtn1" checked/>
@@ -107,8 +107,8 @@
                 </div>
                 <div class="mb-3">
                     <label for="bday-name" class="col-form-label">Birth Day:</label>
-                    <!-- <input type="text" class="form-control" id="bday-name"> -->
-                    <input type="text" name="birthday" value="" id="bday-name"/>
+                    <!-- <input type="text" autocomplete=off class="form-control" id="bday-name"> -->
+                    <input type="text" autocomplete=off name="birthday" value="" id="bday-name"/>
                 </div> 
                 <div class="mb-3">
                     <label for="address-text" class="col-form-label">Address:</label>
@@ -116,7 +116,7 @@
                 </div>
                 <div class="mb-3">
                     <label for="contact-number-text" class="col-form-label">Contact Number:</label>
-                    <input type="text" class="form-control" name="contact-number" value="" id="contact-number-text"/> 
+                    <input type="text" autocomplete=off class="form-control" name="contact-number" value="" id="contact-number-text"/> 
                 </div>
                 </form>
             </div>

@@ -164,13 +164,14 @@ $(function(){
           
             loadingEnd($(this), 'Save Draft');
             $('#handle-save-prescribe').attr('disabled', false);
-        }, 1000);
+            savePrescriptions($,recordId.trim(),  hdPrescribeId, isUpdate);     
+        }, 2000);
   
     });
  
     $( "#handle-save-prescribe" ).on( "click", function() { 
        loadingStart($(this))
-       savePrescriptions($,recordId.trim(),  hdPrescribeId, isUpdate);     
+
     } );
  
 
@@ -195,7 +196,30 @@ $(function(){
             $('.'+$(this).attr('data-relatedinput')).show();
  
         } else {
+      
+            if( $(this).attr('data-relatedinput') == 'discountSr'  ){
+                applyDiscount(
+                    $,
+                    'sr',
+                    parseFloat(0),
+                    recordId,
+                    hdPrescribeId
+                );
+    
+            } else {
+                applyDiscount(
+                    $,
+                    'pwd',
+                    parseFloat(0),
+                    recordId,
+                    hdPrescribeId
+                );
+    
+            }
+
             $('.'+$(this).attr('data-relatedinput')).hide();
+            
+          
         }
     });
     
@@ -588,7 +612,7 @@ function displayLabSelected( $ , SelectedItems ){
    }
 
     var totaldiscount =  parseFloat(gDiscountSR) + parseFloat(gDiscountPWD);
-    console.log(totaldiscount);
+ 
     htmlTableLabFrontLab +='<tr>';
     htmlTableLabFrontLab +='<td> <span class="font-weight-bold">Subtotal: '+globaPesoFormatter.format(labSubotal)+'</span> </td>'; 
     htmlTableLabFrontLab +='</tr>';
@@ -600,9 +624,22 @@ function displayLabSelected( $ , SelectedItems ){
     htmlTableLabFrontOther +='<tr>'; 
     htmlTableLabFrontOther +='<td >  <span class="font-weight-bold">Subtotal: '+globaPesoFormatter.format( CustomSubotal )+'</span> </td>'; 
     htmlTableLabFrontOther +='</tr>';
- 
-    $('#total-lab-amount-deducted').html(globaPesoFormatter.format(labSubotal - totaldiscount));
-    $('#total-amount-to-pay').html( globaPesoFormatter.format((CustomSubotal + MedSubotal + labSubotal )) );
+   
+    let labGrandtotal = 0;
+    if( (labSubotal - totaldiscount) > 0 ){
+        labGrandtotal = labSubotal - totaldiscount;
+    }  
+
+    if( (CustomSubotal + MedSubotal + labGrandtotal) > 0 ){
+        $('#handle-submitforcancel').prop('disabled', true);
+        $('#handle-submitforcomplete').prop('disabled', false);
+    } else {
+        $('#handle-submitforcancel').prop('disabled', false);
+        $('#handle-submitforcomplete').prop('disabled', true);
+    }
+
+    $('#total-lab-amount-deducted').html(globaPesoFormatter.format( labGrandtotal ));
+    $('#total-amount-to-pay').html( globaPesoFormatter.format((CustomSubotal + MedSubotal + labGrandtotal )) );
     $('#table-selected-lab-list-front-lab').html(htmlTableLabFrontLab);
     $('#table-selected-lab-list-front-Med').html(htmlTableLabFrontMed);
     $('#table-selected-lab-list-front-Other').html(htmlTableLabFrontOther);
@@ -669,7 +706,10 @@ function changeAsPaid($, patient_id,prescribe_id,selectedId, isstatuspaid, thisE
 }
 
 function getDescriptioRequest($,patient_id,prescribe_id){
-            
+
+    $(".discountPWD,#flexCheckPWD").prop("disabled", false);
+    $(".discountSr ,#flexCheckSr").prop("disabled", false);
+
     let action      = 'GETDESCRIPTIONREQUEST'; 
     let ajaxParamData = { 
         action,
@@ -684,21 +724,61 @@ function getDescriptioRequest($,patient_id,prescribe_id){
         success: function(response)
         {
             var jsonData = JSON.parse(response); 
-            var res  =jsonData.result[0];  
+            var res  =jsonData.result[0];
+            var docRes =jsonData.doctordetaisl[0];   
             $('#p-description-request').html(res.Description); 
             gDiscountSR = res['sr-discount'];
             gDiscountPWD = res['pwd-discount'];
+            
+
 
             if( res['Status'] == 'Draft' ){
                 
                 $('#handle-submitforbilling').show();
                 $('#handle-submitforcancel').show();
+
+                $('#alert-card').removeClass( 'alert-primary' );
+                $('#alert-card').removeClass( 'alert-danger' );
+                $('#alert-card').removeClass( 'alert-success' );
+                $('#alert-card').addClass( 'alert-info' );
+                
+                 
+ 
             } else  if( res['Status'] == 'To Billing' ){
                 $('#handle-submitforcancel').show();
                 $('#handle-submitforcomplete').show();
 
+                $('#alert-card').removeClass( 'alert-info' );
+                $('#alert-card').removeClass( 'alert-danger' );
+                $('#alert-card').removeClass( 'alert-success' );
+                $('#alert-card').addClass( 'alert-primary' );
+                $('.discount-container').show(); 
+
             } else if( res['Status'] == 'Billing Competed'  ){
                 $('#handle-print-receipt').show();
+         
+
+                $('#alert-card').removeClass( 'alert-info' );
+                $('#alert-card').removeClass( 'alert-danger' );
+                $('#alert-card').removeClass( 'alert-primary' );
+                $('#alert-card').addClass( 'alert-success' );
+
+                $('.discount-container').show(); 
+                $(".discountPWD,#flexCheckPWD").prop("disabled", true);
+                $(".discountSr ,#flexCheckSr").prop("disabled", true);
+ 
+                $('.hide-when-is-complete').hide();
+            } else {
+                $('#alert-card').removeClass( 'alert-info' );
+                $('#alert-card').removeClass( 'alert-success' );
+                $('#alert-card').removeClass( 'alert-primary' );
+                $('#alert-card').addClass( 'alert-danger' );
+
+                $(".discountPWD,#flexCheckPWD").prop("disabled", true);
+                $(".discountSr ,#flexCheckSr").prop("disabled", true);
+ 
+                $('.hide-when-is-complete').hide();
+
             }
    
             if( res['sr-discount'] > 0 ){
@@ -715,8 +795,14 @@ function getDescriptioRequest($,patient_id,prescribe_id){
                 $("#flexCheckPWD").prop("checked", true);
             } else {
                 gDiscountPWD = 0;
+            } 
+
+            if( jsonData.doctordetaisl != 0 ){ 
+                $('#doctors-name').html(docRes.FirstName+' '+docRes.LastName);
+            } else {
+                $('#doctors-details').hide();
             }
-       }
+       } 
    });    
 }
 

@@ -78,6 +78,11 @@ $(function(){
 
     });
 
+    $('#search-med').on('input', function() {
+        const filter = $(this).val();
+        getAlMedicineItems($,filter,pesoFormatter); 
+    }); 
+ 
 });
   
 

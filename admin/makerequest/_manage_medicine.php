@@ -9,7 +9,7 @@
             <div class="modal-body">
                 <div class="row">
                     <div class="col-md-8">
-                        <input type="text" id="search" class="form-control mb-3" placeholder="Search products...">
+                        <input type="text" id="search-med" class="form-control mb-3" placeholder="Search products...">
                         <table class="table table-hover">
                             <thead>
                                 <tr>
