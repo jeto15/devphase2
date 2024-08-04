@@ -83,7 +83,7 @@ class HomeModel{
                 , patient_request_table.created_date
                 , patient_request_table.AssignedToId
                 , users.UserID
-                , users.FirstName
+                , users.FirstName 
                 , users.LastName
             FROM
                 patients
@@ -92,6 +92,7 @@ class HomeModel{
                 LEFT JOIN users 
                     ON (users.UserID = patient_request_table.AssignedToId)
             ORDER BY  patient_request_table.created_date DESC;
+             
         ";
    
         $result = $db->query($queryString);
