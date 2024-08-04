@@ -86,10 +86,10 @@ class HomeModel{
                 , users.FirstName
                 , users.LastName
             FROM
-                aaa.patients
-                RIGHT JOIN aaa.patient_request_table 
+                patients
+                RIGHT JOIN patient_request_table 
                     ON (patients.Id = patient_request_table.patient_Id)
-                LEFT JOIN aaa.users 
+                LEFT JOIN users 
                     ON (users.UserID = patient_request_table.AssignedToId)
             ORDER BY  patient_request_table.created_date DESC;
         ";
