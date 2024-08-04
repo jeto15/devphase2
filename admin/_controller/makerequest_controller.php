@@ -114,8 +114,7 @@ if (isset($_POST['action'])) {
                 ),
                 array(
                 "modified_date" =>$date,
-                "modified_by" => $USERID,
-                "Status" =>"Saved"     
+                "modified_by" => $USERID
                 
             ));
 
@@ -249,26 +248,6 @@ if (isset($_POST['action'])) {
      
      
             }  
-
-            // if($prescription_dlList != '' &&  $isChnageAddingLab == "true" ){
-            //     $prescription_dlList = json_decode($prescription_dlList);
-            //     //Delete Exist Prescribe labs and Other 
-            //     $makeRequestModelClass->clear_selected_Labs($db,array(
-            //         "patient_request_Id" =>   $presibedId,
-            //         "patient_Id" =>  $patientId, 
-            //     ));  
- 
-            //     //Inser the New one
-            //     foreach ($prescription_dlList as $key => $items) {
-            //         $makeRequestModelClass->save_new_prescription($db,'prq_laboratory_table' , array(
-            //             "patient_Id" => $patientId,
-            //             "patient_request_Id" => $presibedId,
-            //             "laboratory_Id" => $items->Id, 
-            //             "created_date" =>  $date 
-            //         ));    
-            //     } 
- 
-            // }
 
         }
 
@@ -410,7 +389,15 @@ if (isset($_POST['action'])) {
         $request_id  = $_POST['prescribe_id'];
 
         $result =   $makeRequestModelClass->get_patient_request_table($db,  $patient_id, $request_id );
-        echo json_encode(array('result' => $result));
+ 
+        if(  $result[0]['AssignedToId'] != null ){
+            $resultDoctor =   $makeRequestModelClass->get_doctorsdetaisl_table($db, (int)$result[0]['AssignedToId']  );
+        } else {
+            $resultDoctor  = array();
+        }
+   
+      // $resultDoctor = $result[0]->AssignedToId;
+        echo json_encode(array('result' => $result, 'doctordetaisl' => $resultDoctor));
     }
 
     if( $action == 'SAVESELECTEDLABIEMS' ){  

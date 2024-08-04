@@ -67,20 +67,31 @@ class HomeModel{
  
         $queryString = "
             SELECT
-                patients.first_name
+                 patients.Id as patienID
+                ,patient_request_table.Id as prId
+                ,patients.first_name
                 , patients.last_name
                 , patients.middle_name
+                , patients.age
+                , patients.gender
                 , patients.patient_number
-                , patient_request_table.Id as request_id
-                , patient_request_table.created_date
+                , patient_request_table.Description
+                , patient_request_table.`sr-discount` AS srdiscount
+                , patient_request_table.`pwd-discount` AS pwddiscount
+                , patient_request_table.`total-amount` AS totalamount
                 , patient_request_table.Status
-                , patient_request_table.created_by_Id
-                , patients.Id
+                , patient_request_table.created_date
+                , patient_request_table.AssignedToId
+                , users.UserID
+                , users.FirstName
+                , users.LastName
             FROM
-                patient_request_table
-                LEFT JOIN patients 
-                    ON (patient_request_table.patient_Id = patients.Id)
-            WHERE  patients.Id IS NOT NULL AND  DATE(patient_request_table.created_date) = CURDATE() ORDER BY  patient_request_table.created_date DESC ;
+                aaa.patients
+                RIGHT JOIN aaa.patient_request_table 
+                    ON (patients.Id = patient_request_table.patient_Id)
+                LEFT JOIN aaa.users 
+                    ON (users.UserID = patient_request_table.AssignedToId)
+            ORDER BY  patient_request_table.created_date DESC;
         ";
    
         $result = $db->query($queryString);
@@ -91,3 +102,4 @@ class HomeModel{
         return $resultArrry;
     }
 }
+

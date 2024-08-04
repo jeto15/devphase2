@@ -16,7 +16,7 @@ class MakeRequestModel{
         $result = $db->query("SELECT * FROM prq_description_table Where patient_Id='".$patient_id."' AND patient_request_Id='". $prescribed_id ."' ");
         while($row = $db->fetchAssoc($result)) {
             array_push($resultArrry, $row);
-        } 
+        }  
         return $resultArrry;
     }
 
@@ -63,7 +63,18 @@ class MakeRequestModel{
 
     function get_patient_request_table($db, $patient_id, $request_Id ){
         $resultArrry = array(); 
+        
         $result = $db->query("SELECT * FROM patient_request_table Where patient_Id='".$patient_id."' AND Id='".$request_Id."'");
+        while($row = $db->fetchAssoc($result)) {
+            array_push($resultArrry, $row);
+        } 
+        return $resultArrry; 
+    }
+
+    function get_doctorsdetaisl_table($db, $userId ){
+        $resultArrry = array(); 
+        
+        $result = $db->query("SELECT * FROM users WHERE UserId=".$userId."");
         while($row = $db->fetchAssoc($result)) {
             array_push($resultArrry, $row);
         } 
@@ -72,14 +83,12 @@ class MakeRequestModel{
 
     function getAllMed($db, $keyword){
         $resultArrry = array();
-        $queryString = "SELECT * FROM medicine ORDER BY `Brand` DESC";
-        // if( $keyword != '' ){
-        //     $queryString = "SELECT * FROM patients WHERE first_name LIKE '%".$keyword."%' OR middle_name LIKE '%".$keyword."%'  OR last_name LIKE '%".$keyword."%' OR contact_number LIKE '%".$keyword."%' OR patient_number LIKE '%".$keyword."%'     ";    
-        // } 
-         
-        //var_dump($queryString); 
-
-        //exit();
+        $queryString = "SELECT * FROM medicine ORDER BY `Brand` DESC limit 100";
+        if( $keyword != '' ){
+            $queryString = "SELECT * FROM medicine WHERE Name LIKE '%".$keyword."%' OR Brand LIKE '%".$keyword."%'  OR Manufacturer LIKE '%".$keyword."%'  Limit 100   ";    
+        } 
+          
+   
         $result = $db->query($queryString);
         while($row = $db->fetchAssoc($result)) {
             array_push($resultArrry, $row);

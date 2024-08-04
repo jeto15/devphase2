@@ -1,8 +1,7 @@
 <?php include '../header.php'; ?>
  
-   <!-- summernote -->
- 
-    <link href="makepatientrequest.css" rel="stylesheet"> 
+   <!-- summernote --> 
+    <link href="requestbasemonitoring.css" rel="stylesheet"> 
     <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
         <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
             <h1 class="h2"> Request Base Monitoring  </h1>
@@ -30,30 +29,118 @@
 
    
         <div class="container-fluid bootstrap snippets bootdey">
-            <div class="container mt-5">
-                <div class="table-responsive">
-                    
-                    <input type="text" placeholder="Search Patient" class="form-control" id="handle-search-patient">
-                    <table class="table table-bordered table-striped">
-                        <thead>
-                            <tr>
-                                <th scope="col">Created</th>
-                                <th scope="col">Patient #</th>
-                                <th scope="col">Patient Name</th> 
-                                <th scope="col">Status</th> 
-                            <th scope="col">Action</th>
-                            </tr>
-                        </thead>
-                        <tbody id="table-request-list">
-
-                        </tbody>
-                    </table>
+            <div class="row" >
+                <div class="col-md-6">
+                    <div class="status-container bg-info text-dark">
+                        <h5>Draft</h5>
+                    </div>
+                </div>
+                <div class="col-md-6">    
+                    <div class="status-container bg-primary">                    
+                        <h5>To Billing</h5>
+                    </div>
                 </div>
             </div>
+            <div class="row" >
+                <div class="col-md-6">
+                    <div class="table-responsive">
+                      <table class="table table-bordered table-striped">
+                            <thead>
+                                <tr> 
+                                    <th scope="col">Requested Date</th>  
+                                    <th scope="col">Patient #</th>
+                                    <th scope="col">Patient Name</th> 
+                        
+                                <th scope="col">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="table-request-list-draft">
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="col-md-6">                        
+                    <div class="table-responsive">
+                      <table class="table table-bordered table-striped">
+                            <thead>
+                                <tr> 
+                                    <th scope="col">Requested Date</th>  
+                                    <th scope="col">Patient #</th>
+                                    <th scope="col">Patient Name</th> 
+                        
+                                <th scope="col">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="table-request-list-tobill">
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div> 
+            </div>
+
+         
         </div>
 
-        <!-- Add Modal -->
-  
+        <div class="container-fluid bootstrap snippets bootdey">
+            <div class="row" >
+                <div class="col-md-6">
+                    <div class="status-container bg-danger">
+                        <h5>Canceled</h5>
+                    </div>
+                </div>
+                
+                <div class="col-md-6">
+                    <div class="status-container bg-success">
+                        <h5>Billing Complete</h5>
+                    </div>
+                </div>
+               
+            </div>
+            <div class="row" >
+                <div class="col-md-6">
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-striped">
+                            <thead>
+                                <tr> 
+                                    <th scope="col">Requested Date</th>  
+                                    <th scope="col">Patient #</th>
+                                    <th scope="col">Patient Name</th> 
+                        
+                                <th scope="col">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="table-request-list-cancel">
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-striped">
+                            <thead>
+                                <tr> 
+                                    <th scope="col">Requested Date</th>  
+                                    <th scope="col">Patient #</th>
+                                    <th scope="col">Patient Name</th> 
+                        
+                                <th scope="col">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="table-request-list-billcom">
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+             
+            </div>
+
+         
+        </div>
+ 
     <input type="hidden" id="hd_recordid"  value="<?php echo  isset($_GET['pid'])? $_GET['pid']:''; ?>" />     
     </main>
  
