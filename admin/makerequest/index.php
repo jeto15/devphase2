@@ -112,32 +112,47 @@
                     <table class="table discount-container" style="width: 35%;"> 
                             <tr>
                                 <td style="width: 130px;">
-                                    <label class="form-label">SR. Discount </label>
+                                    <label class="form-label">SR. Discount %</label>
                                 </td>
                                 <td>
-                                    <input class="form-check-input" data-relatedinput="discountSr" type="checkbox" value="" id="flexCheckSr">
+                                    <input class="form-check-input" data-relatedinput="discountSr" type="checkbox"  value="" id="flexCheckSr">
                                 </td>
                                 <td>
                                     <div class=" input-group  mb-1">
-                                        <input type="text" class="form-control discountSr" style="margin-left: 4px;" id="discountSr" placeholder="0.00">
+                                        <input type="text" class="form-control discountSr" style="margin-left: 4px;" id="discountSr" placeholder="0.00%">
                                         <button class="btn btn-outline-secondary discountSr" type="button" id="btn-discountSr">Apply</button>
                                     </div>
                                 </td>
                             </tr>
                             <tr>
                                 <td style="width: 130px;">
-                                    <label class="form-label">PWD Discountt </label>
+                                    <label class="form-label">PWD Discount %</label>
                                 </td>
                                 <td>
                                     <input class="form-check-input" data-relatedinput="discountPWD" type="checkbox" value="" id="flexCheckPWD">
                                 </td>
                                 <td>
                                     <div class=" input-group  mb-1">
-                                        <input type="text" class="form-control discountPWD" style="margin-left: 4px;" id="discountPWD" placeholder="0.00">
+                                        <input type="text" class="form-control discountPWD" style="margin-left: 4px;" id="discountPWD" placeholder="0.00%">
                                         <button class="btn btn-outline-secondary discountPWD" type="button" id="btn-discountPWD">Apply</button>
                                     </div>
                                 </td>
                             </tr>
+                            <tr>
+                                <td style="width: 130px;">
+                                    <label class="form-label">Other Discount</label>
+                                </td>
+                                <td>
+                                    <input class="form-check-input" data-relatedinput="discountOther" type="checkbox" value="" id="flexCheckOther">
+                                </td>
+                                <td>
+                                    <div class=" input-group  mb-1">
+                                        <input type="text" class="form-control discountOther" style="margin-left: 4px;" id="discountOther" placeholder="0.00">
+                                        <button class="btn btn-outline-secondary discountOther" type="button" id="btn-discountOther">Apply</button>
+                                    </div>
+                                </td>
+                            </tr>
+                         
                             <tr>
                                 <td style="width: 130px;">
                                     <label class="form-label">Total Amount: </label>
@@ -206,9 +221,12 @@
                     </div>
                 </div>
                 <div class="grand-total-container" >
+                    <h5>OR Number</h5>
+                    <h3 id="or-number"></h3>
                     <h5>Grand Total</h5>
                     <h1 id="total-amount-to-pay"></h1>
                 </div>
+ 
                 <div class="btn-group-manageitems" style="text-align: center;" >
                     <p> Status Action Here: </p>
                     <button type="button" class="btn btn-sm btn-primary"   style="margin-right: 2px;" id="handle-submitforbilling" > Submit for Billing </button>
@@ -287,6 +305,8 @@
             </div>
             <?php } ?>
         </div>
+
+        
 
         <?php include '_manage_laboratories.php'; ?>
         <?php include '_manage_medicine.php'; ?>

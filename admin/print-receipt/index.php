@@ -72,9 +72,11 @@ if(isset($_SESSION['username']) && !empty($_SESSION['username'])) {
         <hr>
 
         <h2>Receipt</h2>
-        <p><strong>Patient Name:</strong> John Doe</p>
-        <p><strong>Date:</strong> July 30, 2024</p>
-
+        <p><strong>Order Receipt#:</strong> <span id="or-number"></span></p>
+        <p><strong >Patient #:</strong> <span id="profile-avatar-patientnumber"></span></p>
+        <p><strong>Patient Name:</strong> <span  id="profile-avatar-name" ></span> </p>
+        <p><strong>Date:</strong> <span id="or-date"></span></p>
+ 
         <div class="section-title table-selected-lab">
             <h3>Laboratory Tests</h3>
         </div>

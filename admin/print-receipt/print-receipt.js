@@ -8,8 +8,14 @@ $(function(){
     });
     let recordId = $('#hd_recordid').val();
     let hdPrescribeId = $('#hd_prescribe_id').val();
+    getPatientRecordById($,recordId);
+    
+    getFinaBilllingRecord($,recordId, hdPrescribeId);
     getDescriptioRequest($, recordId, hdPrescribeId);
     getDisplayLabSelected( $, recordId, hdPrescribeId );
+
+
+
 
 });
 
@@ -32,6 +38,7 @@ function getDescriptioRequest($,patient_id,prescribe_id){
             var jsonData = JSON.parse(response); 
             var res  =jsonData.result[0];  
             $('#p-description-request').html(res.Description); 
+            console.log(res);
             gDiscountSR = res['sr-discount'];
             gDiscountPWD = res['pwd-discount'];
 
@@ -75,9 +82,10 @@ function getPatientRecordById($,id){
            var jsonData = JSON.parse(response);
            
            var res  =jsonData.result;
+           console.log(res);
            //Avatar Section
-        //   $('.profile-avatar-name').html(res.last_name +' '+res.first_name+', '+res.middle_name);
-        //   $('.profile-avatar-patientnumber').html(res.patient_number);
+           $('#profile-avatar-name').html(res.last_name +' '+res.first_name+', '+res.middle_name);
+           $('#profile-avatar-patientnumber').html(res.patient_number);
  
    
        }
@@ -103,9 +111,11 @@ function getDisplayLabSelected( $, patient_id,prescribe_id){
             var jsonData = JSON.parse(response);        
             var res  =jsonData.result;   
             displayLabSelected($, res, function(res){ 
+               setTimeout(function(){
                 window.print();
-            }); 
-       }
+               },3000)
+            });  
+       } 
    });    
 
 }
@@ -265,4 +275,52 @@ function displayLabSelected( $ , SelectedItems , callback ){
 
     callback('hell');
 
+}
+
+
+
+function getFinaBilllingRecord( $, patient_id,prescribe_id){
+    let action      = 'GETFINALBILLING';
+
+    let ajaxParamData = {
+        action,
+        patient_id,
+        prescribe_id
+    };
+
+    $.ajax({
+        type: "POST",
+        url: '../_controller/makerequest_ext_controller.php',
+        data: ajaxParamData,
+        success: function(response)
+        {
+            var jsonData = JSON.parse(response);        
+            var res  =jsonData.result;   
+            console.log(res);
+            $('#or-number').html(res[0].OrderReceiptNumber);
+            $('#or-date').html(formatDateTime( new Date(res[0].CreatedDate)));
+            // displayLabSelected($, res, function(res){ 
+            // //    window.print();
+            // });  
+       }
+   });    
+
+}
+
+
+function formatDateTime(date) {
+    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Decs'];
+    const monthIndex = date.getMonth();
+    const month = months[monthIndex];
+    const day = date.getDate();
+    const year = date.getFullYear();
+    let hour = date.getHours();
+    const minute = date.getMinutes();
+    const period = hour >= 12 ? 'PM' : 'AM';
+ 
+    // Convert hour from 24-hour format to 12-hour format
+    hour = hour % 12;
+    hour = hour ? hour : 12; // 0 should be treated as 12
+
+    return `${month} ${day}, ${year} ${hour}:${minute < 10 ? '0' + minute : minute} ${period}`;
 }
