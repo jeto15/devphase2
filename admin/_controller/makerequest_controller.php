@@ -529,9 +529,13 @@ if (isset($_POST['action'])) {
             $updateData=  array(
                 "sr-discount" =>$discountAmount, 
             );
-        } else {
+        }else if( $type == 'pwd' ) {
             $updateData=  array(
                 "pwd-discount" =>$discountAmount, 
+            );
+        }else if( $type == 'other' ) {
+            $updateData=  array(
+                "otherdiscount" =>$discountAmount, 
             );
         }
 

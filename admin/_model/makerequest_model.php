@@ -145,4 +145,26 @@ class MakeRequestModel{
         return $queryStr;
     }
 
+    function get_latestORNumber($db ){
+        $resultArrry = array(); 
+        
+        $result = $db->query("SELECT *  FROM orderreceipt  WHERE `Status` = 'Unused' ORDER BY CreatedDate ASC limit 1");
+        while($row = $db->fetchAssoc($result)) {
+            array_push($resultArrry, $row);
+        } 
+        return $resultArrry; 
+    }
+
+    function get_FinalBillingRecord($db, $patientId, $prescribeId ){
+        $resultArrry = array(); 
+        
+        $result = $db->query("SELECT * FROM finalbilling WHERE PatientId ='".$patientId."' AND PrescribeId ='".$prescribeId."' ");
+        while($row = $db->fetchAssoc($result)) {
+            array_push($resultArrry, $row);
+        } 
+        return $resultArrry; 
+    }
+
+
 }
+

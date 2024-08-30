@@ -140,6 +140,12 @@ if(isset($_SESSION['username']) && !empty($_SESSION['username'])) {
                 </a>
             </li>
             <li class="nav-item">
+                <a class="nav-link <?php echo $currentPage == "sales-reports"? "active" : ""; ?> " aria-current="page" href="../sales-reports">
+                <span data-feather="bar-chart-2"></span>
+                  Sales Report
+                </a>
+            </li>
+            <li class="nav-item">
                 <a class="nav-link" href="#">
                 <span data-feather="bar-chart-2"></span>
                 Doctor Accounts  <span style=" color: #ec1f25; font-weight: 900;"> Coming Soon!</span>
