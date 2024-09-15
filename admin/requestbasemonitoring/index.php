@@ -87,9 +87,9 @@
             <div class="row" >
                 <div class="col-md-6">
                     <div class="status-container bg-danger">
-                        <h5>Canceled</h5>
+                        <h5>Canceled / Void</h5>
                     </div>
-                </div>
+                </div> 
                 
                 <div class="col-md-6">
                     <div class="status-container bg-success">
@@ -106,6 +106,8 @@
                                 <tr> 
                                     <th scope="col">Requested Date</th>  
                                     <th scope="col">Patient #</th>
+                                    <th scope="col">Status</th> 
+                                    <th scope="col">Reason</th>
                                     <th scope="col">Patient Name</th> 
                         
                                 <th scope="col">Action</th>
@@ -124,6 +126,7 @@
                                 <tr> 
                                     <th scope="col">Requested Date</th>  
                                     <th scope="col">Patient #</th>
+                    
                                     <th scope="col">Patient Name</th> 
                         
                                 <th scope="col">Action</th>
@@ -140,6 +143,8 @@
 
          
         </div>
+
+   
  
     <input type="hidden" id="hd_recordid"  value="<?php echo  isset($_GET['pid'])? $_GET['pid']:''; ?>" />     
     </main>

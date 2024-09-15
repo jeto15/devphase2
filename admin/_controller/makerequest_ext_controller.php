@@ -17,7 +17,7 @@ if (isset($_POST['action'])) {
  
     if(  $action  == 'UPDATEREQUESTSTATUS' ){
 
-        $patientId        =  $_POST['prescribe_id'];
+        $prescribeId        =  $_POST['prescribe_id'];
         $statusType        =  $_POST['statusType'];
 
 
@@ -52,7 +52,7 @@ if (isset($_POST['action'])) {
                     $db, 
                     'patient_request_table',
                     array(
-                        "Id" => $patientId 
+                        "Id" => $prescribeId 
                     ),
                     array(
                     "modified_date" =>$date,
@@ -79,7 +79,7 @@ if (isset($_POST['action'])) {
                 $db, 
                 'patient_request_table',
                 array(
-                    "Id" => $patientId 
+                    "Id" => $prescribeId 
                 ),
                 array(
                 "modified_date" =>$date,
@@ -94,15 +94,87 @@ if (isset($_POST['action'])) {
 
     if(  $action  == 'GETFINALBILLING' ){
 
-        $prescribed_id = $_POST['prescribe_id'];
+        $prescribed_id = $_POST['prescribe_id']; 
         $patient_id    = $_POST['patient_id'];
-        $ORResult =   $makeRequestModelClass->get_latestORNumber($db,$patient_id,$prescribed_id);
+        $ORResult =   $makeRequestModelClass->get_FinalBillingRecord($db,$patient_id,$prescribed_id);
 
         echo json_encode(array('result' => $ORResult));
 
-    }
+    }  
   
+    if( $action  == 'UPDATEREQUESTTOVOID' ){
+
+        $prescribed_id = $_POST['prescribe_id'];
+        $patient_id    = $_POST['patient_id'];
+        $reason    = $_POST['input_reason'];
+
+        $makeRequestModelClass->save_change_patient_prescription(
+            $db, 
+            'patient_request_table',
+            array(
+                "Id" => $prescribed_id,
+                "patient_Id" =>  $patient_id
+            ),
+            array(
+            "modified_date" =>$date,
+            "modified_by" => $USERID,
+            "Status" => "Void",  
+            "Reason" => $reason       
+        ));
+
+        $makeRequestModelClass->save_change_patient_prescription(
+            $db, 
+            'finalbilling',
+            array( 
+                "PrescribeId" => $prescribed_id,
+                "PatientId" =>  $patient_id
+            ),
+            array(
+            "modified_date" =>$date,
+            "modified_by" => $USERID,
+            "Status" => "Void"    
+        ));
+
+        
+        echo json_encode(array('Status' =>'Saved' ));    
+    }
  
+    if( $action  == 'UPDATEREQUESTTOREFUND' ){
+
+        $prescribed_id = $_POST['prescribe_id'];
+        $patient_id    = $_POST['patient_id'];
+        $reason    = $_POST['input_reason'];
+
+        $makeRequestModelClass->save_change_patient_prescription(
+            $db, 
+            'patient_request_table',
+            array(
+                "Id" => $prescribed_id,
+                "patient_Id" =>  $patient_id
+            ),
+            array(
+            "modified_date" =>$date,
+            "modified_by" => $USERID,
+            "Status" => "Refunded",  
+            "Reason" => $reason       
+        ));
+
+        $makeRequestModelClass->save_change_patient_prescription(
+            $db, 
+            'finalbilling',
+            array( 
+                "PrescribeId" => $prescribed_id,
+                "PatientId" =>  $patient_id
+            ),
+            array(
+            "modified_date" =>$date,
+            "modified_by" => $USERID,
+            "Status" => "Refunded"    
+        ));
+
+        
+        echo json_encode(array('Status' =>'Saved' ));    
+    }
 }
 
 

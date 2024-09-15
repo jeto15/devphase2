@@ -90,6 +90,10 @@ if (isset($_POST['action'])) {
 
         echo json_encode(array('result' => $resultgetPatients  ));      
     }
+
+    if($action == 'VOIDREQUEST' ){
+
+    }
 }
   
 

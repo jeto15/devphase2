@@ -55,7 +55,7 @@
                         </div>
                         <div class="col-md-4">
                             <label for="datePicker" class="form-label">Select Date:</label>
-                            <input type="text" id="datePicker" class="form-control" placeholder="Select a date"> 
+                            <input type="text"  autocomplete=off  id="datePicker" class="form-control" placeholder="Select a date"> 
                         </div>
                         <div class="col-md-4">
                             <div class="mt-4"> 
@@ -73,8 +73,8 @@
                 <table class="table table-striped table-hover table-bordered">
                     <thead >
                         <tr>
-                            <th scope="col">Date</th>
-                            <th scope="col">Total QTY OUT</th> 
+                            <th scope="col" width="195">Date</th>
+                            <th scope="col" width="120">Total QTY OUT</th> 
                             <th scope="col">Name</th>
                             <th scope="col">Brand</th>  
                             <th scope="col">Dosage Form</th>  

@@ -1,5 +1,9 @@
 $(function(){
     getPatientRequestLatestList($);
+
+    // $(document).on('click','.handleVoidModal', function(){
+    //     $('#VoidFormModal').modal('show');
+    // });
 });
 
 function getPatientRequestLatestList($){
@@ -27,21 +31,32 @@ function getPatientRequestLatestList($){
             
                 let row = res.result[row_index];
              
-               var htmlRow ='';
-               htmlRow+=' <tr>';
-               htmlRow+=' <td>'+ formatDateTime( new Date(row.created_date) )+' </td>';
-               htmlRow+=' <td>'+ row.patient_number +'</td>';
-               htmlRow+=' <td>'+ row.last_name +' '+row.first_name+' '+row.middle_name+'</td>';
-               htmlRow+=' <td>'; 
-               htmlRow +='     <a href="../makerequest?id='+row.patienID+'&presid='+row.prId+'" class="btn btn-sm btn-outline-secondary"> View </a>';
-               htmlRow+=' </td>';  
+                var htmlRow ='';
+                htmlRow+=' <tr>';
+                htmlRow+=' <td>'+ formatDateTime( new Date(row.created_date) )+' </td>';
+                htmlRow+=' <td>'+ row.patient_number +'</td>';
+                htmlRow+=' <td>'+ row.last_name +' '+row.first_name+' '+row.middle_name+'</td>';
+                if( row.Status == 'Cancel' || row.Status == 'Void' || row.Status == 'Refunded' ){
+                    htmlRow+=' <td>'+ row.Status +'</td>';
+                    if( row.Status != 'Cancel' ){
+                        htmlRow+=' <td>'+ row.Reason +'</td>';
+                    } else{
+                        htmlRow+=' <td> N/A </td>';
+                    }
+                   
+                }
+                htmlRow+=' <td>';  
+                htmlRow +='     <a href="../makerequest?id='+row.patienID+'&presid='+row.prId+'" class="btn btn-sm btn-success"> View </a>';
+                htmlRow+=' </td>';
+
+
                htmlRow+=' </tr>';
 
                 if(row.Status =='Draft' ){
                     htmlRowDraft += htmlRow;
                 } 
                 else if(row.Status =='To Billing' ){
-                  
+                   
                     htmlRowToBilling += htmlRow;
                 }   
                 else if(row.Status =='Billing Competed' ){
