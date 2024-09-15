@@ -155,6 +155,16 @@ class MakeRequestModel{
         return $resultArrry; 
     }
 
+    function get_CurrentORNumber($db ){
+        $resultArrry = array(); 
+        
+        $result = $db->query("SELECT *  FROM finalbilling  WHERE  ORDER BY CreatedDate ASC limit 1");
+        while($row = $db->fetchAssoc($result)) {
+            array_push($resultArrry, $row);
+        } 
+        return $resultArrry; 
+    }
+
     function get_FinalBillingRecord($db, $patientId, $prescribeId ){
         $resultArrry = array(); 
         

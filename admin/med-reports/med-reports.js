@@ -120,7 +120,7 @@ $(function(){
     
     // Initial call to set up the date picker
     updateDatePicker();
-    getAllSalesByDate('');
+   // getAllSalesByDate('');
     
 
     // Update date picker whenever the interval changes
@@ -133,39 +133,20 @@ $(function(){
         var interval = $('#dateInterval').val();
         let salesListQuery = '';
         switch (interval) {
-            case 'daily':
-                    
-                var selectedDate = $('#datePicker').val();
-                salesListQuery = "WHERE CreatedDate = '"+selectedDate+"' ";
-
-                getAllSalesByDate(salesListQuery,'',interval);
-                break;
-
-            case 'weekly':
-               
-                var selectedDate = $('#datePicker').val().split('to');
-                var startDate = selectedDate[0].trim();
-                var endDate   = selectedDate[1].trim();
-
-                salesListQuery = "WHERE DATE(CreatedDate) BETWEEN '"+startDate+"' AND '"+endDate+"'";
-
-                getAllSalesByDate(salesListQuery,'',interval); 
-                break;
-
             case 'monthly':
 
                 var selectedDate = $('#datePicker').val().split('-');
                 var year  = selectedDate[0].trim();
                 var month = selectedDate[1].trim();
 
-                salesListQuery = " WHERE MONTH(CreatedDate) = '"+month+"' AND YEAR(CreatedDate) = '"+year+"'";
+                salesListQuery = "  MONTH(prq_laboratory_table.created_date) = '"+month+"' AND YEAR(prq_laboratory_table.created_date) = '"+year+"'";
                 console.log(salesListQuery);
                 getAllSalesByDate(salesListQuery,'',interval); 
                 break;  
-
+ 
             case 'yearly':
                 var selectedDate = $('#datePicker').val().trim();
-                salesListQuery = " WHERE  YEAR(CreatedDate) = '"+selectedDate+"'"; 
+                salesListQuery = "  YEAR(prq_laboratory_table.created_date) = '"+selectedDate+"'"; 
                 getAllSalesByDate(salesListQuery,'',interval); 
                 break;
         }

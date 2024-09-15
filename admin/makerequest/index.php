@@ -18,6 +18,8 @@
             </div> -->
         </div>
 
+      
+
         <div class="container-fluid bootstrap snippets bootdey">
             <div class="row">
             <div class="profile-nav col-md-3">
@@ -109,7 +111,7 @@
                         </tbody>
                         </table>
                     </div>
-                    <table class="table discount-container" style="width: 35%;"> 
+                    <table class="table discount-container" style="width:50%;"> 
                             <tr>
                                 <td style="width: 130px;">
                                     <label class="form-label">SR. Discount %</label>
@@ -232,8 +234,11 @@
                     <button type="button" class="btn btn-sm btn-primary"   style="margin-right: 2px;" id="handle-submitforbilling" > Submit for Billing </button>
                     <button type="button" class="btn btn-sm btn-success"   style="margin-right: 2px;" id="handle-submitforcomplete"     > Complete </button>
                     <button type="button" class="btn btn-sm btn-danger"   style="margin-right: 2px;" id="handle-submitforcancel"     > Cancel </button>
-                     <a  href="../print-receipt/?id=<?php echo $_GET['id'];?>&presid=<?php echo  isset($_GET['presid'])? $_GET['presid']:''; ?>" class="btn btn-sm btn-success"   style="margin-right: 2px;" id="handle-print-receipt"   > Print Receipt </a>
-          
+                    <button type="button" class="btn btn-sm btn-danger"   style="margin-right: 2px;" id="handle-submitforvoid"     > Void </button>
+                    <button type="button" class="btn btn-sm btn-warning"   style="margin-right: 2px;" id="handle-submitforrefund"     > Refund </button>
+                    
+                    <a  href="../print-receipt/?id=<?php echo $_GET['id'];?>&presid=<?php echo  isset($_GET['presid'])? $_GET['presid']:''; ?>" class="btn btn-sm btn-success"   style="margin-right: 2px;" id="handle-print-receipt"   > Print Receipt </a>
+ 
                 </div> 
             </div>
             <?php } ?>
@@ -306,7 +311,34 @@
             <?php } ?>
         </div>
 
-        
+        <!-- Void Modal  -->
+        <div class="modal fade " id="VoidOrRefundFormModal" tabindex="-1" aria-labelledby=VoidOrRefundForm" aria-hidden="true">
+                <div class="modal-dialog  modal-lg">
+                    <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="VoidOrRefundForm">Void Request</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body"> 
+                         <form action="your-server-endpoint" method="POST">
+                            <div class="row g-3">  
+                                <div class="col-md-12">
+                                    <div class="mb-3">
+                                        <label for="description" class="form-label">Reason</label>
+                                        <textarea class="form-control" id="description" name="description" rows="3"></textarea>
+                                    </div>
+                                </div>
+                            </div> 
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" id="hand-save-void-or-refund-requests">Submit</button>
+                    </div>
+                    </div>
+                </div>
+        </div>
+
 
         <?php include '_manage_laboratories.php'; ?>
         <?php include '_manage_medicine.php'; ?>

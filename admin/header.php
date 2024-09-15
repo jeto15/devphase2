@@ -128,6 +128,12 @@ if(isset($_SESSION['username']) && !empty($_SESSION['username'])) {
                 </a> 
             </li> 
             <li class="nav-item">
+                <a class="nav-link <?php echo $currentPage == "orderreceipt"? "active" : ""; ?> " aria-current="page" href="../orderreceipt">  
+                <span data-feather="shopping-cart"></span>
+                  OR Management  
+                </a> 
+            </li> 
+            <li class="nav-item">
             <a class="nav-link <?php echo $currentPage == "makepatientrequest"? "active" : ""; ?> " aria-current="page" href="../makepatientrequest">
                 <span data-feather="users"></span>
                 Make Patient Request  

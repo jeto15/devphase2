@@ -10,6 +10,7 @@ var gDiscountPWD = 0;
 var gDiscountOther =0;
 var gGrantTotalAmount = 0;
 var gRequestStatus = '';
+var gIsLostStatus = '';
 $(function(){
 
     /*
@@ -63,6 +64,8 @@ $(function(){
     $('#handle-submitforcancel').hide();
     $('#handle-submitforcomplete').hide();
     $('#handle-print-receipt').hide();
+    $('#handle-submitforvoid').hide();
+    $('#handle-submitforrefund').hide();
     
 
     let recordId = $('#hd_recordid').val();
@@ -323,6 +326,33 @@ $(function(){
         updateRequestStatus( $, 'Billing Competed', hdPrescribeId, recordId, gGrantTotalAmount );
 
     }); 
+    
+    
+    $('#handle-submitforvoid').click(function(){
+        gIsLostStatus = 'Void';
+        $('#VoidOrRefundFormModal').modal('show');
+        $('#VoidOrRefundForm').html('Void Request');
+    });
+
+    $('#handle-submitforrefund').click(function(){
+        gIsLostStatus = 'Refund';
+        $('#VoidOrRefundFormModal').modal('show');
+        $('#VoidOrRefundForm').html('Refund Request');
+    });
+
+    
+
+    $('#hand-save-void-or-refund-requests').click(function(){
+        if( confirm('Are you sure would like to proceed to '+gIsLostStatus+'?') ){
+            if( gIsLostStatus == 'Void' ){
+                updateRequestStatusToVoid($,recordId,hdPrescribeId);
+            } 
+            else if( gIsLostStatus == 'Refund' ) { 
+                updateRequestStatusToRefund($,recordId,hdPrescribeId);
+            }
+        } 
+       
+    }); 
  
  
 }); 
@@ -539,7 +569,13 @@ function displayLabSelected( $ , SelectedItems ){
         if( row.OtherType == 'Laboratory'  ){
             var updateItemBtnHtml = '<button   class="btn btn-sm btn-outline-secondary handle-click-update-item-modal-selected-lab"  data-labid="'+row.laboratory_Id+'" data-cartitemid="'+row.Id+'"  '+disableRemoveAction+'> Update Items </button>';
             var removeBtnHtml = '<button   class="btn btn-sm btn-outline-secondary handle-click-remove-selected-lab"   data-labid="'+row.Id+'"  '+disableRemoveAction+'> Remove </button>';
+            
             var updastatusHtml = '<button   class="btn btn-sm btn-outline-secondary handle-click-as-paid-selected-lab"   data-paid-status="'+buttonStatusLabel+'" data-labid="'+row.Id+'" '+isPaidActionDisable+'> '+buttonStatusLabel+' </button> ';
+            
+            if( gRequestStatus == 'Draft' ){
+                updastatusHtml = '';
+            }
+            
             htmlTableLabFrontLab +='<tr style=" background-color: '+paidColor+'" >';
             htmlTableLabFrontLab +='<td><span data-feather="thermometer"></span> '+row.Name+'</td>'; 
            
@@ -552,7 +588,8 @@ function displayLabSelected( $ , SelectedItems ){
 
             htmlTableLabFrontLab +='<td> '+globaPesoFormatter.format(row.AdjustUnitePrice)+'</td>'; 
                 
-            if( gRequestStatus == 'Billing Competed' ){
+           
+            if( gRequestStatus == 'Billing Competed' || gRequestStatus == 'Void' || gRequestStatus == 'Cancel' ){
                 htmlTableLabFrontLab +='<td > <p>'+ buttonStatusLabel +'</p> </td>';  
             } else {
                 htmlTableLabFrontLab +='<td > <div class="btn-group float-end " role="group" > '+updateItemBtnHtml+''+ updastatusHtml +' '+removeBtnHtml+' </div> </td>';  
@@ -566,6 +603,10 @@ function displayLabSelected( $ , SelectedItems ){
             var removeBtnHtml = '<button   class="btn btn-sm btn-outline-secondary handle-click-remove-selected-lab"   data-labid="'+row.Id+'"  '+disableRemoveAction+'> Remove </button>';
             var updastatusHtml = '<button   class="btn btn-sm btn-outline-secondary handle-click-as-paid-selected-lab" data-isother="0" data-paid-status="'+buttonStatusLabel+'" data-labid="'+row.Id+'" '+isPaidActionDisable+'> '+buttonStatusLabel+' </button> ';
             
+            if( gRequestStatus == 'Draft' ){
+                updastatusHtml = '';
+            }
+
             let medName = row.medname+' '+row.Brand+' '+row.DosageForm; 
 
             htmlTableLabFrontMed +='<tr style=" background-color: '+paidColor+'" >'; 
@@ -595,7 +636,8 @@ function displayLabSelected( $ , SelectedItems ){
             htmlTableLabFrontMed +='<td> '+globaPesoFormatter.format( pricehandle * qityhandle )+'</td>'; 
           
            
-            if( gRequestStatus == 'Billing Competed' ){
+            
+            if( gRequestStatus == 'Billing Competed' || gRequestStatus == 'Void' || gRequestStatus == 'Cancel' ){
                 htmlTableLabFrontMed +='<td > <p>'+ buttonStatusLabel +'</p> </td>';  
             } else {
                 htmlTableLabFrontMed +='<td   ><div  class="btn-group float-end "role="group" >  '+updateItemBtnHtml+''+ updastatusHtml +' '+removeBtnHtml+' </div> </td>';  
@@ -608,18 +650,21 @@ function displayLabSelected( $ , SelectedItems ){
 
             var removeBtnHtml = '<button   class="btn btn-sm btn-outline-secondary handle-click-remove-selected-lab"   data-labid="'+row.Id+'"  '+disableRemoveAction+'> Remove </button>';
             var updastatusHtml = '<button   class="btn btn-sm btn-outline-secondary handle-click-as-paid-selected-lab"   data-paid-status="'+buttonStatusLabel+'" data-labid="'+row.Id+'" '+isPaidActionDisable+'> '+buttonStatusLabel+' </button> ';
-           
+            
+            if( gRequestStatus == 'Draft' ){
+                updastatusHtml = '';
+            }
 
             htmlTableLabFrontOther +='<tr style=" background-color: '+paidColor+'" >';
             htmlTableLabFrontOther +='<td> '+row.Description+'</td>';  
             htmlTableLabFrontOther +='<td> '+globaPesoFormatter.format( row.UnitPrice )+'</td>';  
           
-            if( gRequestStatus == 'Billing Competed' ){
+            if( gRequestStatus == 'Billing Competed' || gRequestStatus == 'Void' || gRequestStatus == 'Cancel' ){
                 htmlTableLabFrontOther +='<td > <p>'+ buttonStatusLabel +'</p> </td>';  
             } else {
                 htmlTableLabFrontOther +='<td > <div class="btn-group float-end " role="group" >  '+ updastatusHtml +' '+removeBtnHtml+' </div> </td>';  
             }
-
+ 
             htmlTableLabFrontOther +='</tr>';
         }
    }
@@ -671,9 +716,7 @@ function displayLabSelected( $ , SelectedItems ){
 
    }
 
-   
-   console.log(getTotalToDeduct(labSubotal,gDiscountSR));
-   console.log(getTotalToDeduct(labSubotal,gDiscountPWD));
+ 
     var totaldiscount =  parseFloat( getTotalToDeduct(labSubotal,gDiscountSR) ) + parseFloat(getTotalToDeduct(labSubotal,gDiscountPWD));
  
     htmlTableLabFrontLab +='<tr>';
@@ -710,6 +753,7 @@ function displayLabSelected( $ , SelectedItems ){
     $('#table-selected-lab-list-front-Med').html(htmlTableLabFrontMed);
     $('#table-selected-lab-list-front-Other').html(htmlTableLabFrontOther);  
 
+ 
 }
 
 function removeLabItems($, patient_id,prescribe_id,selectedId,thisElement){
@@ -838,6 +882,8 @@ function getDescriptioRequest($,patient_id,prescribe_id){
                 $(".discountOther ,#flexCheckOther").prop("disabled", true);
  
                 $('.hide-when-is-complete').hide();
+                $('#handle-submitforvoid').show();
+                $('#handle-submitforrefund').show();
 
                 getFinaBilllingRecord($,patient_id,prescribe_id);
             } else {
@@ -851,6 +897,8 @@ function getDescriptioRequest($,patient_id,prescribe_id){
                 $(".discountOther ,#flexCheckOther").prop("disabled", true);
  
                 $('.hide-when-is-complete').hide();
+                getFinaBilllingRecord($,patient_id,prescribe_id);
+              
 
             }
    
@@ -989,4 +1037,53 @@ function getFinaBilllingRecord( $, patient_id,prescribe_id){
        }
    });    
 
+}
+
+function updateRequestStatusToVoid($, patient_id,prescribe_id){
+    let action      = 'UPDATEREQUESTTOVOID';
+    var input_reason = $('#description').val();
+    let ajaxParamData = {
+        action,
+        patient_id,
+        prescribe_id,
+        input_reason
+    };
+
+    $.ajax({
+        type: "POST",
+        url: '../_controller/makerequest_ext_controller.php',
+        data: ajaxParamData,
+        success: function(response)
+        {
+            var jsonData = JSON.parse(response);        
+            var res  =jsonData.result;     
+            location.reload();
+       } 
+   });    
+ 
+}
+
+
+function updateRequestStatusToRefund($, patient_id,prescribe_id){
+    let action      = 'UPDATEREQUESTTOREFUND';
+    var input_reason = $('#description').val();
+    let ajaxParamData = {
+        action,
+        patient_id,
+        prescribe_id,
+        input_reason
+    };
+
+    $.ajax({
+        type: "POST",
+        url: '../_controller/makerequest_ext_controller.php',
+        data: ajaxParamData,
+        success: function(response)
+        {
+            var jsonData = JSON.parse(response);        
+            var res  =jsonData.result;     
+            location.reload();
+       } 
+   });    
+ 
 }

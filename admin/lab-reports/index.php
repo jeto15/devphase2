@@ -55,7 +55,7 @@
                         </div>
                         <div class="col-md-4">
                             <label for="datePicker" class="form-label">Select Date:</label>
-                            <input type="text" id="datePicker" class="form-control" placeholder="Select a date"> 
+                            <input type="text"  autocomplete=off  id="datePicker" class="form-control" placeholder="Select a date"> 
                         </div>
                         <div class="col-md-4">
                             <div class="mt-4"> 
@@ -68,13 +68,13 @@
 
             
 
-            <h2 class="mt-4 mb-2">Medicine Report</h2>
+            <h2 class="mt-4 mb-2">Laboratory Report</h2>
             <div class="table-responsive">
                 <table class="table table-striped table-hover table-bordered">
                     <thead  >
                         <tr>
-                            <th scope="col">Date</th>
-                            <th scope="col">Total Allocated</th> 
+                            <th scope="col" width="195">Date</th>
+                            <th scope="col" width="195">Total Allocated</th> 
                             <th scope="col">Laboratory</th>   
                         </tr>
                     </thead>

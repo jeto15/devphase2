@@ -80,6 +80,7 @@ class HomeModel{
                 , patient_request_table.`pwd-discount` AS pwddiscount
                 , patient_request_table.`total-amount` AS totalamount
                 , patient_request_table.Status
+                , patient_request_table.Reason
                 , patient_request_table.created_date
                 , patient_request_table.AssignedToId
                 , users.UserID
@@ -91,6 +92,8 @@ class HomeModel{
                     ON (patients.Id = patient_request_table.patient_Id)
                 LEFT JOIN users 
                     ON (users.UserID = patient_request_table.AssignedToId)
+            WHERE 
+                 patient_request_table.Status != 'Saved'
             ORDER BY  patient_request_table.created_date DESC;
              
         ";

@@ -57,7 +57,7 @@
                         </div>
                         <div class="col-md-4">
                             <label for="datePicker" class="form-label">Select Date:</label>
-                            <input type="text" id="datePicker" class="form-control" placeholder="Select a date"> 
+                            <input type="text"  autocomplete=off  id="datePicker" class="form-control" placeholder="Select a date"> 
                         </div>
                         <div class="col-md-4">
                             <div class="mt-4"> 

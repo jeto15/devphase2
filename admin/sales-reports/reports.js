@@ -137,11 +137,14 @@ $(function(){
 
         var interval = $('#dateInterval').val();
         let salesListQuery = '';
+
+        let AdditionalFilter = "AND Status='Final'";
+
         switch (interval) {
             case 'daily':
                     
                 var selectedDate = $('#datePicker').val();
-                salesListQuery = "WHERE CreatedDate = '"+selectedDate+"' ";
+                salesListQuery = "WHERE CreatedDate = '"+selectedDate+"' "+AdditionalFilter;
 
                 getAllSalesByDate(salesListQuery,'',interval);
                 break;
@@ -152,7 +155,7 @@ $(function(){
                 var startDate = selectedDate[0].trim();
                 var endDate   = selectedDate[1].trim();
 
-                salesListQuery = "WHERE DATE(CreatedDate) BETWEEN '"+startDate+"' AND '"+endDate+"'";
+                salesListQuery = "WHERE DATE(CreatedDate) BETWEEN '"+startDate+"' AND '"+endDate+"' "+AdditionalFilter;
 
                 getAllSalesByDate(salesListQuery,'',interval); 
                 break;
@@ -163,18 +166,18 @@ $(function(){
                 var year  = selectedDate[0].trim();
                 var month = selectedDate[1].trim();
 
-                salesListQuery = " WHERE MONTH(CreatedDate) = '"+month+"' AND YEAR(CreatedDate) = '"+year+"'";
+                salesListQuery = " WHERE MONTH(CreatedDate) = '"+month+"' AND YEAR(CreatedDate) = '"+year+"' "+AdditionalFilter;
                 console.log(salesListQuery);
                 getAllSalesByDate(salesListQuery,'',interval); 
                 break;  
 
             case 'yearly':
                 var selectedDate = $('#datePicker').val().trim();
-                salesListQuery = " WHERE  YEAR(CreatedDate) = '"+selectedDate+"'"; 
+                salesListQuery = " WHERE  YEAR(CreatedDate) = '"+selectedDate+"' "+AdditionalFilter; 
                 getAllSalesByDate(salesListQuery,'',interval); 
                 break;
         }
-
+ 
     });
 
 
